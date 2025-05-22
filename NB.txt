@@ -1,18 +1,18 @@
 Catatan untuk table User :
  - di bagi level 
-	- 0001 Casual
-	- 0002 Karyawan
-	- 0003 SPV
-	- 0004 Manager 
-	- 0005 +++
+	- LVL01 Casual
+	- LVL02 Karyawan
+	- LVL03 SPV
+	- LVL04 Manager 
+	- LVL05 +++
 
  - Department
-	- DP01	FA
-	- DP02  HR
-	- DP03	IT	
-	- DP04	MR
-	- DP05	IR
-	- DP06	GA
-	- DP07	SL
+	- DPT01	FA
+	- DPT02  HR
+	- DPT03	IT	
+	- DPT04	MR
+	- DPT05	IR
+	- DPT06	GA
+	- DPT07	SL
 
  - ID_Karyawan
