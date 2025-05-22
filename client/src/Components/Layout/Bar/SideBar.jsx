@@ -26,7 +26,7 @@ const navItems = [
       {/* Sidebar Header */}
       <div className="p-4 flex items-center justify-between border-b border-gray-700">
         {!isCollapsed && (
-          <h1 className="text-xl font-bold whitespace-nowrap">Admin Dashboard</h1>
+          <h1 className="text-xl font-bold whitespace-nowrap">Sistem</h1>
         )}
         <button 
           onClick={() => setIsCollapsed(!isCollapsed)}

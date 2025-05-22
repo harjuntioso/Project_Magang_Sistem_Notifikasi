@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import StatusCard from '../Components/Layout/StatusCard';
-import SendMessageForm from '../Components/Layout/SendMassageForm';
 import { checkWhatsAppStatus } from '../axiosClient';
 
 const Dashboard = () => {
@@ -22,22 +21,30 @@ const Dashboard = () => {
     };
 
     fetchStatus();
-    const interval = setInterval(fetchStatus, 5000); // Poll every 5 seconds
+    const interval = setInterval(fetchStatus, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-      
-      <StatusCard 
-        status={status} 
-        qrCode={qrCode} 
-        loading={loading} 
-      />
-      
-      <SendMessageForm />
+    <div className="p-8 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold text-gray-800 mb-8"></h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="col-span-1">
+          <StatusCard status={status} qrCode={qrCode} loading={loading} />
+        </div>
+        <div className="col-span-2 flex flex-col gap-6">
+          {/* Example dashboard widgets */}
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-lg font-semibold mb-2">System Overview</h2>
+            <p className="text-gray-600">WhatsApp status: <span className="font-mono">{status || 'Loading...'}</span></p>
+          </div>
+          <div className="bg-white rounded-lg shadow p-6">
+            <h2 className="text-lg font-semibold mb-2">Recent Activity</h2>
+            <p className="text-gray-600">No recent activity.</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

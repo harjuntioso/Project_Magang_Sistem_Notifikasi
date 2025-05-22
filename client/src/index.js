@@ -14,7 +14,7 @@ import { AuthProvider } from './Context/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-<Route path="/login" element={<Login />} />
+//<Route path="/login" element={<Login />} />
 
 root.render(
   <React.StrictMode>

@@ -33,7 +33,7 @@ const SendMessageForm = () => {
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-xl font-semibold mb-4">Send WhatsApp Notification</h2>
+      <h2 className="text-xl font-semibold mb-4">Send WhatsApp Massage</h2>
       
       {alert && (
         <Alert type={alert.type} message={alert.message} onClose={() => setAlert(null)} />

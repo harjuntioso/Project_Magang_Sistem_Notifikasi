@@ -39,7 +39,7 @@ const NavBar = ({ toggleSidebar }) => {
               <FiUser size={18} />
             </div>
             <span className="ml-2 text-sm font-medium text-gray-700 hidden md:inline">
-              Admin User
+              User
             </span>
           </div>
         </div>

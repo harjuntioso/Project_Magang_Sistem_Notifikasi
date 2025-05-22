@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FiSearch, FiFilter, FiRefreshCw } from 'react-icons/fi';
 import { checkWhatsAppStatus } from '../axiosClient';
 
+
 const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -178,57 +179,59 @@ const Messages = () => {
         </div>
       </div>
 
-      {/* Messages list */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        {loading ? (
-          <div className="p-8 text-center">
-            <div className="animate-pulse flex flex-col space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-20 bg-gray-100 rounded"></div>
-              ))}
-            </div>
-          </div>
-        ) : error ? (
-          <div className="p-8 text-center text-red-500">{error}</div>
-        ) : filteredMessages.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">No messages found</div>
-        ) : (
-          <ul className="divide-y divide-gray-200">
-            {filteredMessages.map((message) => (
-              <li key={message.id} className="hover:bg-gray-50 transition-colors">
-                <div className="px-4 py-4 sm:px-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      {getDirectionIcon(message.direction)}
-                      <p className="font-medium text-gray-900 truncate">
-                        {message.number}
-                      </p>
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {new Date(message.timestamp).toLocaleString()}
-                    </div>
-                  </div>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-600 line-clamp-2">
-                      {message.message}
-                    </p>
-                  </div>
-                  <div className="mt-3 flex items-center justify-between">
-                    <div>
-                      {getStatusBadge(message.status)}
-                    </div>
-                    <button className="text-sm text-blue-600 hover:text-blue-800">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </li>
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          {loading ? (
+            <div className="p-8 text-center">
+          <div className="animate-pulse flex flex-col space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="h-20 bg-gray-100 rounded"></div>
             ))}
-          </ul>
-        )}
-      </div>
+          </div>
+            </div>
+          ) : error ? (
+            <div className="p-8 text-center text-red-500">{error}</div>
+          ) : filteredMessages.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">No messages found</div>
+          ) : (
+            <ul className="divide-y divide-gray-200">
+          {filteredMessages.map((message) => (
+            <li key={message.id} className="hover:bg-gray-50 transition-colors">
+              <div className="px-4 py-4 sm:px-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                {getDirectionIcon(message.direction)}
+                <p className="font-medium text-gray-900 truncate">
+              {message.number}
+                </p>
+              </div>
+              <div className="text-sm text-gray-500">
+                {new Date(message.timestamp).toLocaleString()}
+              </div>
+            </div>
+            <div className="mt-2">
+              <p className="text-sm text-gray-600 line-clamp-2">
+                {message.message}
+              </p>
+            </div>
+            <div className="mt-3 flex items-center justify-between">
+              <div>
+                {getStatusBadge(message.status)}
+              </div>
+              <button
+                className="text-sm text-blue-600 hover:text-blue-800"
+                onClick={() => window.location.href = '/send-massage'}
+              >
+                View Details
+              </button>
+            </div>
+              </div>
+            </li>
+          ))}
+            </ul>
+          )}
+        </div>
 
-      {/* Pagination would go here */}
+        {/* Pagination would go here */}
       {filteredMessages.length > 0 && (
         <div className="mt-6 flex justify-center">
           <nav className="flex items-center space-x-2">
