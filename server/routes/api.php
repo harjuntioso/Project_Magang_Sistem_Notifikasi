@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WhatsAppController;
+use App\Http\Controllers\Api\UserController;
 use Inertia\Inertia;
 
 /*
@@ -26,6 +27,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     });
 
 });
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('/user', [UserController::class, 'index']);
 
 Route::get('/whatsapp/status', [WhatsAppController::class, 'checkStatus']);
 

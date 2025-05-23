@@ -28,7 +28,7 @@ export default function Contact() {
     
     // Debounce the request by 300ms
     const timeout = setTimeout(() => {
-      axiosClient.get(`/users?page=${pagination.current_page}`)
+      axiosClient.get(`/user?page=${pagination.current_page}`)
         .then(({ data }) => {
           setUsers(data.data);
           setPagination({
@@ -68,7 +68,7 @@ export default function Contact() {
         clearTimeout(fetchTimeout);
       }
     };
-  }, [getUsers, fetchTimeout]);
+  }, [getUsers]);
 
   const onDeleteClick = (user) => {
     Swal.fire({
@@ -84,11 +84,14 @@ export default function Contact() {
         axiosClient.delete(`/users/${user.id}`)
           .then(() => {
             // Check if this was the last item on the current page
-            if (users.length === 1 && pagination.current_page > 1) {
-              setPagination(prev => ({...prev, current_page: prev.current_page - 1}));
-            } else {
-              getUsers();
-            }
+            // if (users.length === 1 && pagination.current_page > 1) {
+            //   setPagination(prev => ({...prev, current_page: prev.current_page - 1}));
+            // } else {
+            //   getUsers();
+            // }
+
+            getUsers();
+            
             Swal.fire('Deleted!', 'User has been deleted.', 'success');
           })
           .catch(error => {
@@ -146,10 +149,17 @@ export default function Contact() {
                   <td className="px-6 py-4">{u.id}</td>
                   <td className="px-6 py-4">{u.name}</td>
                   <td className="px-6 py-4">{u.email}</td>
-                  <td className="px-6 py-4">{u.phone}</td>
+                  <td className="px-6 py-4">
+                    <Link
+                      to={`/send-massage?number=${encodeURIComponent(u.phone)}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {u.phone}
+                    </Link>
+                  </td>
                   <td className="px-6 py-4">{u.created_at}</td>
                   <td className="px-6 py-4">{u.role}</td>
-                  {/* <td className="px-6 py-4 space-x-2">
+                  <td className="px-6 py-4 space-x-2">
                     {isAdmin && (
                       <>
                         <Link className="btn-edit" to={`/users/${u.id}`}>Edit</Link>
@@ -161,7 +171,7 @@ export default function Contact() {
                         </button>
                       </>
                     )}
-                  </td> */}
+                  </td>
                 </tr>
               ))
             )}

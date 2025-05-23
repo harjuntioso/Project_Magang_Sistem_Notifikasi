@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({
+const axiosClient = axios.create({
   baseURL: 'http://localhost:8000/api', // Update with your Laravel URL
   headers: {
     'Content-Type': 'application/json',
@@ -8,7 +8,30 @@ const api = axios.create({
   }
 });
 
-export const checkWhatsAppStatus = () => api.get('/whatsapp/status');
-export const sendWhatsAppMessage = (number, message) => api.post('/whatsapp/send', { number, message });
+axiosClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('ACCESS_TOKEN');
+  if(token){
+  config.headers.Authorization = `Bearer ${token}`
+  }return config;
+})
 
-export default api;
+axiosClient.interceptors.response.use((response) => {
+  return response
+}, (error) => {
+  const {response} = error;
+  if (response.status === 401) {
+    localStorage.removeItem('ACCESS_TOKEN')
+    // window.location.reload();
+  } else if (response.status === 404) {
+    //Show not found
+  }
+  throw error;
+})
+
+
+
+
+export const checkWhatsAppStatus = () => axiosClient.get('/whatsapp/status');
+export const sendWhatsAppMessage = (number, message) => axiosClient.post('/whatsapp/send', { number, message });
+
+export default axiosClient;
