@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { sendWhatsAppMessage } from '../../axiosClient';
 import Alert from '../common/Alert';
 
-const SendMessageForm = () => {
+
+const SendMessageForm = ({ initialPhoneNumber }) => {
   const [number, setNumber] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
+
+  useEffect(() => {
+
+    if (initialPhoneNumber) {
+      setNumber(initialPhoneNumber);
+    }
+  }, [initialPhoneNumber]); 
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +28,7 @@ const SendMessageForm = () => {
         type: 'success',
         message: `Message sent successfully! ID: ${response.data.messageId}`
       });
-      setNumber('');
+    // setNumber('');
       setMessage('');
     } catch (error) {
       setAlert({

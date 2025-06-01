@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Controllers\Api\UserController;
 use Inertia\Inertia;
+use App\Http\Controllers\Api\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+
+Route::get('/chats', [ChatController::class, 'index']);
 
 Route::get('/user', [UserController::class, 'index']);
 

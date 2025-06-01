@@ -7,6 +7,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class WhatsAppController extends Controller
 {
@@ -29,16 +30,22 @@ class WhatsAppController extends Controller
     {
         $number = $request->input('number');
         $message = $request->input('message');
-    
+
+        Log::info("Incoming WhatsApp send request", ['number' => $number, 'message' => $message]);
+
         try {
             $response = Http::timeout(10)->post('http://localhost:3001/send-message', [
                 'number' => $number,
                 'message' => $message,
             ]);
-    
+
+            Log::info("Response from WhatsApp service", ['body' => $response->body(), 'status' => $response->status()]);
+
             return response()->json($response->json(), $response->status());
-    
+
         } catch (\Exception $e) {
+            Log::error('Exception contacting WhatsApp service: ' . $e->getMessage());
+
             return response()->json([
                 'status' => 'error',
                 'message' => 'Gagal menghubungi service WhatsApp',

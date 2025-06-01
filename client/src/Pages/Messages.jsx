@@ -219,7 +219,7 @@ const Messages = () => {
               </div>
               <button
                 className="text-sm text-blue-600 hover:text-blue-800"
-                onClick={() => window.location.href = '/send-massage'}
+                onClick={() => window.location.href = '/send-message'}
               >
                 View Details
               </button>

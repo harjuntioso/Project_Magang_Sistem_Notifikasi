@@ -29,9 +29,12 @@ axiosClient.interceptors.response.use((response) => {
 })
 
 
-
-
 export const checkWhatsAppStatus = () => axiosClient.get('/whatsapp/status');
+
 export const sendWhatsAppMessage = (number, message) => axiosClient.post('/whatsapp/send', { number, message });
+
+export const getDashboardStats = () => axiosClient.get('/dashboard/stats');
+
+export const getRecentActivities = () => axiosClient.get('/dashboard/activities');
 
 export default axiosClient;
