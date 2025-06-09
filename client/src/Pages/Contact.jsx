@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import axiosClient from "../axiosClient.js";
 import { Link } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext.jsx";
-import { FaPlus } from "react-icons/fa"; 
+import { FaPlus, FaEdit,  FaTrash } from "react-icons/fa"; 
 import Swal from "sweetalert2";
 
 export default function Contact() {
@@ -141,21 +141,20 @@ export default function Contact() {
 return (
   <div className="p-8 bg-neutral-50 min-h-screen">
     <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-primary mb-6">
-      <h2 className="text-lg font-semibold mb-4 text-primary-dark flex items-center gap-2">
-        <FaPlus className="text-primary" />
-        Manage Users
-      </h2>
-
-      {isAdmin && (
-        <div className="mb-4">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-semibold text-primary-dark flex items-center gap-2">
+          <FaPlus className="text-primary" />
+          Manage Users
+        </h2>
+        {isAdmin && (
           <Link
             to="/users/new"
             className="inline-block px-4 py-2 text-sm font-semibold text-white bg-primary hover:bg-primary-dark rounded-md"
           >
             + Add New User
           </Link>
-        </div>
-      )}
+        )}
+      </div>
 
       <div className="relative overflow-x-auto rounded-md">
         <table className="w-full text-sm text-left text-gray-600">
@@ -193,20 +192,20 @@ return (
                   </td>
                   <td className="px-6 py-4">{u.date}</td>
                   <td className="px-6 py-4">{u.role}</td>
-                  <td className="px-6 py-4 space-x-2">
+                  <td className="px-6 py-4 flex gap-2">
                     {isAdmin ? (
                       <>
                         <Link
                           to={`/users/${u.id}`}
-                          className="inline-block px-3 py-1 text-sm text-white bg-green-600 rounded hover:bg-green-700"
+                          className="inline-flex items-center justify-center px-3 py-1 text-sm text-white bg-green-600 rounded hover:bg-green-700"
                         >
-                          Edit
+                          <FaEdit />
                         </Link>
                         <button
                           onClick={() => onDeleteClick(u)}
-                          className="inline-block px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700"
+                          className="inline-flex items-center justify-center px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700"
                         >
-                          Delete
+                          <FaTrash />
                         </button>
                       </>
                     ) : (

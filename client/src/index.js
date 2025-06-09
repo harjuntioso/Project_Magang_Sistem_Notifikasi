@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import App from './App';
 import './index.css';
-import Login from './Pages/Login';
+import Login from './Pages/login-signup/Login';
 
 import ErrorBoundary from './Components/common/ErrorBoundary';
 import { Notifications } from '@mantine/notifications';

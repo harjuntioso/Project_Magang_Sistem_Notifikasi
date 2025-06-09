@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\WhatsAppController;
-use App\Http\Controllers\Api\UserController;
 use Inertia\Inertia;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WhatsAppController;
 use App\Http\Controllers\Api\ChatController;
 
 /*

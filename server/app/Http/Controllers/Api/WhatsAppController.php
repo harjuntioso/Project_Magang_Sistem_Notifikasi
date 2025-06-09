@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
@@ -8,6 +8,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 
 class WhatsAppController extends Controller
 {
