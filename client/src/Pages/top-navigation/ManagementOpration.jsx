@@ -1,26 +1,23 @@
-import React from 'react';
 import {
-  FaBriefcase, // Icon umum untuk manajemen operasional
+  FaBriefcase,
   FaUsers,
   FaChartBar,
   FaCalendarAlt,
   FaBell,
   FaCogs,
-  FaWarehouse, // Inventaris/Logistik
-  FaMoneyBillWave, // Keuangan
-  FaClipboardList, // Task/Proyek
-  FaHandshake, // Kemitraan/Vendor
-  FaTools, // Pemeliharaan
-  FaSmile, // Layanan Pelanggan (jika ada internal)
-  FaUserCog, // Admin Sistem
-  FaRoad, // Transportasi (jika relevan)
-  FaShieldAlt, // Keamanan (jika relevan)
-  FaHeadset, // Layanan Pelanggan (jika relevan)
-  FaBullhorn, // Pemberitahuan (jika relevan)
-  FaEnvelopeOpenText, // Kontak (jika relevan)
+  FaWarehouse,
+  FaMoneyBillWave,
+  FaClipboardList,
+  FaHandshake,
+  FaTools,
+  FaUserCog,
+  FaRoad,
+  FaHeadset,
+  FaBullhorn,
+  FaEnvelopeOpenText,
   FaLink    
 } from 'react-icons/fa';
-
+import { Link } from "react-router-dom";
 
 const ManagementOperationPage = () => {
   return (
@@ -43,39 +40,37 @@ const ManagementOperationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/management/hrd/absensi" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/management-operation/hr-dept/absen/dashboard-absensi" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaCalendarAlt className="text-sm" /> Kelola Absensi Karyawan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/hrd/cuti" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/management-operation/hr-dept/cuti-izin/kalender-cuti" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaClipboardList className="text-sm" /> Persetujuan Cuti & Izin
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/hrd/rekrutmen" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/management-operation/hr-dept/data-karyawan/manajemen-rekurtmen" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaBriefcase className="text-sm" /> Manajemen Rekrutmen
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/hrd/data-karyawan" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/management-operation/hr-dept/data-karyawan/daftar-karywan" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaUserCog className="text-sm" /> Database & Profil Karyawan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/hrd/penggajian" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/management-operation/hr-dept/penggajian/gaji-bulanan" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaMoneyBillWave className="text-sm" /> Pengelolaan Penggajian
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/management/hrd" className="text-sm text-primary hover:underline">
+            <Link to="/department/hr-dept" className="text-sm text-primary hover:underline">
               Lihat Semua Fitur HRD &rarr;
-            </a>
+            </Link>
           </div>
         </section>
-
-        {/* Departemen: Operasional Lapangan / Taman Hiburan */}
         <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-accent">
           <h2 className="text-xl font-semibold mb-4 text-accent-dark flex items-center gap-2">
             <FaCogs className="w-5 h-5 text-accent" />
@@ -83,35 +78,35 @@ const ManagementOperationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/management/ops/jadwal-shift" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/department/op-dept" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaCalendarAlt className="text-sm" /> Penjadwalan Shift Petugas
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/ops/inventaris-atraksi" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/department/op-dept" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaWarehouse className="text-sm" /> Inventaris & Stok Atraksi
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/ops/pemeliharaan" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/department/op-dept" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaTools className="text-sm" /> Laporan & Jadwal Pemeliharaan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/ops/insiden" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/department/op-dept" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaBell className="text-sm" /> Penanganan Laporan Insiden
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/ops/transportasi" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/department/op-dept" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaRoad className="text-sm" /> Manajemen Transportasi Internal
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/management/operasional" className="text-sm text-accent hover:underline">
+            <Link to="/department/op-dept" className="text-sm text-accent hover:underline">
               Lihat Semua Fitur Operasional &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -123,25 +118,25 @@ const ManagementOperationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/management/finance/pengajuan-biaya" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
+              <Link to="/department/fn-dept" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
                 <FaClipboardList className="text-sm" /> Persetujuan Pengajuan Biaya
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/finance/laporan-keuangan" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
+              <Link to="/department/fn-dept" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
                 <FaChartBar className="text-sm" /> Laporan Keuangan & Anggaran
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/finance/vendor" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
+              <Link to="/department/fn-dept" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
                 <FaHandshake className="text-sm" /> Manajemen Vendor & Pembayaran
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/management/keuangan" className="text-sm text-secondary hover:underline">
+            <Link to="/department/fn-dept" className="text-sm text-secondary hover:underline">
               Lihat Semua Fitur Keuangan &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -153,25 +148,25 @@ const ManagementOperationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/management/it/helpdesk" className="flex items-center gap-2 hover:text-info-dark hover:underline">
+              <Link to="/department/it-dept" className="flex items-center gap-2 hover:text-info-dark hover:underline">
                 <FaBell className="text-sm" /> Tiket Helpdesk & Dukungan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/it/aset-it" className="flex items-center gap-2 hover:text-info-dark hover:underline">
+              <Link to="/department/it-dept" className="flex items-center gap-2 hover:text-info-dark hover:underline">
                 <FaWarehouse className="text-sm" /> Inventaris Aset IT
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/it/manajemen-akun" className="flex items-center gap-2 hover:text-info-dark hover:underline">
+              <Link to="/department/it-dept" className="flex items-center gap-2 hover:text-info-dark hover:underline">
                 <FaUserCog className="text-sm" /> Manajemen Akun Pengguna
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/management/it" className="text-sm text-info hover:underline">
+            <Link to="/department/it-dept" className="text-sm text-info hover:underline">
               Lihat Semua Fitur IT &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -183,25 +178,25 @@ const ManagementOperationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/management/marketing/campaign" className="flex items-center gap-2 hover:text-red-700 hover:underline">
+              <Link to="/department/mr-dept" className="flex items-center gap-2 hover:text-red-700 hover:underline">
                 <FaChartBar className="text-sm" /> Dashboard Kampanye Pemasaran
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/marketing/materi" className="flex items-center gap-2 hover:text-red-700 hover:underline">
+              <Link to="/department/mr-dept" className="flex items-center gap-2 hover:text-red-700 hover:underline">
                 <FaEnvelopeOpenText className="text-sm" /> Akses Materi Promosi
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/marketing/media" className="flex items-center gap-2 hover:text-red-700 hover:underline">
+              <Link to="/department/mr-dept" className="flex items-center gap-2 hover:text-red-700 hover:underline">
                 <FaLink className="text-sm" /> Media & Kolaborasi Eksternal
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/management/pemasaran" className="text-sm text-red-500 hover:underline">
+            <Link to="/department/mr-dept" className="text-sm text-red-500 hover:underline">
               Lihat Semua Fitur Pemasaran &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -213,30 +208,29 @@ const ManagementOperationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/management/umum/manajemen-proyek" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
+              <Link to="/department/gr-dept" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
                 <FaClipboardList className="text-sm" /> Manajemen Proyek Lintas Departemen
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/umum/fasilitas" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
+              <Link to="/department/gr-dept" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
                 <FaTools className="text-sm" /> Pemesanan & Pengelolaan Fasilitas
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/management/umum/aset-perusahaan" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
+              <Link to="/department/gr-dept" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
                 <FaWarehouse className="text-sm" /> Inventaris Aset Perusahaan
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/management/umum" className="text-sm text-gray-500 hover:underline">
+            <Link to="/department/gr-dept" className="text-sm text-gray-500 hover:underline">
               Lihat Semua Fitur Umum &rarr;
-            </a>
+            </Link>
           </div>
-        </section>
-
+     </section> 
       </div>
-    </div>
+    </div> 
   );
 };
 

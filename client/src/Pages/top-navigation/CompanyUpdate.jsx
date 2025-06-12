@@ -9,14 +9,15 @@ import {
   FaBell,
   FaHistory,
   FaChartBar,
-  FaQuestionCircle, // Icon baru untuk FAQ
+  FaQuestionCircle,
   FaBullhorn,
   FaCalendarAlt,
-  FaMapMarkerAlt, // Icon baru untuk Lokasi
-  FaMap, // Icon baru untuk Denah
-  FaBus, // Icon baru untuk Transportasi
-  FaSearch, // Icon untuk tombol cari
+  FaMapMarkerAlt,
+  FaMap,
+  FaBus,
+  FaSearch,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const InformationPage = () => {
   return (
@@ -55,30 +56,30 @@ const InformationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/informasi/kebijakan-hrd" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/InformationCenter/kebijakan" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaUsers className="text-sm" /> Kebijakan HRD (Cuti, Gaji, dll.)
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/kebijakan-operasional" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/InformationCenter/kebijakan" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaCogs className="text-sm" /> Prosedur Operasional Standar (SOP)
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/kebijakan-it" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/InformationCenter/kebijakan" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaHeadset className="text-sm" /> Kebijakan Penggunaan IT & Keamanan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/kode-etik" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
+              <Link to="/InformationCenter/kebijakan" className="flex items-center gap-2 hover:text-primary-dark hover:underline">
                 <FaEnvelopeOpenText className="text-sm" /> Kode Etik & Tata Perilaku
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/informasi/kebijakan" className="text-sm text-primary hover:underline">
+            <Link to="/InformationCenter/kebijakan" className="text-sm text-primary hover:underline">
               Lihat Semua Kebijakan &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -90,25 +91,25 @@ const InformationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/informasi/direktori-karyawan" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/InformationCenter/direktori" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaUsers className="text-sm" /> Direktori Karyawan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/kontak-departemen" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/InformationCenter/direktori" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaUserFriends className="text-sm" /> Kontak Departemen
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/kontak-darurat" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/InformationCenter/direktori" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaBell className="text-sm" /> Kontak Darurat & Helpdesk
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/informasi/kontak" className="text-sm text-accent hover:underline">
+            <Link to="/InformationCenter/direktori" className="text-sm text-accent hover:underline">
               Lihat Semua Kontak &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -120,30 +121,30 @@ const InformationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/informasi/panduan-sistem" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
+              <Link to="/InformationCenter/panduan" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
                 <FaChartBar className="text-sm" /> Panduan Penggunaan Sistem Internal
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/template-dokumen" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
+              <Link to="/InformationCenter/panduan" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
                 <FaEnvelopeOpenText className="text-sm" /> Template Dokumen Resmi
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/faq" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
+              <Link to="/InformationCenter/panduan" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
                 <FaQuestionCircle className="text-sm" /> FAQ (Pertanyaan Sering Diajukan)
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/pelatihan" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
+              <Link to="/InformationCenter/panduan" className="flex items-center gap-2 hover:text-secondary-dark hover:underline">
                 <FaBullhorn className="text-sm" /> Materi Pelatihan & Pengembangan
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/informasi/panduan" className="text-sm text-secondary hover:underline">
+            <Link to="/InformationCenter/panduan" className="text-sm text-secondary hover:underline">
               Lihat Semua Panduan &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -155,20 +156,20 @@ const InformationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/informasi/arsip-pengumuman" className="flex items-center gap-2 hover:text-warning-dark hover:underline">
+              <Link to="/InformationCenter/arsip" className="flex items-center gap-2 hover:text-warning-dark hover:underline">
                 <FaBullhorn className="text-sm" /> Arsip Pengumuman Perusahaan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/arsip-event" className="flex items-center gap-2 hover:text-warning-dark hover:underline">
+              <Link to="/InformationCenter/arsip" className="flex items-center gap-2 hover:text-warning-dark hover:underline">
                 <FaCalendarAlt className="text-sm" /> Kalender & Arsip Event
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/informasi/arsip" className="text-sm text-warning hover:underline">
+            <Link to="/InformationCenter/arsip" className="text-sm text-warning hover:underline">
               Lihat Selengkapnya &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -180,20 +181,20 @@ const InformationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/informasi/denah-kantor" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
+              <Link to="/InformationCenter/fasilitas" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
                 <FaMap className="text-sm" /> Denah Kantor & Area Hiburan
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/akses-transportasi" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
+              <Link to="/InformationCenter/fasilitas" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
                 <FaBus className="text-sm" /> Akses & Transportasi
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/informasi/fasilitas" className="text-sm text-purple-500 hover:underline">
+            <Link to="/InformationCenter/fasilitas" className="text-sm text-purple-500 hover:underline">
               Lihat Selengkapnya &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 
@@ -205,20 +206,20 @@ const InformationPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <a href="/informasi/formulir-pengajuan" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
+              <Link to="/InformationCenter/formulir" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
                 <FaBook className="text-sm" /> Formulir Pengajuan (Cuti, Reimburse, dll.)
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/informasi/data-karyawan" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
+              <Link to="/InformationCenter/formulir" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
                 <FaUsers className="text-sm" /> Pembaruan Data Karyawan
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="text-right mt-4">
-            <a href="/informasi/formulir" className="text-sm text-blue-500 hover:underline">
+            <Link to="/InformationCenter/formulir" className="text-sm text-blue-500 hover:underline">
               Lihat Selengkapnya &rarr;
-            </a>
+            </Link>
           </div>
         </section>
 

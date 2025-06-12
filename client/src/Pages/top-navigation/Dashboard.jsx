@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { checkWhatsAppStatus } from '../../axiosClient'; 
+import { checkWhatsAppStatus } from '../../axiosClient';
 import {
   FaUsers,
   FaUserFriends,
@@ -11,30 +11,92 @@ import {
   FaBullhorn,
   FaLink,
   FaCalendarAlt,
-  FaBook, 
-  FaHeadset, 
-} from 'react-icons/fa'; 
+  FaBook,
+  FaHeadset,
+  FaClipboardList, // Baru: untuk dokumen/cuti menunggu
+  FaCheckCircle,   // Baru: untuk status sistem normal
+  FaTimesCircle,   // Baru: untuk status sistem error
+  FaSpinner,       // Baru: untuk loading status sistem
+  FaTasks,         // Baru: untuk tugas mendatang
+  FaUserCheck,     // Baru: untuk karyawan hadir
+  FaMoneyBillWave, // Baru: untuk pengajuan biaya
+  FaQuestionCircle,
+} from 'react-icons/fa';
 
-// Data Dummy 
+// Data Dummy (Diperbarui dengan Stat Cards baru)
 const stats = [
   {
     title: 'Pengguna Online',
-    value: 5,
-    icon: <FaUserFriends className="w-6 h-6 text-primary" />, 
-    border: 'border-primary', 
-    text: 'text-primary-dark', 
-    valueColor: 'text-primary', 
-    bg: 'bg-primary-light', 
+    value: 5, // Data ini harus diambil secara dinamis
+    icon: <FaUserFriends className="w-6 h-6 text-primary" />,
+    border: 'border-primary',
+    text: 'text-primary-dark',
+    valueColor: 'text-primary',
+    bg: 'bg-primary-light',
   },
   {
     title: 'Notifikasi Baru',
-    value: 2,
+    value: 2, // Data ini harus diambil secara dinamis
     icon: <FaBell className="w-6 h-6 text-accent" />,
     border: 'border-accent',
     text: 'text-accent-dark',
     valueColor: 'text-accent',
     bg: 'bg-accent-light',
   },
+  {
+    title: 'Tiket Helpdesk Terbuka',
+    value: 7, // Data ini harus diambil secara dinamis
+    icon: <FaHeadset className="w-6 h-6 text-orange-500" />, // Menggunakan warna baru untuk 'warning'
+    border: 'border-orange-500',
+    text: 'text-orange-700',
+    valueColor: 'text-orange-500',
+    bg: 'bg-orange-100',
+  },
+  // {
+  //   title: 'Pengajuan Cuti Menunggu',
+  //   value: 3, // Data ini harus diambil secara dinamis
+  //   icon: <FaCalendarAlt className="w-6 h-6 text-cyan-500" />, // Menggunakan warna baru untuk 'info'
+  //   border: 'border-cyan-500',
+  //   text: 'text-cyan-700',
+  //   valueColor: 'text-cyan-500',
+  //   bg: 'bg-cyan-100',
+  // },
+  {
+    title: 'Dokumen Menunggu Persetujuan',
+    value: 4, // Data ini harus diambil secara dinamis
+    icon: <FaClipboardList className="w-6 h-6 text-indigo-500" />,
+    border: 'border-indigo-500',
+    text: 'text-indigo-700',
+    valueColor: 'text-indigo-500',
+    bg: 'bg-indigo-100',
+  },
+  {
+    title: 'Karyawan Hadir Hari Ini',
+    value: 120, // Data ini harus diambil secara dinamis dari sistem absensi
+    icon: <FaUserCheck className="w-6 h-6 text-green-600" />,
+    border: 'border-green-600',
+    text: 'text-green-800',
+    valueColor: 'text-green-600',
+    bg: 'bg-green-100',
+  },
+  {
+    title: 'Tugas Mendatang (3 Hari)',
+    value: 8, // Data ini harus diambil secara dinamis dari sistem manajemen proyek
+    icon: <FaTasks className="w-6 h-6 text-red-500" />,
+    border: 'border-red-500',
+    text: 'text-red-700',
+    valueColor: 'text-red-500',
+    bg: 'bg-red-100',
+  },
+  // {
+  //   title: 'Pengajuan Biaya Menunggu',
+  //   value: 6, // Data ini harus diambil secara dinamis dari sistem keuangan
+  //   icon: <FaMoneyBillWave className="w-6 h-6 text-purple-500" />,
+  //   border: 'border-purple-500',
+  //   text: 'text-purple-700',
+  //   valueColor: 'text-purple-500',
+  //   bg: 'bg-purple-100',
+  // },
 ];
 
 const recentActivities = [
@@ -68,6 +130,16 @@ const quickLinks = [
   { name: 'Helpdesk IT', url: '/layanan/helpdesk', icon: <FaHeadset /> },
 ];
 
+// Dummy data untuk status sistem internal lainnya
+const internalSystemStatus = [
+  { name: 'Sistem Absensi', status: 'connected', description: 'Normal' },
+  { name: 'Sistem Proyek', status: 'disconnected', description: 'Perawatan terjadwal' },
+  { name: 'Intranet Perusahaan', status: 'connected', description: 'Normal' },
+  { name: 'Sistem Reservasi', status: 'connected', description: 'Normal' }, // Contoh untuk tempat hiburan
+  { name: 'Sistem Tiketing', status: 'error', description: 'Gangguan minor' }, // Contoh lain
+];
+
+
 const Dashboard = () => {
   const [whatsAppStatus, setWhatsAppStatus] = useState(null);
   const [qrCode, setQrCode] = useState(null);
@@ -88,15 +160,32 @@ const Dashboard = () => {
     };
 
     fetchWhatsAppConnectionStatus();
+    // Refresh status setiap 15 detik
     const interval = setInterval(fetchWhatsAppConnectionStatus, 15000);
 
     return () => clearInterval(interval);
   }, []);
 
+  // Fungsi untuk mendapatkan icon status sistem
+  const getSystemStatusIcon = (status) => {
+    switch (status) {
+      case 'connected':
+        return <FaCheckCircle className="w-4 h-4 text-green-500" />;
+      case 'disconnected':
+        return <FaTimesCircle className="w-4 h-4 text-red-500" />;
+      case 'connecting':
+        return <FaSpinner className="w-4 h-4 text-blue-500 animate-spin" />;
+      case 'error':
+        return <FaTimesCircle className="w-4 h-4 text-yellow-500" />; // Ganti icon error untuk minor
+      default:
+        return <FaQuestionCircle className="w-4 h-4 text-gray-500" />;
+    }
+  };
+
   return (
     <div className="p-8 bg-neutral-50 min-h-screen">
-      {/* (Stat Cards) */}
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6 mb-10">
         {stats.map((stat) => (
           <div
             key={stat.title}
@@ -109,20 +198,19 @@ const Dashboard = () => {
             <p className={`text-3xl font-bold mt-2 ${stat.valueColor}`}>{stat.value}</p>
           </div>
         ))}
-      </div> */}
+      </div>
 
-      {/**/}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
+
         <div className="lg:col-span-2 flex flex-col gap-8">
 
-          {/* System Overview - Status WhatsApp */}
+          {/* System Overview - Status WhatsApp dan Sistem Internal Lainnya */}
           {/* <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-info">
             <h2 className="text-xl font-semibold mb-3 text-info-dark flex items-center gap-2">
               <FaChartBar className="w-5 h-5 text-info" />
               Ringkasan Sistem
             </h2>
-            <div className="flex flex-col md:flex-row gap-6 items-center">
+            <div className="flex flex-col md:flex-row gap-6 items-center mb-6 pb-6 border-b border-gray-100">
               <div className="flex-1">
                 <p className="text-gray-600 text-lg">
                   Status Koneksi WhatsApp:{' '}
@@ -143,13 +231,29 @@ const Dashboard = () => {
                 <p className="text-gray-500 text-sm mt-3">
                   Terakhir diperiksa:{' '}
                   <span className="font-mono text-gray-400">
-                    {new Date().toLocaleTimeString()}
+                    {new Date().toLocaleTimeString('id-ID')}
                   </span>
                 </p>
               </div>
               <div className="md:w-1/4 flex items-center justify-center">
                 <FaCogs className="w-20 h-20 text-gray-200" />
               </div>
+            </div> */}
+            {/* Status Sistem Internal Lainnya */}
+            {/* <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2 text-gray-700">Status Sistem Internal Lainnya:</h3>
+                <ul className="space-y-2">
+                    {internalSystemStatus.map((system, idx) => (
+                        <li key={idx} className="flex items-center gap-2">
+                            {getSystemStatusIcon(system.status)}
+                            <span className="font-medium text-gray-700">{system.name}:</span>
+                            <span className={`font-semibold ${system.status === 'connected' ? 'text-green-500' : system.status === 'disconnected' ? 'text-red-500' : 'text-yellow-500'}`}>
+                                {system.status === 'connected' ? 'Normal' : system.status === 'disconnected' ? 'Terputus' : 'Perhatian'}
+                            </span>
+                            <span className="text-gray-500 text-sm">({system.description})</span>
+                        </li>
+                    ))}
+                </ul>
             </div>
           </section> */}
 
@@ -215,7 +319,7 @@ const Dashboard = () => {
 
         <div className="lg:col-span-1 flex flex-col gap-8">
 
-          {/*  */}
+          {/* Tautan Cepat */}
           <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-secondary">
             <h2 className="text-xl font-semibold mb-3 text-secondary-dark flex items-center gap-2">
               <FaLink className="w-5 h-5 text-secondary" />
@@ -226,7 +330,7 @@ const Dashboard = () => {
                 <a
                   key={idx}
                   href={link.url}
-                  className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                  className="flex items-center gap-3 p-4 bg-gray-500 bg-opacity-5 rounded-lg hover:bg-gray-100 transition-colors duration-200"
                 >
                   <span className="text-gray-600 text-xl">{link.icon}</span>
                   <span className="text-gray-800 font-medium">{link.name}</span>
