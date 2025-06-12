@@ -13,8 +13,8 @@ import {
   FaExclamationTriangle,
   FaShoppingCart,
   FaHistory,
-
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const GeneralManagementPage = () => {
   return (
@@ -37,9 +37,21 @@ const GeneralManagementPage = () => {
             Manajemen Proyek
           </h2>
           <ul className="space-y-3 text-gray-700">
-            <li><a href="/umum/proyek/dashboard" className="flex items-center gap-2 hover:text-gray-700 hover:underline"><FaChartBar className="text-sm" /> Dashboard Proyek</a></li>
-            <li><a href="/umum/proyek/baru" className="flex items-center gap-2 hover:text-gray-700 hover:underline"><FaPlusCircle className="text-sm" /> Buat Proyek Baru</a></li>
-            <li><a href="/umum/proyek/progress" className="flex items-center gap-2 hover:text-gray-700 hover:underline"><FaTasks className="text-sm" /> Pemantauan Progress Proyek</a></li>
+            <li>
+              <Link to="/gr-dept/manajemen-proyek/dashboard-proyek" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
+                <FaChartBar className="text-sm" /> Dashboard Proyek
+              </Link>
+            </li>
+            <li>
+              <Link to="/gr-dept/manajemen-proyek/buat-proyek" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
+                <FaPlusCircle className="text-sm" /> Buat Proyek Baru
+              </Link>
+            </li>
+            <li>
+              <Link to="/gr-dept/manajemen-proyek/progres-proyek" className="flex items-center gap-2 hover:text-gray-700 hover:underline">
+                <FaTasks className="text-sm" /> Pemantauan Progress Proyek
+              </Link>
+            </li>
           </ul>
         </section>
 
@@ -50,9 +62,21 @@ const GeneralManagementPage = () => {
             Pengelolaan Fasilitas Kantor
           </h2>
           <ul className="space-y-3 text-gray-700">
-            <li><a href="/umum/fasilitas/pemesanan-ruangan" className="flex items-center gap-2 hover:text-purple-700 hover:underline"><FaCalendarAlt className="text-sm" /> Pemesanan Ruangan Rapat</a></li>
-            <li><a href="/umum/fasilitas/lapor-kerusakan" className="flex items-center gap-2 hover:text-purple-700 hover:underline"><FaExclamationTriangle className="text-sm" /> Lapor Kerusakan Fasilitas</a></li>
-            <li><a href="/umum/fasilitas/daftar-fasilitas" className="flex items-center gap-2 hover:text-purple-700 hover:underline"><FaBuilding className="text-sm" /> Daftar Fasilitas & Denah</a></li>
+            <li>
+              <Link to="/gr-dept/fasilitas/pemesanan-ruangan" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
+                <FaCalendarAlt className="text-sm" /> Pemesanan Ruangan Rapat
+              </Link>
+            </li>
+            <li>
+              <Link to="/gr-dept/fasilitas/lapor-fasilitas" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
+                <FaExclamationTriangle className="text-sm" /> Lapor Kerusakan Fasilitas
+              </Link>
+            </li>
+            <li>
+              <Link to="/gr-dept/fasilitas/daftar-fasilitas" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
+                <FaBuilding className="text-sm" /> Daftar Fasilitas & Denah
+              </Link>
+            </li>
           </ul>
         </section>
 
@@ -63,9 +87,21 @@ const GeneralManagementPage = () => {
             Manajemen Aset Perusahaan
           </h2>
           <ul className="space-y-3 text-gray-700">
-            <li><a href="/umum/aset/inventaris" className="flex items-center gap-2 hover:text-yellow-700 hover:underline"><FaClipboardList className="text-sm" /> Daftar Inventaris Non-IT</a></li>
-            <li><a href="/umum/aset/pengadaan" className="flex items-center gap-2 hover:text-yellow-700 hover:underline"><FaShoppingCart className="text-sm" /> Pengajuan Pengadaan Barang</a></li>
-            <li><a href="/umum/aset/riwayat" className="flex items-center gap-2 hover:text-yellow-700 hover:underline"><FaHistory className="text-sm" /> Riwayat Aset & Lokasi</a></li>
+            <li>
+              <Link to="/gr-dept/aset-perusahaan/invent-non-it" className="flex items-center gap-2 hover:text-yellow-700 hover:underline">
+                <FaClipboardList className="text-sm" /> Daftar Inventaris Non-IT
+              </Link>
+            </li>
+            <li>
+              <Link to="/gr-dept/aset-perusahaan/pengadaan-barang" className="flex items-center gap-2 hover:text-yellow-700 hover:underline">
+                <FaShoppingCart className="text-sm" /> Pengajuan Pengadaan Barang
+              </Link>
+            </li>
+            <li>
+              <Link to="/gr-dept/aset-perusahaan/riwayat-aset" className="flex items-center gap-2 hover:text-yellow-700 hover:underline">
+                <FaHistory className="text-sm" /> Riwayat Aset & Lokasi
+              </Link>
+            </li>
           </ul>
         </section>
 

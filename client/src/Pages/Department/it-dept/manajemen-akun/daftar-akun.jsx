@@ -9,6 +9,7 @@ import {
   FaUnlockAlt,    // Status akun
   FaUserCog,      // Role/Hak Akses
   FaEnvelope,     // Email
+  FaFileDownload
 } from 'react-icons/fa';
 
 const UserAccountListPage = () => {

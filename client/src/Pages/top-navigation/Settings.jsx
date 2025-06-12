@@ -48,7 +48,7 @@ const SettingsPage = () => {
               <input
                 type="text"
                 id="fullName"
-                defaultValue="Nama Karyawan" // Ganti dengan data aktual
+                defaultValue="Admin" // Ganti dengan data aktual
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary transition-all duration-200"
               />
             </div>
@@ -57,7 +57,7 @@ const SettingsPage = () => {
               <input
                 type="email"
                 id="email"
-                defaultValue="karyawan@perusahaan.com" // Ganti dengan data aktual
+                defaultValue="admin.it@gmail.com" // Ganti dengan data aktual
                 readOnly
                 className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
               />

@@ -9,6 +9,7 @@ import {
   FaCheckCircle,    // Status Normal
   FaBug,            // Ancaman
   FaServer,         // Perangkat Jaringan
+  FaCalendarAlt
 } from 'react-icons/fa';
 
 const NetworkSecurityMonitoringPage = () => {

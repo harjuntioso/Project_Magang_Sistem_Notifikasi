@@ -10,6 +10,7 @@ import {
   FaPlayCircle,      // Sedang Berjalan
   FaInfoCircle,      // Detail
   FaSpinner,         // Loading
+  FaFilter
 } from 'react-icons/fa';
 
 const ProjectProgressMonitoringPage = () => {

@@ -118,12 +118,12 @@ const ItManagementPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <Link to="/it/akun/daftar" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/it-dept/manajemen-akun/daftar-akun" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaUsers className="text-sm" /> Daftar Akun Pengguna
               </Link>
             </li>
             <li>
-              <Link to="/it/akun/buat-baru" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
+              <Link to="/it-dept/manajemen-akun/edit-akun" className="flex items-center gap-2 hover:text-accent-dark hover:underline">
                 <FaPlusCircle className="text-sm" /> Edit Akun 
               </Link>
             </li>

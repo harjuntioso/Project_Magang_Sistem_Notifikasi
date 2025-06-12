@@ -7,6 +7,7 @@ import {
   FaCheckCircle,  // Status aktif
   FaClock,        // Status menunggu
   FaFileAlt,      // Detail perjanjian
+  FaFilter
 } from 'react-icons/fa';
 
 const PartnershipCollaborationPage = () => {

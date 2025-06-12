@@ -13,6 +13,7 @@ import {
   FaPrint,         // Printer
   FaServer,        // Server/Jaringan
   FaInfoCircle,    // Detail
+  FaFileDownload
 } from 'react-icons/fa';
 
 const ItDeviceListPage = () => {

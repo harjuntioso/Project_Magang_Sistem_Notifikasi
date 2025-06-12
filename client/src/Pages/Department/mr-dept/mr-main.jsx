@@ -38,17 +38,17 @@ const MarketingManagementPage = () => {
           <ul className="space-y-3 text-gray-700">
             <li>
               {/* Changed <a> to <Link> and href to to */}
-              <Link to="/marketing/campaign/overview" className="flex items-center gap-2 hover:text-red-700 hover:underline">
+              <Link to="/mr-dept/dashboard-kampanye/kampanye-aktif" className="flex items-center gap-2 hover:text-red-700 hover:underline">
                 <FaChartLine className="text-sm" /> Ringkasan Kampanye Aktif
               </Link>
             </li>
             <li>
-              <Link to="/marketing/campaign/buat" className="flex items-center gap-2 hover:text-red-700 hover:underline">
+              <Link to="/mr-dept/dashboard-kampanye/buat-kampanye" className="flex items-center gap-2 hover:text-red-700 hover:underline">
                 <FaPlusCircle className="text-sm" /> Buat Kampanye Baru
               </Link>
             </li>
             <li>
-              <Link to="/marketing/campaign/analisis" className="flex items-center gap-2 hover:text-red-700 hover:underline">
+              <Link to="/mr-dept/dashboard-kampanye/data-kampanye" className="flex items-center gap-2 hover:text-red-700 hover:underline">
                 <FaSearch className="text-sm" /> Analisis Data Kampanye
               </Link>
             </li>
@@ -63,17 +63,17 @@ const MarketingManagementPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <Link to="/marketing/materi/perpustakaan" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
+              <Link to="/mr-dept/materi-asset/aset-digital" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
                 <FaBook className="text-sm" /> Perpustakaan Aset Digital
               </Link>
             </li>
             <li>
-              <Link to="/marketing/materi/request" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
+              <Link to="/mr-dept/materi-asset/materi-request" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
                 <FaPlusCircle className="text-sm" /> Ajukan Pembuatan Materi
               </Link>
             </li>
             <li>
-              <Link to="/marketing/materi/pedoman-brand" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
+              <Link to="/mr-dept/materi-asset/brand-logo" className="flex items-center gap-2 hover:text-purple-700 hover:underline">
                 <FaStar className="text-sm" /> Pedoman Brand & Logo
               </Link>
             </li>
@@ -88,17 +88,17 @@ const MarketingManagementPage = () => {
           </h2>
           <ul className="space-y-3 text-gray-700">
             <li>
-              <Link to="/marketing/pr/kontak-media" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
+              <Link to="/mr-dept/masyarakat-media/kontak-media" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
                 <FaUsers className="text-sm" /> Database Kontak Media
               </Link>
             </li>
             <li>
-              <Link to="/marketing/pr/press-release" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
+              <Link to="/mr-dept/masyarakat-media/press-release" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
                 <FaFileAlt className="text-sm" /> Arsip Press Release
               </Link>
             </li>
             <li>
-              <Link to="/marketing/pr/kerjasama" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
+              <Link to="/mr-dept/masyarakat-media/kolaborasi-kemitraan" className="flex items-center gap-2 hover:text-blue-700 hover:underline">
                 <FaHandshake className="text-sm" /> Kolaborasi & Kemitraan
               </Link>
             </li>

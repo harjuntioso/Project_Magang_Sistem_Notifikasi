@@ -7,6 +7,7 @@ import {
   FaEye,             // Lihat Detail
   FaCalendarAlt,     // Filter Tanggal
   FaTag,             // Filter Kategori
+  FaFileDownload 
 } from 'react-icons/fa';
 
 const ClosedTicketHistoryPage = () => {

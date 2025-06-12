@@ -7,6 +7,10 @@ import {
   FaCalendarAlt, // Rentang waktu
   FaSearch,      // Cari
   FaFileDownload, // Unduh laporan
+  FaUsers,
+  FaMoneyBillWave,
+  FaFilePdf,
+  FaFileExcel
 } from 'react-icons/fa';
 
 const CampaignAnalyticsPage = () => {

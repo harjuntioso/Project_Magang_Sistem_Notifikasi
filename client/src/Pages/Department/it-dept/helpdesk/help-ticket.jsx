@@ -8,6 +8,8 @@ import {
   FaExclamationTriangle, // Prioritas Tinggi
   FaClock,           // Status Menunggu
   FaCheckCircle,     // Status Selesai (jika ada di filter)
+  FaPlusCircle,
+  FaClipboardList,
 } from 'react-icons/fa';
 
 const OpenSupportTicketsPage = () => {

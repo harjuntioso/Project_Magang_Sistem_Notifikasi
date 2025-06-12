@@ -8,6 +8,7 @@ import {
   FaFont,             // Tipografi
   FaImage,            // Logo/Visual
   FaInfoCircle,       // Informasi Umum
+  FaClipboardList
 } from 'react-icons/fa';
 
 const BrandGuidelinesPage = () => {

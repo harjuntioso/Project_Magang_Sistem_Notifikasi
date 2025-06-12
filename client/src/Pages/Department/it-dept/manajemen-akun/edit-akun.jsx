@@ -7,6 +7,8 @@ import {
   FaAddressCard,  // Data Pribadi
   FaBriefcase,    // Data Pekerjaan
   FaUnlockAlt,    // Akun Login & Hak Akses
+  FaSpinner,
+  FaKey
 } from 'react-icons/fa';
 // Import useParams jika menggunakan React Router untuk mendapatkan ID dari URL
 // import { useParams } from 'react-router-dom';

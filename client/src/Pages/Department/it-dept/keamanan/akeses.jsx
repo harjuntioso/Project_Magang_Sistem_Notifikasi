@@ -8,6 +8,7 @@ import {
   FaEdit,           // Edit
   FaTrash,          // Hapus
   FaServer,         // Sumber Daya
+  FaFilter
 } from 'react-icons/fa';
 
 const AccessAuthorizationPage = () => {

@@ -8,6 +8,7 @@ import {
   FaClock,         // Status
   FaUser,          // Peminjam
   FaLaptopCode,    // Perangkat
+  FaClipboardList
 } from 'react-icons/fa';
 
 const ItLoanReturnPage = () => {
