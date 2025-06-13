@@ -10,6 +10,7 @@ import {
   FaFilePowerpoint,   // Dokumen PowerPoint
   FaDownload,         // Unduh
   FaPlusCircle,       // Tambah aset baru
+  FaFileAlt
 } from 'react-icons/fa';
 
 const DigitalAssetLibraryPage = () => {

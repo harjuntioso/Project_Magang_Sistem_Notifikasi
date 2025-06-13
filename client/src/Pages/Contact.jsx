@@ -95,7 +95,7 @@ export default function Contact() {
     }
   };
 
-  const isAdmin = true;
+  const isAdmin = false;
 
   return (
     <div className="p-8 bg-neutral-50 min-h-screen">

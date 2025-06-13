@@ -9,12 +9,12 @@ import Login from './Pages/login-signup/Login';
 import AddUser from './Pages/AddUser';
 import CompanyUpdate from './Pages/top-navigation/CompanyUpdate';
 import ManagementOperationPage from './Pages/top-navigation/ManagementOpration';
-import ItManagementPage from './Pages/Department/it-dept/it-main';
-import MarketingManagementPage from './Pages/Department/mr-dept/mr-main';
-import GeneralManagementPage from './Pages/Department/gr-dept/gr-main';
-import HrdManagementPage from './Pages/Department/hr-dept/hr-main';
-import OpsManagementPage from './Pages/Department/op-dept/op-main';
-import FinanceManagementPage from './Pages/Department/fn-dept/fn-main';
+import ItManagementPage from './Pages/Operation/it-dept/it-main';
+import MarketingManagementPage from './Pages/Operation/mr-dept/mr-main';
+import GeneralManagementPage from './Pages/Operation/gr-dept/gr-main';
+import HrdManagementPage from './Pages/Operation/hr-dept/hr-main';
+import OpsManagementPage from './Pages/Operation/op-dept/op-main';
+import FinanceManagementPage from './Pages/Operation/fn-dept/fn-main';
 import SettingsPage from './Pages/top-navigation/Settings';
 import FormulirPage from './Pages/InformationCenter/Formulir';
 import ArsipPage from './Pages/InformationCenter/Arsip';
@@ -22,67 +22,73 @@ import FasilitasPage from './Pages/InformationCenter/Fasilitas';
 import PanduanPage from './Pages/InformationCenter/Panduan';
 import DirektoriPage from './Pages/InformationCenter/Direktori';
 import KebijakanPage from './Pages/InformationCenter/Kebijakan';
-import AbsensiDashboardPage from './Pages/Department/hr-dept/absensi/DashboardAbsensi';
-import AbsensiReportPage from './Pages/Department/hr-dept/absensi/LaporanKehadiran';
-import AbsensiVerificationPage from './Pages/Department/hr-dept/absensi/VerifikasiPengajuanAbsen';
-import KalenderCutiPage from './Pages/Department/hr-dept/cuti-izin/KalenderCuti';
-import KelolaKuotaCutiPage from './Pages/Department/hr-dept/cuti-izin/KuotaCuti';
-import PersetujuanCutiPage from './Pages/Department/hr-dept/cuti-izin/PersetujuanCuti';
-import DaftarKaryawanPage from './Pages/Department/hr-dept/data-karyawan/DaftarKaryawan';
-import RiwayatKaryawanPage from './Pages/Department/hr-dept/data-karyawan/RiwayatKaryawan';
-import TambahKaryawanPage from './Pages/Department/hr-dept/data-karyawan/TambahKaryawanBaru';
-import RecruitmentManagementPage from './Pages/Department/hr-dept/data-karyawan/ManajemenRekurtmen';
-import ProsesGajiBulananPage from './Pages/Department/hr-dept/penggajian/GajiBulanan';
-import LaporanPenggajianPage from './Pages/Department/hr-dept/penggajian/LaporanPenggajian';
-import CashFlowReportPage from './Pages/Department/fn-dept/laporan-keuangan/laporan-arus-kas';
-import ProfitLossReportPage from './Pages/Department/fn-dept/laporan-keuangan/laporan-laba-rugi';
-import BudgetMonitoringPage from './Pages/Department/fn-dept/laporan-keuangan/pemantuan-anggran';
-import ExpenseHistoryPage from './Pages/Department/fn-dept/pengajuan-persetujuan/riwayat-pengajuan';
-import ExpenseVerificationPage from './Pages/Department/fn-dept/pengajuan-persetujuan/pengajuan-biaya';
-import ActiveVendorListPage from './Pages/Department/fn-dept/vendor-pembayaran/daftar-vendor'; 
-import PaymentScheduleStatusPage from './Pages/Department/fn-dept/vendor-pembayaran/status-pembayaran';
-import ManageIncomingInvoicesPage from './Pages/Department/fn-dept/vendor-pembayaran/kelola-faktur';
-import NonItInventoryListPage from './Pages/Department/gr-dept/aset-perusahaan/invent-non-it';
-import ProcurementRequestPage from './Pages/Department/gr-dept/aset-perusahaan/pengadaan-barang'
-import AssetHistoryLocationPage from './Pages/Department/gr-dept/aset-perusahaan/riwayat-aset';
-import FacilityListMapPage from './Pages/Department/gr-dept/fasilitas/daftar-fasilitas';
-import ReportFacilityIssuePage from './Pages/Department/gr-dept/fasilitas/lapor-fasilitas';
-import MeetingRoomBookingPage from './Pages/Department/gr-dept/fasilitas/pemesanan-ruangan';
-import CreateNewProjectPage from './Pages/Department/gr-dept/manajemen-proyek/buat-proyek';
-import ProjectDashboardPage from './Pages/Department/gr-dept/manajemen-proyek/dashboard-proyek';
-import ProjectProgressMonitoringPage from './Pages/Department/gr-dept/manajemen-proyek/progres-proyek';
-import ItMaintenanceSchedulePage from './Pages/Department/it-dept/aset-it/pemeliharaan';
-import ItLoanReturnPage from './Pages/Department/it-dept/aset-it/peminjaman';
-import ItDeviceListPage from './Pages/Department/it-dept/aset-it/perangkat-it';
-import CreateNewTicketPage from './Pages/Department/it-dept/helpdesk/create-tciket';
-import OpenSupportTicketsPage from './Pages/Department/it-dept/helpdesk/help-ticket';
-import ClosedTicketHistoryPage from './Pages/Department/it-dept/helpdesk/riwayat-ticket';
-import AccessAuthorizationPage from './Pages/Department/it-dept/keamanan/akeses';
-import UserAccountListPage from './Pages/Department/it-dept/manajemen-akun/daftar-akun';
-import EditUserAccountPage from './Pages/Department/it-dept/manajemen-akun/edit-akun';
-import NetworkSecurityMonitoringPage from './Pages/Department/it-dept/keamanan/kemanan-jaringan';
-import SecurityIncidentReportingPage from './Pages/Department/it-dept/keamanan/laporan-insiden';
-import CreateCampaignPage from './Pages/Department/mr-dept/dashboard-kampanye/buat-kampanye';
-import CampaignAnalyticsPage from './Pages/Department/mr-dept/dashboard-kampanye/data-kampanye';
-import CampaignOverviewPage from './Pages/Department/mr-dept/dashboard-kampanye/kampanye-aktif';
-import PartnershipCollaborationPage from './Pages/Department/mr-dept/masyarakat-media/kolaborasi-kemitraan';
-import MediaContacsPages from './Pages/Department/mr-dept/masyarakat-media/kontak-media';
-import PressReleasePage from './Pages/Department/mr-dept/masyarakat-media/press-release';
-import DigitalAssetLibraryPage from './Pages/Department/mr-dept/materi-asset/aset-digital';
-import BrandGuideLinesPage from './Pages/Department/mr-dept/materi-asset/brand-logo';
-import MaterialRequestPage from './Pages/Department/mr-dept/materi-asset/materi-request';
-import MaterialRequestOpsPage from './Pages/Department/op-dept/inventaris/bahan-baku';
-import AttractionInventoryListPage from './Pages/Department/op-dept/inventaris/daftar-inventaris';
-import SparePartsStockPage from './Pages/Department/op-dept/inventaris/stock-suku-cadang';
-import RoutineMaintenanceSchedulePage from './Pages/Department/op-dept/jadwal-pemeliharaan/jadwal-pemeliharaan';
-import DamageRepairReportPage from './Pages/Department/op-dept/jadwal-pemeliharaan/riwayat-pemeliharaan';
-import AttractionMaintenanceHistoryPage from './Pages/Department/op-dept/jadwal-pemeliharaan/laporan-pemeliharaan';
-import CreateEditShiftSchedulePage from './Pages/Department/op-dept/jadwal-shift/atur-shift';
-import ShiftPerformanceReportPage from './Pages/Department/op-dept/jadwal-shift/laporan-kinerja';
-import VerifyShiftAttendancePage from './Pages/Department/op-dept/jadwal-shift/verifikasi-kehadiran';
-import OpenIncidentListPage from './Pages/Department/op-dept/laporan-insiden/daftar-insiden';
-import ReportNewIncidentPage from './Pages/Department/op-dept/laporan-insiden/laporan-insiden';
-import AreaSecurityMonitoringPage from './Pages/Department/op-dept/laporan-insiden/pemantuan-keamanan';
+import AbsensiDashboardPage from './Pages/Operation/hr-dept/absensi/DashboardAbsensi';
+import AbsensiReportPage from './Pages/Operation/hr-dept/absensi/LaporanKehadiran';
+import AbsensiVerificationPage from './Pages/Operation/hr-dept/absensi/VerifikasiPengajuanAbsen';
+import KalenderCutiPage from './Pages/Operation/hr-dept/cuti-izin/KalenderCuti';
+import KelolaKuotaCutiPage from './Pages/Operation/hr-dept/cuti-izin/KuotaCuti';
+import PersetujuanCutiPage from './Pages/Operation/hr-dept/cuti-izin/PersetujuanCuti';
+import DaftarKaryawanPage from './Pages/Operation/hr-dept/data-karyawan/DaftarKaryawan';
+import RiwayatKaryawanPage from './Pages/Operation/hr-dept/data-karyawan/RiwayatKaryawan';
+import TambahKaryawanPage from './Pages/Operation/hr-dept/data-karyawan/TambahKaryawanBaru';
+import RecruitmentManagementPage from './Pages/Operation/hr-dept/data-karyawan/ManajemenRekurtmen';
+import ProsesGajiBulananPage from './Pages/Operation/hr-dept/penggajian/GajiBulanan';
+import LaporanPenggajianPage from './Pages/Operation/hr-dept/penggajian/LaporanPenggajian';
+import CashFlowReportPage from './Pages/Operation/fn-dept/laporan-keuangan/laporan-arus-kas';
+import ProfitLossReportPage from './Pages/Operation/fn-dept/laporan-keuangan/laporan-laba-rugi';
+import BudgetMonitoringPage from './Pages/Operation/fn-dept/laporan-keuangan/pemantuan-anggran';
+import ExpenseHistoryPage from './Pages/Operation/fn-dept/pengajuan-persetujuan/riwayat-pengajuan';
+import ExpenseVerificationPage from './Pages/Operation/fn-dept/pengajuan-persetujuan/pengajuan-biaya';
+import ActiveVendorListPage from './Pages/Operation/fn-dept/vendor-pembayaran/daftar-vendor'; 
+import PaymentScheduleStatusPage from './Pages/Operation/fn-dept/vendor-pembayaran/status-pembayaran';
+import ManageIncomingInvoicesPage from './Pages/Operation/fn-dept/vendor-pembayaran/kelola-faktur';
+import NonItInventoryListPage from './Pages/Operation/gr-dept/aset-perusahaan/invent-non-it';
+import ProcurementRequestPage from './Pages/Operation/gr-dept/aset-perusahaan/pengadaan-barang'
+import AssetHistoryLocationPage from './Pages/Operation/gr-dept/aset-perusahaan/riwayat-aset';
+import FacilityListMapPage from './Pages/Operation/gr-dept/fasilitas/daftar-fasilitas';
+import ReportFacilityIssuePage from './Pages/Operation/gr-dept/fasilitas/lapor-fasilitas';
+import MeetingRoomBookingPage from './Pages/Operation/gr-dept/fasilitas/pemesanan-ruangan';
+import CreateNewProjectPage from './Pages/Operation/gr-dept/manajemen-proyek/buat-proyek';
+import ProjectDashboardPage from './Pages/Operation/gr-dept/manajemen-proyek/dashboard-proyek';
+import ProjectProgressMonitoringPage from './Pages/Operation/gr-dept/manajemen-proyek/progres-proyek';
+import ItMaintenanceSchedulePage from './Pages/Operation/it-dept/aset-it/pemeliharaan';
+import ItLoanReturnPage from './Pages/Operation/it-dept/aset-it/peminjaman';
+import ItDeviceListPage from './Pages/Operation/it-dept/aset-it/perangkat-it';
+import CreateNewTicketPage from './Pages/Operation/it-dept/helpdesk/create-tciket';
+import OpenSupportTicketsPage from './Pages/Operation/it-dept/helpdesk/help-ticket';
+import ClosedTicketHistoryPage from './Pages/Operation/it-dept/helpdesk/riwayat-ticket';
+import AccessAuthorizationPage from './Pages/Operation/it-dept/keamanan/akeses';
+import UserAccountListPage from './Pages/Operation/it-dept/manajemen-akun/daftar-akun';
+import EditUserAccountPage from './Pages/Operation/it-dept/manajemen-akun/edit-akun';
+import NetworkSecurityMonitoringPage from './Pages/Operation/it-dept/keamanan/kemanan-jaringan';
+import SecurityIncidentReportingPage from './Pages/Operation/it-dept/keamanan/laporan-insiden';
+import CreateCampaignPage from './Pages/Operation/mr-dept/dashboard-kampanye/buat-kampanye';
+import CampaignAnalyticsPage from './Pages/Operation/mr-dept/dashboard-kampanye/data-kampanye';
+import CampaignOverviewPage from './Pages/Operation/mr-dept/dashboard-kampanye/kampanye-aktif';
+import PartnershipCollaborationPage from './Pages/Operation/mr-dept/masyarakat-media/kolaborasi-kemitraan';
+import MediaContacsPages from './Pages/Operation/mr-dept/masyarakat-media/kontak-media';
+import PressReleasePage from './Pages/Operation/mr-dept/masyarakat-media/press-release';
+import DigitalAssetLibraryPage from './Pages/Operation/mr-dept/materi-asset/aset-digital';
+import BrandGuideLinesPage from './Pages/Operation/mr-dept/materi-asset/brand-logo';
+import MaterialRequestPage from './Pages/Operation/mr-dept/materi-asset/materi-request';
+import MaterialRequestOpsPage from './Pages/Operation/op-dept/inventaris/bahan-baku';
+import AttractionInventoryListPage from './Pages/Operation/op-dept/inventaris/daftar-inventaris';
+import SparePartsStockPage from './Pages/Operation/op-dept/inventaris/stock-suku-cadang';
+import RoutineMaintenanceSchedulePage from './Pages/Operation/op-dept/jadwal-pemeliharaan/jadwal-pemeliharaan';
+import DamageRepairReportPage from './Pages/Operation/op-dept/jadwal-pemeliharaan/riwayat-pemeliharaan';
+import AttractionMaintenanceHistoryPage from './Pages/Operation/op-dept/jadwal-pemeliharaan/laporan-pemeliharaan';
+import CreateEditShiftSchedulePage from './Pages/Operation/op-dept/jadwal-shift/atur-shift';
+import ShiftPerformanceReportPage from './Pages/Operation/op-dept/jadwal-shift/laporan-kinerja';
+import VerifyShiftAttendancePage from './Pages/Operation/op-dept/jadwal-shift/verifikasi-kehadiran';
+import OpenIncidentListPage from './Pages/Operation/op-dept/laporan-insiden/daftar-insiden';
+import ReportNewIncidentPage from './Pages/Operation/op-dept/laporan-insiden/laporan-insiden';
+import AreaSecurityMonitoringPage from './Pages/Operation/op-dept/laporan-insiden/pemantuan-keamanan';
+import TaskExchangeDashboardPage from './Pages/Task/main-task';
+import SubmitNewTaskPage from './Pages/Task/task-pages/submit-task';
+import SubmittedTasksPage from './Pages/Task/task-pages/submitted-task';
+import TaskHistoryPage from './Pages/Task/task-pages/history-task';
+import ApprovalTaskPage from './Pages/Task/task-pages/approval-task';
+import IncomingTasksPage from './Pages/Task/task-pages/incoming-task';
 
 
 function App() {
@@ -98,6 +104,7 @@ function App() {
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/contacts" element={<Contacts />} />
+        <Route path="/task-exchange" element={<TaskExchangeDashboardPage />} />
         <Route path="/comp-info" element={<CompanyUpdate />} />
         <Route path="/mg-opr" element={<ManagementOperationPage />} />
         <Route path="/settings" element={<SettingsPage /> } />
@@ -127,6 +134,16 @@ function App() {
         <Route path="/InformationCenter/panduan" element={<PanduanPage />} />
         <Route path="/InformationCenter/direktori" element={<DirektoriPage />} />
         <Route path="/InformationCenter/kebijakan" element={<KebijakanPage />} />
+
+        {/*// Task */}
+        {/* */}
+        <Route path="/task/submit-task" element={<SubmitNewTaskPage />} />
+        <Route path="/task/submitted-task" element={<SubmittedTasksPage />} />
+        <Route path="/task/incoming-task" element={<IncomingTasksPage />} />
+        <Route path="/task/task-history" element={<TaskHistoryPage />} />
+        <Route path="/task/approval-task" element={<ApprovalTaskPage />} />
+        <Route path="/task/history-task" element={<TaskHistoryPage />} />
+
 
         {/*// Management Operation */}
         {/* HR Department */}
@@ -217,7 +234,7 @@ function App() {
         <Route path="/gr-dept/aset-perusahaan/riwayat-aset" element={< AssetHistoryLocationPage />}/>
         {/* fasilitas*/}
         <Route path="/gr-dept/fasilitas/daftar-fasilitas" element={<FacilityListMapPage />}/>
-        <Route path="/gr-dept/fasilitas/lapor-fasilitas'" element={<ReportFacilityIssuePage />}/>
+        <Route path="/gr-dept/fasilitas/lapor-fasilitas" element={<ReportFacilityIssuePage />}/>
         <Route path="/gr-dept/fasilitas/pemesanan-ruangan" element={<MeetingRoomBookingPage />}/>
         {/* manajemen-proyek */}
         <Route path="/gr-dept/manajemen-proyek/buat-proyek" element={<CreateNewProjectPage />}/>

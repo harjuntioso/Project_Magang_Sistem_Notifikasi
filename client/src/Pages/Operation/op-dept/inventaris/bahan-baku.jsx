@@ -8,6 +8,8 @@ import {
   FaUser,           // Pemohon
   FaCalendarAlt,    // Tanggal
   FaPaperclip,      // Lampiran
+  FaTimesCircle,
+  FaPlusCircle
 } from 'react-icons/fa';
 
 const MaterialRequestOpsPage = () => {

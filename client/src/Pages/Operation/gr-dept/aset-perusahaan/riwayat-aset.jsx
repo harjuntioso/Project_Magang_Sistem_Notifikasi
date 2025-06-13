@@ -8,6 +8,7 @@ import {
   FaCalendarAlt,    // Tanggal
   FaUser,           // Ditugaskan kepada
   FaFileDownload,   // Unduh
+  FaClipboardList
 } from 'react-icons/fa';
 
 const AssetHistoryLocationPage = () => {

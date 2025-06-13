@@ -7,9 +7,9 @@ import {
   FiSettings,
   FiLogOut,
   FiChevronLeft,
-  FiChevronRight 
+  FiChevronRight,
 } from 'react-icons/fi';
-import { SiTask } from "react-icons/si";
+import { SiTask, SiLibreofficebase } from "react-icons/si";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 
 
@@ -20,7 +20,8 @@ const Sidebar = () => {
 const navItems = [
     { path: '/dashboard', icon: FiHome, label: 'Dashboard' },
     { path: '/comp-info', icon: IoIosInformationCircleOutline, label: 'Information' },
-    { path: '/mg-opr', icon: SiTask, label: 'Operation' },
+    { path: '/task-exchange', icon: SiTask, label: 'Tasks' },
+    { path: '/mg-opr', icon: SiLibreofficebase, label: 'Operation' },
     { path: '/contacts', icon: FiUsers, label: 'Contacts' },
     { path: '/settings', icon: FiSettings, label: 'Settings' },
 ];

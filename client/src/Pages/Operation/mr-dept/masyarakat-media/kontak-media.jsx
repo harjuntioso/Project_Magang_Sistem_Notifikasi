@@ -9,6 +9,7 @@ import {
   FaPhone,        // Telepon
   FaEnvelope,     // Email
   FaLink,         // Website/Sosmed
+  FaFileDownload
 } from 'react-icons/fa';
 
 const MediaContactsPage = () => {

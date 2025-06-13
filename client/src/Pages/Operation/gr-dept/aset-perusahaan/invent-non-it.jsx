@@ -10,6 +10,7 @@ import {
   FaUtensils,       // Peralatan Dapur
   FaToolbox,        // Perlengkapan Umum
   FaMapMarkerAlt,   // Lokasi
+  FaFileDownload
 } from 'react-icons/fa';
 
 const NonItInventoryListPage = () => {

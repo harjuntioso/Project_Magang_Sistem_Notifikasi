@@ -8,6 +8,7 @@ import {
   FaCalendarAlt,    // Tanggal
   FaCheckCircle,    // Status Selesai
   FaEye,            // Lihat Detail
+  FaFileDownload
 } from 'react-icons/fa';
 
 const AttractionMaintenanceHistoryPage = () => {

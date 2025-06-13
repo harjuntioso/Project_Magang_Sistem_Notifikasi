@@ -18,6 +18,13 @@ const CampaignOverviewPage = () => {
     // Tambahkan lebih banyak data dummy
   ]);
 
+  const [campaignStats, setCampaignStats] = useState({
+    newLeadsThisMonth: 1500,
+    totalLeads: 3200,
+    totalBudget: 50000000,
+    totalROI: 120,
+  });
+
   const [filterTerm, setFilterTerm] = useState('');
 
   const filteredCampaigns = activeCampaigns.filter(campaign =>
