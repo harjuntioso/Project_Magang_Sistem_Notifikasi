@@ -30,12 +30,12 @@ const SubmitNewTaskPage = () => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', 'error'
 
   const departments = [
-    { name: 'Operasional', categories: ['Penjadwalan Shift', 'Pemeliharaan', 'Inventaris Atraksi'] },
-    { name: 'HRD', categories: ['Data Karyawan', 'Absensi', 'Pelatihan'] },
-    { name: 'Keuangan', categories: ['Verifikasi Pembayaran', 'Laporan Keuangan'] },
-    { name: 'IT', categories: ['Dukungan Teknis', 'Akses Sistem', 'Jaringan'] },
-    { name: 'Pemasaran', categories: ['Desain Materi', 'Konten Media Sosial', 'Riset Pasar'] },
-    { name: 'Umum & Administrasi', categories: ['Pengadaan Barang', 'Pengaturan Ruangan', 'Dukungan Umum'] },
+    { name: 'Operasional', categories: ['Penjadwalan Shift', 'Pemeliharaan', 'Inventaris Atraksi'],  number : '62895321009825' },
+    { name: 'HRD', categories: ['Data Karyawan', 'Absensi', 'Pelatihan'],  },
+    { name: 'Keuangan', categories: ['Verifikasi Pembayaran', 'Laporan Keuangan'],  number : '62895321009825' },
+    { name: 'IT', categories: ['Dukungan Teknis', 'Akses Sistem', 'Jaringan'], number : '62895321009825' },
+    { name: 'Pemasaran', categories: ['Desain Materi', 'Konten Media Sosial', 'Riset Pasar'],  number : '62895321009825' },
+    { name: 'Umum & Administrasi', categories: ['Pengadaan Barang', 'Pengaturan Ruangan', 'Dukungan Umum'], number : '62895321009825' },
   ];
 
   const handleChange = (e) => {
@@ -58,6 +58,7 @@ const SubmitNewTaskPage = () => {
       // Jika berhasil
       setSubmissionStatus('success');
       alert('Tugas berhasil diajukan! Menunggu persetujuan atasan Anda.');
+      
       // Opsional: Reset form
       setFormData({
         taskTitle: '',
