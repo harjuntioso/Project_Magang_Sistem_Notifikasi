@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WhatsAppController;
 use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,15 +18,22 @@ use App\Http\Controllers\Api\ChatController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+// Public routes (tidak memerlukan autentikasi)
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/whatsapp-sender', function () {
-        return Inertia::render('WhatsAppSender');
-    });
+Route::get('/sanctum/csrf-cookie', [AuthController::class, 'getCsrfCookie']);
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'user']);
+
+    // Di sini Anda bisa menambahkan endpoint API lainnya yang memerlukan autentikasi
+    // Contoh:
+    // Route::get('/dashboard/stats', function() { /* ... */ });
+    // Route::get('/dashboard/activities', function() { /* ... */ });
+    // Route::apiResource('/users', UserController::class); // Untuk manajemen user oleh admin
+    // ... dan semua API untuk departemen yang sudah kita desain sebelumnya
 });
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
