@@ -5,11 +5,10 @@ use Laravel\Sanctum\Sanctum;
 return [
 
     'stateful_domains' => [
-        'localhost',
-        'http://localhost:3000',
-        'http://127.0.0.1:3000',
-        '127.0.0.1',
-        // '127.0.0.1:8000', 
+        'https://client.test:3000',
+        'https://server.test',
+        'server.test',
+        // '127.0.0.1:8000',
         // 'your-frontend-domain.com',
     ],
 

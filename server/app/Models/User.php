@@ -12,6 +12,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasApiTokens; // <<<--- DAN PASTIKAN 'HasApiTokens' ADA DI SINI!
 
     protected $fillable = [
+        'uid',
         'name',
         'email',
         'phone', // Pastikan kolom ini di database bisa NULL atau punya default value
