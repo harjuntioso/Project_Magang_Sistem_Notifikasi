@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:8000/api';
+const API_BASE_URL = process.env.REACT_API_BASE_URL || 'http://server.test/api';
+const CSRF_URL = 'http://server.test/sanctum/csrf-cookie';
 
 const axiosClient = axios.create({
   baseURL: API_BASE_URL,
@@ -11,17 +12,24 @@ const axiosClient = axios.create({
   withCredentials: true,
 });
 
-// --- DEBUG LOGGING UNTUK REQUEST ---
+// Interceptor request
 axiosClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('ACCESS_TOKEN');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // ⛔ Deteksi jika request adalah ke sanctum/csrf-cookie, override baseURL
+  if (config.url === '/sanctum/csrf-cookie') {
+    config.baseURL = ''; // Hilangkan baseURL agar full URL dipakai
+    config.url = CSRF_URL;
+  }
+
   console.log('--- Axios Request Debug ---');
-  console.log('URL:', config.url);
+  console.log('URL:', config.baseURL + config.url);
   console.log('Method:', config.method);
   console.log('Headers:', config.headers);
-  console.log('Data:', config.data); // Untuk POST/PUT requests
+  console.log('Data:', config.data);
   console.log('-------------------------');
   return config;
 }, (error) => {
@@ -29,7 +37,7 @@ axiosClient.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
-// --- DEBUG LOGGING UNTUK RESPONSE / ERROR RESPONSE ---
+// Interceptor response
 axiosClient.interceptors.response.use((response) => {
   console.log('--- Axios Response Debug ---');
   console.log('URL:', response.config.url);
@@ -41,7 +49,6 @@ axiosClient.interceptors.response.use((response) => {
 }, (error) => {
   console.error('--- Axios Response Error Debug ---');
   if (error.response) {
-    // Error yang diterima dari server (misalnya 4xx, 5xx)
     console.error('Error Status:', error.response.status);
     console.error('Error Data:', error.response.data);
     console.error('Error Headers:', error.response.headers);
@@ -50,15 +57,12 @@ axiosClient.interceptors.response.use((response) => {
       console.error('Periksa: SESSION_DOMAIN di .env Laravel, sanctum/csrf-cookie diakses, withCredentials: true');
     }
   } else if (error.request) {
-    // Request dibuat tapi tidak ada response diterima (misalnya jaringan mati)
     console.error('No response received from server:', error.request);
   } else {
-    // Error saat setting up request
     console.error('Error setting up request:', error.message);
   }
   console.error('--------------------------------');
 
-  // Penanganan error yang sudah ada (401, 403, dst.)
   const { response } = error;
   if (response) {
     switch (response.status) {
@@ -84,10 +88,12 @@ axiosClient.interceptors.response.use((response) => {
   } else {
     console.error('Tidak ada respons dari server atau masalah jaringan:', error.message);
   }
+
   return Promise.reject(error);
 });
 
-// ... Export fungsi-fungsi spesifik yang menggunakan axiosClient
+// Fungsi API
+export const getCsrfCookie = () => axiosClient.get('/sanctum/csrf-cookie'); // tetap gunakan relative
 export const checkWhatsAppStatus = () => axiosClient.get('/whatsapp/status');
 export const sendWhatsAppMessage = (number, message) => axiosClient.post('/whatsapp/send', { number, message });
 export const getDashboardStats = () => axiosClient.get('/dashboard/stats');

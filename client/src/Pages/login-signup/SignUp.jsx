@@ -6,7 +6,9 @@ import Swal from 'sweetalert2'; // Import SweetAlert2
 const Signup = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
+    const [department_id, setDepartment] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -30,7 +32,11 @@ const Signup = () => {
             const response = await axiosClient.post('/register', { 
                 name,
                 email,
-                password
+                phone,
+                password,
+                password_confirmation: confirmPassword,
+                department_id,
+                role_id: 4, 
             });
             Swal.fire({ // SweetAlert untuk sukses pendaftaran
                 icon: 'success',
@@ -97,6 +103,35 @@ const Signup = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
+                    </div>
+                    <div>
+                        <label htmlFor="phone" className="sr-only">Nomor Telepon</label>
+                        <input
+                            className="w-full px-4 py-3 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            id="phone"
+                            type="text"
+                            placeholder="Nomor Telepon Anda"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="department" className="sr-only">Departemen</label>
+                        <select
+                            className="w-full px-4 py-3 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            id="department"
+                            value={department_id}
+                            onChange={(e) => setDepartment(e.target.value)}
+                            required
+                        >
+                            <option value="">Pilih Departemen</option>
+                            <option value="1011">Information Technology</option>
+                            <option value="1010">Human Resource</option>
+                            <option value="1013">Finance</option>
+                            <option value="1014">Marketing</option>
+                            <option value="1015">Field Operation</option>
+                        </select>
                     </div>
                     <div>
                         <label htmlFor="password" className="sr-only">Password</label>
