@@ -6,6 +6,10 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WhatsAppController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\DepartmentController;
+use App\Http\Controllers\Api\TaskCategoryController;
+use App\Http\Controllers\Controller;
+use App\Models\Task;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +46,12 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/chats', [ChatController::class, 'index']);
 
 Route::get('/user', [UserController::class, 'index']);
+
+Route::get('/department', [DepartmentController::class, 'index']);
+
+Route::get('/department/{id}', [DepartmentController::class, 'show']);
+
+Route::apiResource('task-categories', TaskCategoryController::class);
 
 Route::get('/whatsapp/status', [WhatsAppController::class, 'checkStatus']);
 
