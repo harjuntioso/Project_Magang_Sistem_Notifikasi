@@ -15,7 +15,6 @@ import {
 
 const TaskHistoryPage = () => {
   const [allTasks, setAllTasks] = useState([
-    // Data dummy semua tugas (baik yang selesai maupun yang tidak)
     { id: 'TASK001', title: 'Permintaan Desain Poster Event', requester: 'Nama Officer A', deptRequester: 'Pemasaran', deptTo: 'Desain', status: 'Ditolak Atasan', submittedAt: '2025-06-10', completedAt: null },
     { id: 'TASK002', title: 'Permintaan Data Absensi Karyawan', requester: 'Nama Officer B', deptRequester: 'Operasional', deptTo: 'HRD', status: 'Diterima & Sedang Dikerjakan', submittedAt: '2025-06-09', completedAt: null },
     { id: 'TASK003', title: 'Instalasi Software Desain Grafis', requester: 'Nama Officer C', deptRequester: 'Pemasaran', deptTo: 'IT', status: 'Menunggu Proses di Penerima', submittedAt: '2025-06-11', completedAt: null },
@@ -23,11 +22,10 @@ const TaskHistoryPage = () => {
     { id: 'TASK005', title: 'Perbaikan Komputer Ruangan IT', requester: 'Nama Officer E', deptRequester: 'Operasional', deptTo: 'IT', status: 'Selesai', submittedAt: '2025-06-01', completedAt: '2025-06-03' },
     { id: 'TASK006', title: 'Permintaan Analisis Pasar Q2', requester: 'Nama Officer F', deptRequester: 'Keuangan', deptTo: 'Pemasaran', status: 'Pengajuan Revisi', submittedAt: '2025-05-28', completedAt: null },
     { id: 'TASK007', title: 'Pengadaan Meja Kantor Baru', requester: 'Nama Officer G', deptRequester: 'HRD', deptTo: 'Umum & Administrasi', status: 'Ditolak Penerima', submittedAt: '2025-05-20', completedAt: null },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('All'); // All, Selesai, Ditolak, dll.
+  const [filterStatus, setFilterStatus] = useState('All'); 
   const [filterRequesterDept, setFilterRequesterDept] = useState('All');
   const [filterDeptTo, setFilterDeptTo] = useState('All');
 

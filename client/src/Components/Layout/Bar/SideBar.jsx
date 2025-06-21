@@ -1,9 +1,9 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { 
-  FiHome, 
-  FiMessageSquare, 
-  FiUsers, 
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import {
+  FiHome,
+  FiMessageSquare,
+  FiUsers,
   FiSettings,
   FiLogOut,
   FiChevronLeft,
@@ -11,13 +11,16 @@ import {
 } from 'react-icons/fi';
 import { SiTask, SiLibreofficebase } from "react-icons/si";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-
+import { useAuth } from '../../../Context/AuthContext';
+import Swal from 'sweetalert2'; 
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = React.useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
-const navItems = [
+  const navItems = [
     { path: '/dashboard', icon: FiHome, label: 'Dashboard' },
     { path: '/comp-info', icon: IoIosInformationCircleOutline, label: 'Information' },
     { path: '/task-exchange', icon: SiTask, label: 'Tasks' },
@@ -26,6 +29,63 @@ const navItems = [
     { path: '/settings', icon: FiSettings, label: 'Settings' },
 ];
 
+  const handleLogout = async () => {
+    // 1. Konfirmasi Logout dengan SweetAlert2
+    const result = await Swal.fire({
+      title: 'Anda yakin ingin keluar?',
+      text: "Sesi Anda akan diakhiri.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, Keluar!',
+      cancelButtonText: 'Batal',
+    });
+
+    if (result.isConfirmed) {
+      // Jika pengguna menekan 'Ya, Keluar!'
+      let timerInterval;
+      Swal.fire({
+        title: 'Memproses Logout...',
+        html: 'Mohon tunggu...',
+        timer: 5000, // Durasi maksimal loading (sesuaikan)
+        timerProgressBar: true,
+        allowOutsideClick: false, // Tidak bisa diklik di luar pop-up
+        didOpen: () => {
+          Swal.showLoading(); // Tampilkan indikator loading
+          // Opsi: Anda bisa update teks loading jika perlu
+          // const b = Swal.getHtmlContainer().querySelector('b')
+          // timerInterval = setInterval(() => {
+          //   b.textContent = Swal.getTimerLeft()
+          // }, 100)
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      });
+
+      try {
+        await logout(); // Panggil fungsi logout dari AuthContext
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil Keluar!',
+          text: 'Anda telah berhasil keluar dari akun Anda.',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        navigate('/login'); // Arahkan ke halaman login
+      } catch (error) {
+        console.error("Logout failed:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Logout Gagal!',
+          text: 'Terjadi kesalahan saat mencoba keluar. Silakan coba lagi.',
+          confirmButtonText: 'Oke',
+        });
+      }
+    }
+  };
+
   return (
     <aside className={`bg-gray-800 text-white h-screen flex flex-col ${isCollapsed ? 'w-20' : 'w-64'} transition-all duration-300 ease-in-out`}>
       {/* Sidebar Header */}
@@ -33,7 +93,7 @@ const navItems = [
         {!isCollapsed && (
           <h1 className="text-xl font-bold whitespace-nowrap">Sistem</h1>
         )}
-        <button 
+        <button
           onClick={() => setIsCollapsed(!isCollapsed)}
           className="p-1 rounded-full hover:bg-gray-700"
         >
@@ -62,9 +122,12 @@ const navItems = [
         </ul>
       </nav>
 
-      {/* Sidebar Footer */}
+      {/* Sidebar Footer (Tombol Logout) */}
       <div className={`p-4 border-t border-gray-700 ${isCollapsed ? 'flex justify-center' : ''}`}>
-        <button className="flex items-center text-gray-300 hover:text-white transition-colors">
+        <button
+          onClick={handleLogout} // Panggil fungsi handleLogout
+          className="flex items-center text-gray-300 hover:text-white transition-colors w-full p-3 rounded-lg hover:bg-gray-700"
+        >
           <FiLogOut size={20} />
           {!isCollapsed && <span className="ml-3">Logout</span>}
         </button>

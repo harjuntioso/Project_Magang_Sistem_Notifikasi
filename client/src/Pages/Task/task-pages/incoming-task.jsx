@@ -13,20 +13,17 @@ import {
 } from 'react-icons/fa';
 
 const IncomingTasksPage = () => {
-  // Contoh: Departemen yang login adalah 'IT'
   const myDepartment = 'IT';
 
   const [incomingTasks, setIncomingTasks] = useState([
-    // Data dummy tugas yang ditujukan ke departemen ini
     { id: 'TASK003', title: 'Instalasi Software Desain Grafis', requester: 'Nama Officer C', deptRequester: 'Pemasaran', deptTo: 'IT', deadline: '2025-06-25', priority: 'Medium', status: 'Menunggu Proses di Penerima', submittedAt: '2025-06-11 09:00', assignedTo: null },
     { id: 'TASK008', title: 'Perbaikan Proyektor Ruang Rapat', requester: 'Supervisor Umum', deptRequester: 'Umum & Adm.', deptTo: 'IT', deadline: '2025-06-18', priority: 'High', status: 'Menunggu Proses di Penerima', submittedAt: '2025-06-11 11:00', assignedTo: null },
     { id: 'TASK009', title: 'Setting Jaringan Baru Area Karyawan', requester: 'Manager HRD', deptRequester: 'HRD', deptTo: 'IT', deadline: '2025-07-01', priority: 'Normal', status: 'Menunggu Proses di Penerima', submittedAt: '2025-06-08 10:00', assignedTo: null },
     { id: 'TASK010', title: 'Buat Akun Karyawan Baru', requester: 'Staff HRD', deptRequester: 'HRD', deptTo: 'IT', deadline: '2025-06-13', priority: 'Urgent', status: 'Ditolak', submittedAt: '2025-06-12 10:00', assignedTo: null, rejectionReason: 'Data karyawan belum lengkap' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('Menunggu Proses di Penerima'); // Default: hanya menunggu
+  const [filterStatus, setFilterStatus] = useState('Menunggu Proses di Penerima'); 
   const [filterPriority, setFilterPriority] = useState('All');
 
   const filteredTasks = incomingTasks.filter(task =>

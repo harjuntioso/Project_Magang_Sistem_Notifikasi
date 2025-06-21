@@ -20,11 +20,10 @@ const SubmittedTasksPage = () => {
     { id: 'TASK005', title: 'Perbaikan Komputer Ruangan IT', deptTo: 'IT', submittedAt: '2025-06-01', status: 'Selesai', lastUpdate: '2025-06-03' },
     { id: 'TASK006', title: 'Permintaan Analisis Pasar Q2', deptTo: 'Pemasaran', submittedAt: '2025-05-28', status: 'Pengajuan Revisi', lastUpdate: '2025-06-01', revisionNotes: 'Data kurang lengkap, mohon tambahkan sumber.' },
     { id: 'TASK007', title: 'Pengadaan Meja Kantor Baru', deptTo: 'Umum & Administrasi', submittedAt: '2025-05-20', status: 'Ditolak Penerima', lastUpdate: '2025-05-22', rejectionReason: 'Anggaran tidak tersedia untuk saat ini.' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('All'); // All, Menunggu Persetujuan Atasan, Menunggu Proses di Penerima, Selesai, Ditolak, Pengajuan Revisi
+  const [filterStatus, setFilterStatus] = useState('All');
   const [filterDeptTo, setFilterDeptTo] = useState('All');
 
   const filteredTasks = myTasks.filter(task =>

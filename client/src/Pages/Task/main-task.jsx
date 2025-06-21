@@ -13,11 +13,15 @@ import {
   FaClock
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../Context/AuthContext';
 
 const TaskExchangeDashboardPage = () => {
+
+  const {user} = useAuth();
+
   // Data Dummy untuk Stat Cards
-  const userRole = 'Officer'; // Role pengguna, bisa 'Admin', 'Supervisor', 'Officer', dll.
-  const userDepartment = 'IT'; 
+  const userRole = user?.role.name; // Role pengguna, bisa 'Admin', 'Supervisor', 'Officer', dll.
+  const userDepartment = user?.department; // Departemen pengguna
 
   const stats = [
     {
@@ -134,7 +138,7 @@ const TaskExchangeDashboardPage = () => {
         <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
           <h2 className="text-xl font-semibold mb-4 text-blue-700 flex items-center gap-2">
             <FaInbox className="w-5 h-5 text-blue-500" />
-            Tugas Masuk ke Departemen {userDepartment}
+            Tugas Masuk ke Departemen {userDepartment?.name}
           </h2>
           <p className="text-gray-600 mb-4">
             Lihat daftar tugas yang diajukan ke departemen Anda dan segera tindak lanjuti.

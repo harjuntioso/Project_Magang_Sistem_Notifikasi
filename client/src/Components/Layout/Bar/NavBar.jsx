@@ -1,7 +1,10 @@
 import React from 'react';
 import { FiBell, FiSearch, FiMenu, FiUser } from 'react-icons/fi';
+import { useAuth } from '../../../Context/AuthContext';
 
 const NavBar = ({ toggleSidebar }) => {
+  const { user } = useAuth();
+
   return (
     <header className="bg-white shadow-sm z-10">
       <div className="flex items-center justify-between px-4 py-3">
@@ -39,7 +42,7 @@ const NavBar = ({ toggleSidebar }) => {
               <FiUser size={18} />
             </div>
             <span className="ml-2 text-sm font-medium text-gray-700 hidden md:inline">
-              User
+              {user?.name}
             </span>
           </div>
         </div>

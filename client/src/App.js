@@ -1,8 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-
-// Import semua komponen Anda
 import Layout from './Components/Layout/Layout';
+
+import ProtectedRoute from './Context/Protected/ProtectedRoute'; 
+
 import Dashboard from './Pages/top-navigation/Dashboard';
 import Messages from './Pages/Messages';
 import SendMassage from './Pages/SendMassage';
@@ -93,19 +94,20 @@ import TaskHistoryPage from './Pages/Task/task-pages/history-task';
 import ApprovalTaskPage from './Pages/Task/task-pages/approval-task';
 import IncomingTasksPage from './Pages/Task/task-pages/incoming-task';
 
+
 function App() {
   return (
     <Routes>
-      {/* // Default // */}
-      <Route path="/" element={<Login />} />
-
-      {/* Route untuk halaman Login - Signup */}
+      {/*  */}
       <Route path="/login" element={<Login />} />
-
       <Route path="/signup" element={<Signup />} />
 
-      {/* Routes yang menggunakan Layout */}
-      <Route path="/*" element={<LayoutRoutes />} /> {/* Catch-all route untuk semua halaman lain */}
+      <Route element={<ProtectedRoute />}>
+        {/**/}
+        <Route path="/*" element={<LayoutRoutes />} /> {/* Catch-all untuk semua halaman lain */}
+      </Route>
+
+      {/* */}
     </Routes>
   );
 }
@@ -115,6 +117,8 @@ function LayoutRoutes() {
   return (
     <Layout>
       <Routes>
+        {/* // Default // */}
+        <Route path="/" element={<Dashboard />} />
 
         {/* // Top Navigation // */}
         <Route path="/Dashboard" element={<Dashboard />} />
@@ -125,10 +129,7 @@ function LayoutRoutes() {
         <Route path="/mg-opr" element={<ManagementOperationPage />} />
         <Route path="/settings" element={<SettingsPage />} />
 
-        {/* // Login // (Sudah dipindahkan ke atas) */}
-        {/* <Route path="/login" element={<Login />} /> */}
-
-        <Route path="/add-users" element={<AddUser />} />
+        <Route path="/add-users" element={<AddUser />} /> {/* Jika AddUser perlu admin role, itu beda middleware/guard */}
         <Route path="/send-message" element={<SendMassage />} />
 
         {/* // Department Main Pages // */}
@@ -221,6 +222,7 @@ function LayoutRoutes() {
         {/* manajemen-akun */}
         <Route path="/it-dept/manajemen-akun/daftar-akun" element={<UserAccountListPage />} />
         <Route path="/it-dept/manajemen-akun/edit-akun" element={<EditUserAccountPage />} />
+
 
         {/* Marketing Department */}
         {/* dashboard-kampanye */}

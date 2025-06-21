@@ -4,6 +4,7 @@ import axiosClient from '../../axiosClient'; // Menggunakan axiosClient
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const Signup = () => {
+    const [uid, setUid] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -30,6 +31,7 @@ const Signup = () => {
 
         try {
             const response = await axiosClient.post('/register', { 
+                uid,
                 name,
                 email,
                 phone,
@@ -93,6 +95,18 @@ const Signup = () => {
                         />
                     </div>
                     <div>
+                        <label htmlFor="uid" className="sr-only">Set Uid</label>
+                        <input
+                            className="w-full px-4 py-3 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                            id="uid"
+                            type="text"
+                            placeholder="Set Uid"
+                            value={uid}
+                            onChange={(e) => setUid(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
                         <label htmlFor="email" className="sr-only">Email Perusahaan</label>
                         <input
                             className="w-full px-4 py-3 text-gray-800 bg-gray-50 border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -127,10 +141,11 @@ const Signup = () => {
                         >
                             <option value="">Pilih Departemen</option>
                             <option value="1011">Information Technology</option>
-                            <option value="1010">Human Resource</option>
+                            <option value="1012">Marketing</option>
                             <option value="1013">Finance</option>
-                            <option value="1014">Marketing</option>
-                            <option value="1015">Field Operation</option>
+                            <option value="1014">General</option>
+                            <option value="1015">HR</option>
+                            <option value="1016">Sales</option>
                         </select>
                     </div>
                     <div>
