@@ -1,15 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\WhatsAppController;
-use App\Http\Controllers\Api\ChatController;
+
+// Import semua Controller yang digunakan di file ini
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\DepartmentController;
+use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\TaskCategoryController;
-use App\Http\Controllers\Controller;
-use App\Models\Task;
+use App\Http\Controllers\Api\DepartmentController; 
+use App\Http\Controllers\Api\UserController;     
+use App\Http\Controllers\Api\WhatsAppController; 
+use App\Http\Controllers\Api\ChatController;     
 
 /*
 |--------------------------------------------------------------------------
@@ -22,39 +22,48 @@ use App\Models\Task;
 |
 */
 
-// Public routes (tidak memerlukan autentikasi)
+// --- PUBLIC ROUTES (Tidak memerlukan autentikasi) ---
+// Rute-rute ini dapat diakses oleh siapa saja.
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
-
-    // Di sini Anda bisa menambahkan endpoint API lainnya yang memerlukan autentikasi
-    // Contoh:
-    // Route::get('/dashboard/stats', function() { /* ... */ });
-    // Route::get('/dashboard/activities', function() { /* ... */ });
-    // Route::apiResource('/users', UserController::class); // Untuk manajemen user oleh admin
-    // ... dan semua API untuk departemen yang sudah kita desain sebelumnya
+Route::get('/sanctum/csrf-cookie', function () {
+    return response()->json(['message' => 'CSRF cookie set']);
 });
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
-Route::get('/chats', [ChatController::class, 'index']);
+// --- PROTECTED ROUTES ( ---
+Route::middleware('auth:sanctum')->group(function () {
 
-Route::get('/user', [UserController::class, 'index']);
+    // Authentikasi & User
+    Route::post('/logout', [AuthController::class, 'logout']);
+    // Untuk mendapatkan data user yang sedang login (Authenticated User)
+    Route::get('/users', [AuthController::class, 'users']);
 
-Route::get('/department', [DepartmentController::class, 'index']);
+    Route::get('/tasks/pending-approval', [TaskController::class, 'getPendingApprovalTasks']);
 
-Route::get('/department/{id}', [DepartmentController::class, 'show']);
+    Route::apiResource('tasks', TaskController::class);
 
-Route::apiResource('task-categories', TaskCategoryController::class);
+    //Route::get('/tasks/pending-approval', [TaskController::class, 'getPendingApprovalTasks']);
 
-Route::get('/whatsapp/status', [WhatsAppController::class, 'checkStatus']);
+    // Manajemen Kategori Tugas (CRUD Lengkap)
+    Route::apiResource('task-categories', TaskCategoryController::class);
 
-Route::post('/whatsapp/send', [WhatsAppController::class, 'sendNotification']);
+    // Manajemen Departemen
+    Route::get('/departments', [DepartmentController::class, 'index']);
+    Route::get('/departments/{id}', [DepartmentController::class, 'show']);
+    // Jika perlu CRUD lengkap: Route::apiResource('departments', DepartmentController::class);
 
-Route::post('/send-whatsapp', [WhatsAppController::class, 'sendNotification']);
+
+    Route::get('/users', [UserController::class, 'index']); 
+
+    // Fitur WhatsApp
+    Route::get('/whatsapp/status', [WhatsAppController::class, 'checkStatus']);
+    Route::post('/whatsapp/send', [WhatsAppController::class, 'sendNotification']);
+    Route::post('/send-whatsapp', [WhatsAppController::class, 'sendNotification']); 
+
+    // Fitur Chat
+    Route::get('/chats', [ChatController::class, 'index']);
+
+
+});
