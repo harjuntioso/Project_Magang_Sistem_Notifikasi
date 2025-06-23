@@ -25,7 +25,7 @@ export default function Contact() {
 
     fetchTimeoutRef.current = setTimeout(() => {
       axiosClient
-        .get(`/user?page=${pagination.current_page}`)
+        .get(`/users?page=${pagination.current_page}`)
         .then(({ data }) => {
           const userList = Array.isArray(data) ? data : [];
           setUsers(userList);

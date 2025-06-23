@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaPaperPlane,
-  FaSave,
-  FaTimes,
-  FaInfoCircle,
+  FaPaperPlane, 
+  FaSave, 
+  FaTimes, 
+  FaInfoCircle, 
   FaTag,
-  FaCalendarAlt,
-  FaPaperclip,
-  FaUser,
+  FaCalendarAlt, 
+  FaPaperclip, 
+  FaUser, 
   FaBuilding,
   FaSpinner, 
   FaCheckCircle, 
@@ -15,39 +15,40 @@ import {
 } from 'react-icons/fa';
 import { useAuth } from '../../../Context/AuthContext';
 import axiosClient from '../../../axiosClient';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 
 const SubmitNewTaskPage = () => {
   const { user } = useAuth();
   const [loadingSubmission, setLoadingSubmission] = useState(false);
-  const [loadingDepartments, setLoadingDepartments] = useState(true); 
-  const [loadingCategories, setLoadingCategories] = useState(true); 
+  const [loadingDepartments, setLoadingDepartments] = useState(true);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
-  const [submissionStatus, setSubmissionStatus] = useState(null); 
   const [allDepartments, setAllDepartments] = useState([]);
   const [allTaskCategories, setAllTaskCategories] = useState([]);
-  const [filteredTaskCategories, setFilteredTaskCategories] = useState([]); 
+  const [filteredTaskCategories, setFilteredTaskCategories] = useState([]);
 
-  const initialFormData = { 
+  // Definisi initial form data untuk reset
+  const initialFormData = {
     taskTitle: '',
-    taskCategory: '',
+    taskCategory: '', 
     description: '',
     purpose: '',
-    departmentTo: '',
+    departmentTo: '', 
     deadline: '',
     priority: 'Normal',
     attachments: [],
     notes: '',
-    requesterName: '',
-    requesterDepartment: '',
+    requesterName: '', 
+    requesterDepartment: '', 
+
     requester_id: null,
-    requested_by_department_id: null,
-    assigned_to_department_id: null,
+    requested_by_department_id: null, 
+    assigned_to_department_id: null,  
     task_category_id: null,
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [formErrors, setFormErrors] = useState({}); // State untuk error validasi frontend
+  const [formErrors, setFormErrors] = useState({});
 
   // Effect untuk mengisi data requester saat user tersedia
   useEffect(() => {
@@ -55,9 +56,10 @@ const SubmitNewTaskPage = () => {
       setFormData(prevFormData => ({
         ...prevFormData,
         requesterName: user.name || '',
-        requesterDepartment: user.department?.name || '',
+        requesterDepartment: user.department?.name || 'N/A',
         requester_id: user.id,
-        requested_by_department_id: user.department?.id || null,
+        requested_by_department_id: user.department?.id || null, // ID departemen user
+
       }));
     } else {
       setFormData(prevFormData => ({
@@ -76,7 +78,7 @@ const SubmitNewTaskPage = () => {
       setLoadingDepartments(true);
       setLoadingCategories(true);
       try {
-        const departmentsResponse = await axiosClient.get('/department');
+        const departmentsResponse = await axiosClient.get('/departments');
         setAllDepartments(departmentsResponse.data);
         setLoadingDepartments(false);
 
@@ -88,7 +90,7 @@ const SubmitNewTaskPage = () => {
         Swal.fire({
           icon: 'error',
           title: 'Error!',
-          text: 'Gagal memuat daftar departemen atau kategori tugas. Silakan refresh halaman.',
+          text: 'Gagal memuat daftar departemen atau kategori tugas.',
         });
         setLoadingDepartments(false);
         setLoadingCategories(false);
@@ -109,11 +111,12 @@ const SubmitNewTaskPage = () => {
         );
         setFilteredTaskCategories(categoriesForDept);
 
+        // Update assigned_to_department_id saat departemen tujuan dipilih
         setFormData(prev => ({
           ...prev,
           assigned_to_department_id: selectedDept.id,
-          task_category_id: null, 
-          taskCategory: '', 
+          task_category_id: null, // Reset kategori ID
+          taskCategory: '', // Reset nama kategori
         }));
       }
     } else {
@@ -147,7 +150,6 @@ const SubmitNewTaskPage = () => {
     }
   }, [formData.taskCategory, allTaskCategories]);
 
-
   const validateForm = () => {
     const errors = {};
     if (!formData.taskTitle) errors.taskTitle = 'Judul tugas wajib diisi.';
@@ -155,20 +157,20 @@ const SubmitNewTaskPage = () => {
     if (!formData.taskCategory) errors.taskCategory = 'Kategori tugas wajib diisi.';
     if (!formData.description) errors.description = 'Deskripsi tugas wajib diisi.';
     if (!formData.deadline) errors.deadline = 'Batas waktu selesai wajib diisi.';
+
+    // Validasi ID yang akan dikirim ke backend
     if (!formData.requester_id) errors.requester_id = 'ID Pemohon tidak ditemukan. Silakan refresh atau login ulang.';
     if (!formData.requested_by_department_id) errors.requested_by_department_id = 'ID Departemen Pemohon tidak ditemukan.';
-    if (!formData.assigned_to_department_id) errors.assigned_to_department_id = 'ID Departemen Tujuan tidak ditemukan.';
-    if (!formData.task_category_id) errors.task_category_id = 'ID Kategori Tugas tidak ditemukan.';
+    if (!formData.assigned_to_department_id) errors.assigned_to_department_id = 'ID Departemen Tujuan tidak valid.';
+    if (!formData.task_category_id) errors.task_category_id = 'ID Kategori Tugas tidak valid.';
 
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
-
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
-
     if (formErrors[id]) {
       setFormErrors(prev => {
         const newErrors = { ...prev };
@@ -190,10 +192,10 @@ const SubmitNewTaskPage = () => {
   };
 
   const handleResetForm = () => {
-    setFormData(initialFormData); 
-    setFormErrors({}); 
-    setSubmissionStatus(null); 
-    Swal.close(); 
+    setFormData(initialFormData); // Reset ke initial state
+    setFormErrors({}); // Hapus error
+    setLoadingSubmission(false); // Pastikan loading mati
+    // Swal.close() jika ada modal Swal yang terbuka dari proses sebelumnya
   };
 
   const handleSubmit = async (e) => {
@@ -208,7 +210,7 @@ const SubmitNewTaskPage = () => {
       return;
     }
 
-    setLoadingSubmission(true); 
+    setLoadingSubmission(true);
     Swal.fire({
       title: 'Mengajukan Tugas...',
       html: 'Mohon tunggu, proses pengiriman data dan lampiran.',
@@ -224,8 +226,8 @@ const SubmitNewTaskPage = () => {
     payload.append('purpose', formData.purpose);
     payload.append('task_category_id', formData.task_category_id);
     payload.append('requester_id', formData.requester_id);
-    payload.append('requested_by_department_id', formData.requested_by_department_id);
-    payload.append('assigned_to_department_id', formData.assigned_to_department_id);
+    payload.append('requested_by_department_id', formData.requested_by_department_id); // <<< Sesuai DB
+    payload.append('assigned_to_department_id', formData.assigned_to_department_id);   // <<< Sesuai DB
     payload.append('priority', formData.priority);
     payload.append('deadline', formData.deadline);
     payload.append('notes', formData.notes);
@@ -237,7 +239,7 @@ const SubmitNewTaskPage = () => {
     try {
       const response = await axiosClient.post('/tasks', payload, {
         headers: {
-          'Content-Type': 'multipart/form-data', 
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -246,17 +248,16 @@ const SubmitNewTaskPage = () => {
         title: 'Pengajuan Berhasil!',
         text: 'Tugas telah berhasil diajukan dan menunggu persetujuan atasan Anda.',
       });
-      setSubmissionStatus('success');
-      handleResetForm(); 
+      handleResetForm(); // Reset form setelah sukses
     } catch (error) {
       console.error("Gagal mengajukan tugas:", error.response || error);
       let errorMessage = 'Terjadi kesalahan saat mengajukan tugas. Silakan coba lagi.';
       if (error.response?.data?.message) {
         errorMessage = error.response.data.message;
       } else if (error.response?.data?.errors) {
-        // Tampilkan error validasi dari backend jika ada
         const validationErrors = Object.values(error.response.data.errors).flat().join('\n');
         errorMessage = `Validasi Gagal:\n${validationErrors}`;
+        // Jika ingin menampilkan error per field, bisa setFormErrors(error.response.data.errors) di sini
       }
 
       Swal.fire({
@@ -264,13 +265,12 @@ const SubmitNewTaskPage = () => {
         title: 'Pengajuan Gagal!',
         text: errorMessage,
       });
-      setSubmissionStatus('error');
     } finally {
-      setLoadingSubmission(false); 
-      Swal.close(); 
+      setLoadingSubmission(false);
     }
   };
 
+  // Menggunakan allDepartments, bukan hardcoded departments
   const selectedDepartmentCategories = allDepartments.find(
     dep => dep.name === formData.departmentTo
   )?.categories || [];
@@ -291,22 +291,6 @@ const SubmitNewTaskPage = () => {
           <FaInfoCircle className="w-5 h-5 text-green-500" />
           Detail Pengajuan Tugas
         </h2>
-
-        {/* Notifikasi Status Pengajuan */}
-        {/*
-        {submissionStatus === 'success' && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <strong className="font-bold">Berhasil!</strong>
-            <span className="block sm:inline"> Pengajuan Anda telah dikirim dan menunggu persetujuan atasan.</span>
-          </div>
-        )}
-        {submissionStatus === 'error' && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <strong className="font-bold">Gagal!</strong>
-            <span className="block sm:inline"> Terjadi kesalahan saat mengirim pengajuan.</span>
-          </div>
-        )}
-        */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
@@ -330,7 +314,7 @@ const SubmitNewTaskPage = () => {
               value={formData.departmentTo}
               onChange={handleChange}
               required
-              disabled={loadingDepartments} // Disable saat loading
+              disabled={loadingDepartments}
             >
               <option value="">{loadingDepartments ? 'Memuat Departemen...' : 'Pilih Departemen'}</option>
               {!loadingDepartments && allDepartments.map(dep => (
@@ -348,7 +332,7 @@ const SubmitNewTaskPage = () => {
                 value={formData.taskCategory}
                 onChange={handleChange}
                 required
-                disabled={loadingCategories || filteredTaskCategories.length === 0} // Disable saat loading atau tidak ada kategori
+                disabled={loadingCategories || filteredTaskCategories.length === 0}
               >
                 <option value="">{loadingCategories ? 'Memuat Kategori...' : 'Pilih Kategori'}</option>
                 {!loadingCategories && filteredTaskCategories.map(cat => (
