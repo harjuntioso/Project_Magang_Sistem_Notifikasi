@@ -397,7 +397,7 @@ class TaskController extends Controller
         $acceptedStatus = TaskStatus::where('name', 'Accepted')->first();
         $inProgressStatus = TaskStatus::where('name', 'In Progress')->first();
         $completedStatus = TaskStatus::where('name', 'Completed')->first();
-        $rejectedManagerStatus = TaskStatus::where('name', 'Rejected (Supervisor)')->first();
+        $rejectedManagerStatus = TaskStatus::where('name', 'Rejected (Supervisor)')->first(); // <<<--- Pastikan ini
         $rejectedReceiverStatus = TaskStatus::where('name', 'Rejected (Receiver)')->first();
         $cancelledStatus = TaskStatus::where('name', 'Cancelled')->first();
 
@@ -513,11 +513,11 @@ class TaskController extends Controller
             $revisionRequestedStatus = TaskStatus::where('name', 'Revision Requested')->first();
             $rejectedReceiverStatus = TaskStatus::where('name', 'Rejected (Receiver)')->first();
             $completedStatus = TaskStatus::where('name', 'Completed')->first();
-            $rejectedSupervisorStatus = TaskStatus::where('name', 'Rejected (Supervisor)')->first(); // Juga perlu untuk filter 'All'
+            $rejectedManagerStatus = TaskStatus::where('name', 'Rejected (Supervisor)')->first(); // Juga perlu untuk filter 'All'
 
             if (
                 !$pendingAcceptanceStatus || !$acceptedStatus || !$inProgressStatus ||
-                !$revisionRequestedStatus || !$rejectedReceiverStatus || !$completedStatus || !$rejectedSupervisorStatus
+                !$revisionRequestedStatus || !$rejectedReceiverStatus || !$completedStatus || !$rejectedManagerStatus
             ) {
                 Log::critical('Missing one or more required TaskStatus records for incoming tasks logic.');
                 return response()->json(['message' => 'Internal Server Error: Task statuses not fully configured for incoming tasks.'], 500);
@@ -616,8 +616,14 @@ class TaskController extends Controller
 
             // Pastikan semua status yang akan digunakan dalam query ada
             $requiredStatuses = [
-                'Pending Approval (Requester Supervisor)', 'Menunggu Proses di Penerima', 'Diterima & Sedang Dikerjakan',
-                'Pengajuan Revisi', 'Selesai', 'Ditolak Penerima', 'Ditolak Atasan', 'Cancelled'
+                'Pending Approval (Requester Supervisor)', // Sudah benar
+                'Pending Acceptance (Receiver)',       // <<<--- UBAH DARI 'Menunggu Proses di Penerima'
+                'Accepted',                             // <<<--- UBAH DARI 'Diterima & Sedang Dikerjakan'
+                'Revision Requested',                   // <<<--- UBAH DARI 'Pengajuan Revisi'
+                'Completed',                            // <<<--- UBAH DARI 'Selesai'
+                'Rejected (Receiver)',                  // <<<--- UBAH DARI 'Ditolak Penerima'
+                'Rejected (Supervisor)',                // <<<--- UBAH DARI 'Ditolak Atasan' (Karena di DB: Rejected (Supervisor))
+                'Cancelled'                             // <<<--- UBAH DARI 'Cancelled'
             ];
             foreach ($requiredStatuses as $statusName) {
                 if (!$allTaskStatuses->has($statusName)) {
