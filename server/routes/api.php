@@ -9,7 +9,8 @@ use App\Http\Controllers\Api\TaskCategoryController;
 use App\Http\Controllers\Api\DepartmentController; 
 use App\Http\Controllers\Api\UserController;     
 use App\Http\Controllers\Api\WhatsAppController; 
-use App\Http\Controllers\Api\ChatController;     
+use App\Http\Controllers\Api\ChatController;  
+use App\Http\Controllers\Api\TaskStatusController;   
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [AuthController::class, 'users']);
 
     Route::get('/tasks/pending-approval', [TaskController::class, 'getPendingApprovalTasks']);
+
+    Route::get('/tasks/incoming-to-department', [TaskController::class, 'getIncomingTasks']);
+
+    Route::get('/tasks/task-statuses', [TaskStatusController::class, 'index']);
+
+     Route::get('/tasks/my-submitted', [TaskController::class, 'getMySubmittedTasks']);
+     
+    // Routes untuk Task Counts Dashboard
+    Route::get('/tasks/counts', [TaskController::class, 'getTaskCounts']); 
 
     Route::apiResource('tasks', TaskController::class);
 
