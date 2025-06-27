@@ -1,41 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  FaInbox,           // Ikon utama
-  FaSearch,          // Cari
-  FaFilter,          // Filter
-  FaEye,             // Lihat Detail
-  FaClipboardList,   // Daftar tugas
-  FaCheckCircle,     // Terima
-  FaTimesCircle,     // Tolak
-  FaSyncAlt,         // Revisi
-  FaUserTie,         // Ditugaskan Kepada
-  FaClock,           // Menunggu
+  FaInbox, FaSearch, FaFilter, FaEye, FaClipboardList,
+  FaCheckCircle, FaTimesCircle, FaSyncAlt, FaUserTie,
+  FaClock, FaSpinner, FaExclamationCircle
 } from 'react-icons/fa';
+import { useAuth } from '../../../Context/AuthContext';
+import axiosClient from '../../../axiosClient';
+import Swal from 'sweetalert2';
 
 const IncomingTasksPage = () => {
-  const myDepartment = 'IT';
-
-  const [incomingTasks, setIncomingTasks] = useState([
-    { id: 'TASK003', title: 'Instalasi Software Desain Grafis', requester: 'Nama Officer C', deptRequester: 'Pemasaran', deptTo: 'IT', deadline: '2025-06-25', priority: 'Medium', status: 'Menunggu Proses di Penerima', submittedAt: '2025-06-11 09:00', assignedTo: null },
-    { id: 'TASK008', title: 'Perbaikan Proyektor Ruang Rapat', requester: 'Supervisor Umum', deptRequester: 'Umum & Adm.', deptTo: 'IT', deadline: '2025-06-18', priority: 'High', status: 'Menunggu Proses di Penerima', submittedAt: '2025-06-11 11:00', assignedTo: null },
-    { id: 'TASK009', title: 'Setting Jaringan Baru Area Karyawan', requester: 'Manager HRD', deptRequester: 'HRD', deptTo: 'IT', deadline: '2025-07-01', priority: 'Normal', status: 'Menunggu Proses di Penerima', submittedAt: '2025-06-08 10:00', assignedTo: null },
-    { id: 'TASK010', title: 'Buat Akun Karyawan Baru', requester: 'Staff HRD', deptRequester: 'HRD', deptTo: 'IT', deadline: '2025-06-13', priority: 'Urgent', status: 'Ditolak', submittedAt: '2025-06-12 10:00', assignedTo: null, rejectionReason: 'Data karyawan belum lengkap' },
-  ]);
-
+  const { user } = useAuth(); // User yang sedang login
+  // State untuk daftar tugas masuk
+  const [incomingTasks, setIncomingTasks] = useState([]);
+  // State untuk loading
+  const [loadingTasks, setLoadingTasks] = useState(true);
+  const [loadingStatuses, setLoadingStatuses] = useState(true); // Loading untuk status tugas
+  // State untuk filter
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('Menunggu Proses di Penerima'); 
+  const [filterStatus, setFilterStatus] = useState('Menunggu Proses di Penerima'); // Default filter
   const [filterPriority, setFilterPriority] = useState('All');
+  const [filterRequesterDept, setFilterRequesterDept] = useState('All'); // Filter berdasarkan departemen pengaju
 
-  const filteredTasks = incomingTasks.filter(task =>
-    (filterStatus === 'All' || task.status === filterStatus) &&
-    (filterPriority === 'All' || task.priority === filterPriority) &&
-    (task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     task.requester.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     task.deptRequester.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  // State untuk menyimpan daftar status tugas dari backend
+  const [allTaskStatuses, setAllTaskStatuses] = useState([]);
 
-  const getStatusColor = (status) => {
-    switch (status) {
+  // Dapatkan ID departemen user yang login (untuk filter di backend)
+  const userDepartmentId = user?.department?.id;
+  const userDepartmentName = user?.department?.name; // Untuk ditampilkan di judul
+
+  // Helper untuk mendapatkan ID status berdasarkan nama
+  const getStatusIdByName = (name) => {
+    const status = allTaskStatuses.find(s => s.name === name);
+    return status ? status.id : null;
+  };
+
+  const getPriorityColor = (priority) => {
+    switch (priority) {
+      case 'High': return 'bg-red-200 text-red-800';
+      case 'Medium': return 'bg-orange-200 text-orange-800';
+      case 'Normal': return 'bg-blue-200 text-blue-800';
+      case 'Urgent': return 'bg-purple-200 text-purple-800';
+      default: return 'bg-gray-200 text-gray-800';
+    }
+  };
+
+  const getTaskRowStatusColor = (statusName) => {
+    switch (statusName) {
       case 'Menunggu Proses di Penerima': return 'bg-orange-200 text-orange-800';
       case 'Diterima & Sedang Dikerjakan': return 'bg-blue-200 text-blue-800';
       case 'Selesai': return 'bg-green-200 text-green-800';
@@ -45,51 +55,233 @@ const IncomingTasksPage = () => {
     }
   };
 
-  const getPriorityColor = (priority) => {
-    switch (priority) {
-      case 'High': return 'text-red-600';
-      case 'Medium': return 'text-orange-500';
-      case 'Normal': return 'text-blue-500';
-      case 'Urgent': return 'text-purple-600';
-      default: return 'text-gray-600';
+  // EFFECT PERTAMA: Untuk memuat status tugas dari backend (sekali)
+  useEffect(() => {
+    const fetchTaskStatuses = async () => {
+      setLoadingStatuses(true);
+      try {
+        const response = await axiosClient.get('/tasks/task-statuses');
+        setAllTaskStatuses(response.data);
+      } catch (error) {
+        console.error("Gagal memuat status tugas:", error.response || error);
+        Swal.fire('Error', 'Gagal memuat daftar status tugas.', 'error');
+      } finally {
+        setLoadingStatuses(false);
+      }
+    };
+    fetchTaskStatuses();
+  }, []);
+
+  // EFFECT KEDUA: Untuk memuat tugas masuk (berjalan saat filter atau user berubah)
+  useEffect(() => {
+    // Pastikan user dan status task sudah dimuat sebelum fetch tasks
+    if (userDepartmentId && !loadingStatuses) {
+      fetchIncomingTasks();
+    } else if (!userDepartmentId && user) { // User login tapi tidak punya department_id
+        Swal.fire('Info', 'Akun Anda tidak terasosiasi dengan departemen. Tidak dapat memuat tugas masuk.', 'info');
+        setLoadingTasks(false); // Hentikan loading
+    }
+  }, [searchTerm, filterStatus, filterPriority, filterRequesterDept, userDepartmentId, loadingStatuses]);
+
+
+  const fetchIncomingTasks = async () => {
+    setLoadingTasks(true);
+    try {
+      const params = {
+        department_id: userDepartmentId, // Filter oleh departemen user yang login
+        status: filterStatus === 'All' ? null : filterStatus,
+        search: searchTerm,
+        priority: filterPriority === 'All' ? null : filterPriority,
+        // requester_department_id: filterRequesterDept === 'All' ? null : filterRequesterDept, // Jika ingin filter ini juga
+      };
+      
+      // <<< Endpoint BARU untuk mengambil tugas masuk ke departemen user >>>
+      const response = await axiosClient.get('/tasks/incoming-to-department', { params });
+      setIncomingTasks(response.data);
+    } catch (error) {
+      console.error("Gagal memuat tugas masuk:", error.response || error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: 'Gagal memuat daftar tugas masuk.',
+      });
+    } finally {
+      setLoadingTasks(false);
     }
   };
 
-  const handleAccept = (id, title) => {
-    alert(`Tugas "${title}" diterima dan akan segera diproses.`);
-    setIncomingTasks(incomingTasks.map(task =>
-      task.id === id ? { ...task, status: 'Diterima & Sedang Dikerjakan', assignedTo: 'Nama IT Petugas' } : task
-    ));
-    // Logika update status ke backend
+  // --- Aksi 'Terima' Tugas ---
+  const handleAccept = async (task) => {
+    const result = await Swal.fire({
+      title: 'Terima Tugas Ini?',
+      text: `Tugas "${task.title}" akan diterima dan statusnya menjadi 'Sedang Dikerjakan'.`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, Terima!',
+      cancelButtonText: 'Batal',
+    });
+
+    if (result.isConfirmed) {
+      const acceptedStatusId = getStatusIdByName('Accepted');
+      const inProgressStatusId = getStatusIdByName('In Progress'); // Bisa langsung ke In Progress
+
+      if (!acceptedStatusId || !inProgressStatusId) {
+        Swal.fire('Error', 'Status "Accepted" atau "In Progress" tidak ditemukan. Hubungi admin.', 'error');
+        return;
+      }
+
+      Swal.fire({ title: 'Memproses...', html: 'Menerima tugas...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        await axiosClient.put(`/tasks/${task.id}`, {
+          current_status_id: acceptedStatusId, // Atau inProgressStatusId
+          assignee_id: user.id, // Menugaskan ke user yang menerima
+          assigned_at: new Date().toISOString().slice(0, 19).replace('T', ' '), // Waktu penugasan
+          last_action_by_id: user.id,
+        });
+
+        Swal.fire('Diterima!', 'Tugas berhasil diterima dan ditugaskan kepada Anda.', 'success');
+        fetchIncomingTasks(); // Refresh daftar tugas
+      } catch (error) {
+        console.error("Gagal menerima tugas:", error.response || error);
+        let errorMessage = 'Gagal menerima tugas. Silakan coba lagi.';
+        if (error.response?.data?.message) errorMessage = error.response.data.message;
+        else if (error.response?.data?.errors) errorMessage = Object.values(error.response.data.errors).flat().join('\n');
+        Swal.fire('Error', errorMessage, 'error');
+      }
+    }
   };
 
-  const handleReject = (id, title) => {
-    const reason = prompt(`Tolak tugas "${title}"? Berikan alasan penolakan:`);
+  // --- Aksi 'Tolak' Tugas ---
+  const handleReject = async (task) => {
+    const { value: reason } = await Swal.fire({
+      title: 'Tolak Tugas Ini?',
+      input: 'textarea',
+      inputLabel: `Berikan alasan penolakan untuk "${task.title}":`,
+      inputPlaceholder: 'Alasan penolakan wajib diisi...',
+      inputValidator: (value) => { if (!value) return 'Alasan penolakan tidak boleh kosong!'; },
+      showCancelButton: true, confirmButtonText: 'Tolak', cancelButtonText: 'Batal', confirmButtonColor: '#d33',
+    });
+
     if (reason) {
-      alert(`Tugas ID: ${id} ditolak dengan alasan: ${reason}`);
-      setIncomingTasks(incomingTasks.map(task =>
-        task.id === id ? { ...task, status: 'Ditolak', rejectionReason: reason } : task
-      ));
-      // Logika update status ke backend
+      const rejectedStatusId = getStatusIdByName('Rejected (Receiver)');
+      if (!rejectedStatusId) { Swal.fire('Error', 'Status "Rejected (Receiver)" tidak ditemukan. Hubungi admin.', 'error'); return; }
+
+      Swal.fire({ title: 'Memproses...', html: 'Menolak tugas...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        await axiosClient.put(`/tasks/${task.id}`, {
+          current_status_id: rejectedStatusId,
+          rejection_reason: reason,
+          last_action_by_id: user.id,
+        });
+        Swal.fire('Ditolak!', 'Tugas berhasil ditolak.', 'success');
+        fetchIncomingTasks();
+      } catch (error) {
+        console.error("Gagal menolak tugas:", error.response || error);
+        let errorMessage = 'Gagal menolak tugas. Silakan coba lagi.';
+        if (error.response?.data?.message) errorMessage = error.response.data.message;
+        else if (error.response?.data?.errors) errorMessage = Object.values(error.response.data.errors).flat().join('\n');
+        Swal.fire('Error', errorMessage, 'error');
+      }
     }
   };
 
-  const handleRequestRevision = (id, title) => {
-    const notes = prompt(`Minta revisi untuk tugas "${title}". Berikan catatan revisi yang diperlukan:`);
+  // --- Aksi 'Revisi' Tugas ---
+  const handleRequestRevision = async (task) => {
+    const { value: notes } = await Swal.fire({
+      title: 'Minta Revisi Tugas Ini?',
+      input: 'textarea',
+      inputLabel: `Berikan catatan revisi yang diperlukan untuk "${task.title}":`,
+      inputPlaceholder: 'Catatan revisi wajib diisi...',
+      inputValidator: (value) => { if (!value) return 'Catatan revisi tidak boleh kosong!'; },
+      showCancelButton: true, confirmButtonText: 'Minta Revisi', cancelButtonText: 'Batal', confirmButtonColor: '#ffc107',
+    });
+
     if (notes) {
-      alert(`Permintaan revisi untuk tugas ID: ${id} telah dikirim.`);
-      setIncomingTasks(incomingTasks.map(task =>
-        task.id === id ? { ...task, status: 'Pengajuan Revisi', revisionNotes: notes } : task
-      ));
-      // Logika update status ke backend
+      const revisionStatusId = getStatusIdByName('Revision Requested');
+      if (!revisionStatusId) { Swal.fire('Error', 'Status "Revision Requested" tidak ditemukan. Hubungi admin.', 'error'); return; }
+
+      Swal.fire({ title: 'Memproses...', html: 'Mengajukan revisi...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        await axiosClient.put(`/tasks/${task.id}`, {
+          current_status_id: revisionStatusId,
+          revision_notes: notes,
+          last_action_by_id: user.id,
+        });
+        Swal.fire('Revisi Diajukan!', 'Permintaan revisi tugas berhasil diajukan.', 'success');
+        fetchIncomingTasks();
+      } catch (error) {
+        console.error("Gagal mengajukan revisi tugas:", error.response || error);
+        let errorMessage = 'Gagal mengajukan revisi tugas. Silakan coba lagi.';
+        if (error.response?.data?.message) errorMessage = error.response.data.message;
+        else if (error.response?.data?.errors) errorMessage = Object.values(error.response.data.errors).flat().join('\n');
+        Swal.fire('Error', errorMessage, 'error');
+      }
     }
   };
+
+  // --- Aksi 'Tandai Selesai' ---
+  const handleMarkCompleted = async (task) => {
+    const result = await Swal.fire({
+      title: 'Tandai Tugas Ini Selesai?',
+      text: `Tugas "${task.title}" akan ditandai sebagai 'Selesai'.`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#28a745', // Green
+      cancelButtonColor: '#6c757d',
+      confirmButtonText: 'Ya, Selesai!',
+      cancelButtonText: 'Batal',
+    });
+
+    if (result.isConfirmed) {
+      const completedStatusId = getStatusIdByName('Completed');
+      if (!completedStatusId) { Swal.fire('Error', 'Status "Completed" tidak ditemukan. Hubungi admin.', 'error'); return; }
+
+      Swal.fire({ title: 'Memproses...', html: 'Menandai tugas selesai...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        await axiosClient.put(`/tasks/${task.id}`, {
+          current_status_id: completedStatusId,
+          last_action_by_id: user.id,
+        });
+        Swal.fire('Selesai!', 'Tugas berhasil ditandai selesai.', 'success');
+        fetchIncomingTasks();
+      } catch (error) {
+        console.error("Gagal menandai tugas selesai:", error.response || error);
+        let errorMessage = 'Gagal menandai tugas selesai. Silakan coba lagi.';
+        if (error.response?.data?.message) errorMessage = error.response.data.message;
+        else if (error.response?.data?.errors) errorMessage = Object.values(error.response.data.errors).flat().join('\n');
+        Swal.fire('Error', errorMessage, 'error');
+      }
+    }
+  };
+
+
+  if (loadingTasks || loadingStatuses) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-700">
+        <FaSpinner className="animate-spin text-4xl text-blue-500 mb-4" />
+        <p>{loadingStatuses ? 'Memuat status tugas...' : 'Memuat tugas masuk...'}</p>
+      </div>
+    );
+  }
+
+  // Tampilkan pesan jika user tidak punya departemen_id
+  if (!userDepartmentId) {
+    return (
+      <div className="p-8 bg-neutral-50 min-h-screen text-center text-gray-600">
+        <p className="text-xl font-semibold mb-4">Akses Ditolak</p>
+        <p>Akun Anda tidak terasosiasi dengan departemen. Tidak dapat memuat tugas masuk.</p>
+        <p className="text-sm mt-2">Mohon hubungi administrator sistem.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8 bg-neutral-50 min-h-screen">
       <h1 className="text-3xl font-bold text-blue-700 mb-8 flex items-center gap-3">
         <FaInbox className="w-8 h-8 text-blue-500" />
-        Tugas Masuk ke Departemen {myDepartment}
+        Tugas Masuk ke Departemen {userDepartmentName} ({incomingTasks.length})
       </h1>
 
       <p className="text-gray-600 mb-10 text-lg">
@@ -145,6 +337,19 @@ const IncomingTasksPage = () => {
               <option value="Normal">Normal</option>
             </select>
           </div>
+          {/* Tambahkan filter Departemen Pengaju jika diperlukan */}
+          {/* <div>
+            <label htmlFor="filter-requester-dept" className="block text-gray-700 font-medium mb-1">Departemen Pengaju</label>
+            <select
+              id="filter-requester-dept"
+              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              value={filterRequesterDept}
+              onChange={(e) => setFilterRequesterDept(e.target.value)}
+            >
+              <option value="All">Semua Departemen</option>
+              {allDepartments.map(dep => <option key={dep.id} value={dep.id}>{dep.name}</option>)}
+            </select>
+          </div> */}
         </div>
       </section>
 
@@ -152,7 +357,7 @@ const IncomingTasksPage = () => {
       <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-primary">
         <h2 className="text-xl font-semibold mb-4 text-primary-dark flex items-center gap-2">
           <FaClipboardList className="w-5 h-5 text-primary" />
-          Daftar Tugas untuk Departemen {myDepartment} ({filteredTasks.length})
+          Daftar Tugas untuk Departemen {userDepartmentName} ({incomingTasks.length})
         </h2>
 
         <div className="overflow-x-auto">
@@ -169,11 +374,11 @@ const IncomingTasksPage = () => {
               </tr>
             </thead>
             <tbody className="text-gray-700 text-sm font-light">
-              {filteredTasks.length > 0 ? (
-                filteredTasks.map((task) => (
+              {incomingTasks.length > 0 ? (
+                incomingTasks.map((task) => (
                   <tr key={task.id} className="border-b border-gray-200 hover:bg-gray-50">
                     <td className="py-3 px-6 text-left whitespace-nowrap font-medium">{task.title}</td>
-                    <td className="py-3 px-6 text-left">{task.requester} ({task.deptRequester})</td>
+                    <td className="py-3 px-6 text-left">{task.requester?.name} ({task.requested_by_department?.name})</td>
                     <td className="py-3 px-6 text-left">{task.deadline}</td>
                     <td className="py-3 px-6 text-left">
                       <span className={`py-1 px-3 rounded-full text-xs font-semibold ${getPriorityColor(task.priority)}`}>
@@ -181,29 +386,37 @@ const IncomingTasksPage = () => {
                       </span>
                     </td>
                     <td className="py-3 px-6 text-left">
-                      <span className={`py-1 px-3 rounded-full text-xs font-semibold ${getStatusColor(task.status)}`}>
-                        {task.status === 'Menunggu Proses di Penerima' && <FaClock className="inline-block mr-1" />}
-                        {task.status === 'Diterima & Sedang Dikerjakan' && <FaCheckCircle className="inline-block mr-1" />}
-                        {task.status === 'Pengajuan Revisi' && <FaSyncAlt className="inline-block mr-1" />}
-                        {task.status === 'Ditolak' && <FaTimesCircle className="inline-block mr-1" />}
-                        {task.status}
+                      <span className={`py-1 px-3 rounded-full text-xs font-semibold ${getTaskRowStatusColor(task.current_status?.name)}`}>
+                        {task.current_status?.name === 'Menunggu Proses di Penerima' && <FaClock className="inline-block mr-1" />}
+                        {task.current_status?.name === 'Diterima & Sedang Dikerjakan' && <FaCheckCircle className="inline-block mr-1" />}
+                        {task.current_status?.name === 'Pengajuan Revisi' && <FaSyncAlt className="inline-block mr-1" />}
+                        {task.current_status?.name === 'Ditolak' && <FaTimesCircle className="inline-block mr-1" />}
+                        {task.current_status?.name === 'Selesai' && <FaCheckCircle className="inline-block mr-1" />}
+                        {task.current_status?.name}
                       </span>
                     </td>
-                    <td className="py-3 px-6 text-left">{task.assignedTo || '-'}</td>
+                    <td className="py-3 px-6 text-left">{task.assignee?.name || '-'}</td> {/* Menampilkan assignee */}
                     <td className="py-3 px-6 text-center">
                       <div className="flex justify-center items-center gap-2">
                         <a href={`/task-exchange/detail/${task.id}`} className="text-blue-500 hover:text-blue-700 text-lg" title="Lihat Detail">
                           <FaEye />
                         </a>
-                        {task.status === 'Menunggu Proses di Penerima' && (
+                        {/* Tombol Aksi berdasarkan Status */}
+                        {task.current_status?.name === 'Menunggu Proses di Penerima' && (
                           <>
-                            <button onClick={() => handleAccept(task.id, task.title)} className="bg-green-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-green-600 transition-colors">Terima</button>
-                            <button onClick={() => handleRequestRevision(task.id, task.title)} className="bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-yellow-600 transition-colors">Revisi</button>
-                            <button onClick={() => handleReject(task.id, task.title)} className="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition-colors">Tolak</button>
+                            <button onClick={() => handleAccept(task)} className="bg-green-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-green-600 transition-colors">Terima</button>
+                            <button onClick={() => handleRequestRevision(task)} className="bg-yellow-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-yellow-600 transition-colors">Revisi</button>
+                            <button onClick={() => handleReject(task)} className="bg-red-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-red-600 transition-colors">Tolak</button>
                           </>
                         )}
-                        {task.status === 'Diterima & Sedang Dikerjakan' && (
-                            <button className="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-600 transition-colors">Tandai Selesai</button>
+                        {task.current_status?.name === 'Diterima & Sedang Dikerjakan' && (
+                          <button onClick={() => handleMarkCompleted(task)} className="bg-blue-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-blue-600 transition-colors">Tandai Selesai</button>
+                        )}
+                        {task.current_status?.name === 'Pengajuan Revisi' && (
+                          <button onClick={() => console.log('Buka form revisi untuk tugas:', task.id)} className="bg-purple-500 text-white px-3 py-1 rounded-lg text-xs hover:bg-purple-600 transition-colors">Lihat Revisi</button>
+                        )}
+                        {(task.current_status?.name === 'Ditolak' || task.current_status?.name === 'Selesai') && (
+                          <button className="text-gray-500 hover:text-gray-700 text-sm">Arsipkan</button>
                         )}
                       </div>
                     </td>
