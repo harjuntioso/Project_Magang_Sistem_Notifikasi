@@ -11,15 +11,14 @@ import Swal from 'sweetalert2';
 const ApprovalTaskPage = () => {
   const { user } = useAuth();
   const [tasksToApprove, setTasksToApprove] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading untuk daftar tugas
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPriority, setFilterPriority] = useState('All');
   const [filterRequester, setFilterRequester] = useState('All');
   const [allRequesters, setAllRequesters] = useState([]);
 
-  // STATE BARU: Untuk menyimpan daftar status tugas dari backend
   const [taskStatuses, setTaskStatuses] = useState([]);
-  const [loadingStatuses, setLoadingStatuses] = useState(true); // Loading untuk status tugas
+  const [loadingStatuses, setLoadingStatuses] = useState(true);
 
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -37,12 +36,11 @@ const ApprovalTaskPage = () => {
     return status ? status.id : null;
   };
 
-  // EFFECT PERTAMA: Untuk memuat status tugas dari backend
   useEffect(() => {
     const fetchTaskStatuses = async () => {
       setLoadingStatuses(true);
       try {
-        const response = await axiosClient.get('/tasks/task-statuses'); // Endpoint TaskCategoryController@index
+        const response = await axiosClient.get('/tasks/task-statuses');
         setTaskStatuses(response.data);
       } catch (error) {
         console.error("Gagal memuat status tugas:", error.response || error);
@@ -56,15 +54,13 @@ const ApprovalTaskPage = () => {
       }
     };
     fetchTaskStatuses();
-  }, []); // Hanya berjalan sekali saat komponen mount
+  }, []);
 
-  // EFFECT KEDUA: Untuk memuat tugas menunggu persetujuan
   useEffect(() => {
-    // Pastikan status tugas sudah dimuat sebelum mencoba fetch task
-    if (!loadingStatuses) { // Hanya fetch task jika status sudah dimuat
+    if (!loadingStatuses) {
       fetchPendingApprovalTasks();
     }
-  }, [searchTerm, filterPriority, filterRequester, loadingStatuses]); // Refetch saat filter atau status loading berubah
+  }, [searchTerm, filterPriority, filterRequester, loadingStatuses]);
 
 
   const fetchPendingApprovalTasks = async () => {
@@ -79,7 +75,6 @@ const ApprovalTaskPage = () => {
       });
       setTasksToApprove(response.data);
 
-      // Kumpulkan daftar pengaju unik untuk filter dropdown
       const uniqueRequestersMap = new Map();
       response.data.forEach(task => {
         if (task.requester) {
@@ -102,11 +97,12 @@ const ApprovalTaskPage = () => {
   };
 
 
-  // --- Aksi Persetujuan ---
+  // --- Aksi Persetujuan SPV Departemen Pengaju ---
   const handleApprove = async (task) => {
     const result = await Swal.fire({
       title: 'Setujui Tugas Ini?',
-      text: `"${task.title}" akan disetujui dan diteruskan ke departemen ${task.assignedToDepartment?.name}.`,
+      // Ubah teks konfirmasi agar lebih jelas
+      text: `"${task.title}" akan disetujui dan diteruskan ke Departemen ${task.assignedToDepartment?.name} untuk proses penyerahan.`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -116,29 +112,33 @@ const ApprovalTaskPage = () => {
     });
 
     if (result.isConfirmed) {
-      const approvedStatusId = getStatusIdByName('Approved'); // Status baru: 'Approved'
+      // GANTI DARI 'Approved' MENJADI 'Pending Acceptance (Receiver)'
+      // Ini adalah status yang menunjukkan bahwa tugas sudah disetujui oleh SPV Pengaju
+      // dan sekarang menunggu tindakan dari Departemen Tujuan.
+      const pendingAcceptanceStatusId = getStatusIdByName('Pending Acceptance (Receiver)'); 
 
-      if (!approvedStatusId) {
-        Swal.fire('Error', 'Status "Approved" tidak ditemukan. Mohon hubungi admin.', 'error');
+      if (!pendingAcceptanceStatusId) {
+        Swal.fire('Error', 'Status "Pending Acceptance (Receiver)" tidak ditemukan. Mohon hubungi admin.', 'error');
         return;
       }
 
       Swal.fire({
         title: 'Memproses...',
-        html: 'Menyetujui tugas...',
+        html: 'Menyetujui tugas dan meneruskan ke departemen tujuan...',
         allowOutsideClick: false,
         didOpen: () => Swal.showLoading(),
       });
       try {
         await axiosClient.put(`/tasks/${task.id}`, {
-          current_status_id: approvedStatusId,
-          approver_id: user.id, // User yang login adalah approver
-          // Format tanggal-waktu untuk Laravel: YYYY-MM-DD HH:MM:SS
-          approved_at: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          current_status_id: pendingAcceptanceStatusId, // Menggunakan status baru
+          approver_id: user.id, // User yang login adalah approver (SPV Pengaju)
+          // `approved_at` bisa tetap di sini, menandakan kapan SPV pengaju menyetujui.
+          approved_at: new Date().toISOString().slice(0, 19).replace('T', ' '), 
           last_action_by_id: user.id,
         });
 
-        Swal.fire('Disetujui!', 'Tugas berhasil disetujui.', 'success');
+        // Ubah pesan sukses agar lebih informatif
+        Swal.fire('Disetujui!', 'Tugas berhasil disetujui dan diteruskan ke SPV Departemen Tujuan.', 'success');
         fetchPendingApprovalTasks(); // Refresh daftar tugas
       } catch (error) {
         console.error("Gagal menyetujui tugas:", error.response || error);
@@ -153,7 +153,7 @@ const ApprovalTaskPage = () => {
     }
   };
 
-  // --- Aksi Penolakan ---
+  // --- Aksi Penolakan (tidak berubah) ---
   const handleReject = async (task) => {
     const { value: reason } = await Swal.fire({
       title: 'Tolak Tugas Ini?',
@@ -171,8 +171,8 @@ const ApprovalTaskPage = () => {
       confirmButtonColor: '#d33',
     });
 
-    if (reason) { // Jika pengguna memasukkan alasan
-      const rejectedStatusId = getStatusIdByName('Rejected (Supervisor)'); // Status baru: 'Rejected (Supervisor)'
+    if (reason) {
+      const rejectedStatusId = getStatusIdByName('Rejected (Supervisor)'); // Status ini sudah benar untuk penolakan SPV pengaju
 
       if (!rejectedStatusId) {
         Swal.fire('Error', 'Status "Rejected (Supervisor)" tidak ditemukan. Mohon hubungi admin.', 'error');
@@ -188,12 +188,12 @@ const ApprovalTaskPage = () => {
       try {
         await axiosClient.put(`/tasks/${task.id}`, {
           current_status_id: rejectedStatusId,
-          rejection_reason: reason, // Kirim alasan penolakan
+          rejection_reason: reason,
           last_action_by_id: user.id,
         });
 
         Swal.fire('Ditolak!', 'Tugas berhasil ditolak.', 'success');
-        fetchPendingApprovalTasks(); // Refresh daftar tugas
+        fetchPendingApprovalTasks();
       } catch (error) {
         console.error("Gagal menolak tugas:", error.response || error);
         let errorMessage = 'Gagal menolak tugas. Silakan coba lagi.';
@@ -207,7 +207,7 @@ const ApprovalTaskPage = () => {
     }
   };
 
-  // --- Aksi Permintaan Revisi ---
+  // --- Aksi Permintaan Revisi (tidak berubah) ---
   const handleRequestRevision = async (task) => {
     const { value: notes } = await Swal.fire({
       title: 'Minta Revisi Tugas Ini?',
@@ -222,11 +222,11 @@ const ApprovalTaskPage = () => {
       showCancelButton: true,
       confirmButtonText: 'Minta Revisi',
       cancelButtonText: 'Batal',
-      confirmButtonColor: '#ffc107', // Warna kuning/orange untuk revisi
+      confirmButtonColor: '#ffc107',
     });
 
-    if (notes) { // Jika pengguna memasukkan catatan
-      const revisionStatusId = getStatusIdByName('Revision Requested'); // Status baru: 'Revision Requested'
+    if (notes) {
+      const revisionStatusId = getStatusIdByName('Revision Requested'); 
 
       if (!revisionStatusId) {
         Swal.fire('Error', 'Status "Revision Requested" tidak ditemukan. Mohon hubungi admin.', 'error');
@@ -242,12 +242,12 @@ const ApprovalTaskPage = () => {
       try {
         await axiosClient.put(`/tasks/${task.id}`, {
           current_status_id: revisionStatusId,
-          revision_notes: notes, // Kirim catatan revisi
+          revision_notes: notes,
           last_action_by_id: user.id,
         });
 
         Swal.fire('Revisi Diajukan!', 'Permintaan revisi tugas berhasil diajukan.', 'success');
-        fetchPendingApprovalTasks(); // Refresh daftar tugas
+        fetchPendingApprovalTasks(); 
       } catch (error) {
         console.error("Gagal mengajukan revisi tugas:", error.response || error);
         let errorMessage = 'Gagal mengajukan revisi tugas. Silakan coba lagi.';
@@ -262,7 +262,7 @@ const ApprovalTaskPage = () => {
   };
 
 
-  if (loading || loadingStatuses) { // Tampilkan loading jika salah satu data belum siap
+  if (loading || loadingStatuses) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-700">
         <FaSpinner className="animate-spin text-4xl text-blue-500 mb-4" />

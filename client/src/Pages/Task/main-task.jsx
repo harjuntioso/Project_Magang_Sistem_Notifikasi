@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   FaExchangeAlt,
@@ -12,37 +12,37 @@ import {
   FaUsers,
   FaTasks,
   FaClock,
-  FaSpinner, 
+  FaSpinner,
+  FaClipboardList // Tambahkan icon ini jika belum ada
 } from 'react-icons/fa';
 import { useAuth } from '../../Context/AuthContext';
-import axiosClient from '../../axiosClient'; 
+import axiosClient from '../../axiosClient';
 
 const TaskExchangeDashboardPage = () => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [taskCounts, setTaskCounts] = useState({
     pendingApprovalByMe: 0,
     incomingToMyDept: 0,
     myTasksPendingProcessing: 0,
     myTasksPendingMySupervisorApproval: 0,
-    allTasksTotal: 0, 
+    myAssignedTasks: 0, // <-- TAMBAH STAT BARU UNTUK OFFICER
+    allTasksTotal: 0,
   });
-  const [loadingStats, setLoadingStats] = useState(true); // State untuk loading Stat Cards
+  const [loadingStats, setLoadingStats] = useState(true);
 
-  // Ambil role dan departemen user yang login
-  const userRole = user?.role?.name; 
+  const userRole = user?.role?.name;
   const userDepartmentId = user?.department?.id;
-  const userId = user?.id; 
+  const userId = user?.id;
 
-  // Effect untuk memuat jumlah tugas dari backend
   useEffect(() => {
     const fetchTaskCounts = async () => {
-      if (!user || !userId) { // Pastikan user dan ID-nya sudah ada
+      if (!user || !userId) {
         setLoadingStats(false);
         return;
       }
       setLoadingStats(true);
       try {
-        const response = await axiosClient.get('/tasks/counts', { 
+        const response = await axiosClient.get('/tasks/counts', {
           params: {
             user_id: userId,
             user_department_id: userDepartmentId,
@@ -52,16 +52,14 @@ const TaskExchangeDashboardPage = () => {
         setTaskCounts(response.data);
       } catch (error) {
         console.error("Gagal memuat jumlah tugas untuk dashboard:", error.response || error);
-        // Opsional: Tampilkan SweetAlert error
       } finally {
         setLoadingStats(false);
       }
     };
 
     fetchTaskCounts();
-  }, [user, userId, userRole, userDepartmentId]); // Dependency array: jalankan ulang jika data user berubah
+  }, [user, userId, userRole, userDepartmentId]);
 
-  // Data Stat Cards (nilai value diambil dari state taskCounts)
   const stats = [
     {
       title: 'Tugas Menunggu Persetujuan Saya',
@@ -71,7 +69,7 @@ const TaskExchangeDashboardPage = () => {
       text: 'text-orange-700',
       valueColor: 'text-orange-500',
       bg: 'bg-orange-100',
-      role: 'Supervisor', // Hanya tampil untuk role Supervisor
+      role: 'Supervisor',
     },
     {
       title: 'Tugas Baru Masuk ke Dept. Saya',
@@ -81,17 +79,17 @@ const TaskExchangeDashboardPage = () => {
       text: 'text-blue-700',
       valueColor: 'text-blue-500',
       bg: 'bg-blue-100',
-      role: 'All', // Atau 'All' jika semua di departemen bisa lihat
+      role: ['Supervisor', 'Manager'], // Biasanya SPV/Manager yang menerima pertama kali
     },
     {
-      title: 'Tugas Saya Menunggu Diproses',
+      title: 'Tugas Saya Menunggu Diproses', // Ini untuk tugas yang DIAJUKAN oleh user
       value: taskCounts.myTasksPendingProcessing,
       icon: <FaClock className="w-6 h-6 text-yellow-500" />,
       border: 'border-yellow-500',
       text: 'text-yellow-700',
       valueColor: 'text-yellow-500',
       bg: 'bg-yellow-100',
-      role: 'All', // Semua role yang mengajukan tugas
+      role: 'All',
     },
     {
       title: 'Tugas Saya Menunggu Persetujuan Atasan',
@@ -101,10 +99,20 @@ const TaskExchangeDashboardPage = () => {
       text: 'text-purple-700',
       valueColor: 'text-purple-500',
       bg: 'bg-purple-100',
-      role: 'Officer', // Biasanya Officer yang ajukan ke atasannya
+      role: 'Officer',
     },
     {
-      title: 'Total Tugas Sistem', // Hanya untuk Admin
+      title: 'Tugas Ditugaskan Kepada Saya', 
+      value: taskCounts.myAssignedTasks,
+      icon: <FaTasks className="w-6 h-6 text-green-500" />, // Icon tugas pribadi
+      border: 'border-green-500',
+      text: 'text-green-700',
+      valueColor: 'text-green-500',
+      bg: 'bg-green-100',
+      role: 'Officer', 
+    },
+    {
+      title: 'Total Tugas Sistem',
       value: taskCounts.allTasksTotal,
       icon: <FaTasks className="w-6 h-6 text-gray-500" />,
       border: 'border-gray-500',
@@ -115,7 +123,7 @@ const TaskExchangeDashboardPage = () => {
     },
   ];
 
-  if (!user) { // Tampilkan loading atau pesan jika user belum dimuat
+  if (!user) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-700">
         <FaSpinner className="animate-spin text-4xl text-blue-500 mb-4" />
@@ -135,7 +143,7 @@ const TaskExchangeDashboardPage = () => {
         Ajukan, tinjau, dan kelola tugas atau permintaan yang melibatkan departemen lain untuk alur kerja yang efisien.
       </p>
 
-      {/* Stat Cards yang Sesuai dengan Role/Status */}
+      {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {loadingStats ? (
           <div className="lg:col-span-4 text-center py-10">
@@ -144,7 +152,6 @@ const TaskExchangeDashboardPage = () => {
           </div>
         ) : (
           stats.map((stat) => {
-            // Logika untuk menampilkan card berdasarkan role (bisa array atau string)
             const showCard = Array.isArray(stat.role)
               ? stat.role.includes(userRole)
               : stat.role === 'All' || stat.role === userRole;
@@ -169,7 +176,7 @@ const TaskExchangeDashboardPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Card: Ajukan Tugas Baru */}
+        {/* Card: Ajukan Tugas Baru (tetap) */}
         <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
           <h2 className="text-xl font-semibold mb-4 text-green-700 flex items-center gap-2">
             <FaPlusCircle className="w-5 h-5 text-green-500" />
@@ -185,8 +192,8 @@ const TaskExchangeDashboardPage = () => {
           </div>
         </section>
 
-        {/* Card: Tinjauan & Persetujuan Tugas (untuk Supervisor/Manager) */}
-        {(userRole === 'Supervisor' || userRole === 'Manager') && ( // Tampil jika role adalah Supervisor atau Manager
+        {/* Card: Tinjauan & Persetujuan Tugas (untuk Supervisor/Manager) (tetap) */}
+        {(userRole === 'Supervisor' || userRole === 'Manager') && (
           <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-orange-500">
             <h2 className="text-xl font-semibold mb-4 text-orange-700 flex items-center gap-2">
               <FaCheckCircle className="w-5 h-5 text-orange-500" />
@@ -203,8 +210,8 @@ const TaskExchangeDashboardPage = () => {
           </section>
         )}
 
-        {/* Card: Tugas Masuk ke Departemen Saya (untuk Penerima Tugas) */}
-        {(userRole === 'Supervisor' || userRole === 'Manager' || userRole === 'Officer') && ( // Semua role di departemen penerima
+        {/* Card: Tugas Masuk ke Departemen Saya (untuk Penerima Tugas) (tetap) */}
+        {(userRole === 'Supervisor' || userRole === 'Manager' || userRole === 'Officer') && (
           <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
             <h2 className="text-xl font-semibold mb-4 text-blue-700 flex items-center gap-2">
               <FaInbox className="w-5 h-5 text-blue-500" />
@@ -221,7 +228,7 @@ const TaskExchangeDashboardPage = () => {
           </section>
         )}
 
-        {/* Card: Tugas Saya (Sebagai Pemohon) */}
+        {/* Card: Tugas Saya (Sebagai Pemohon) (tetap) */}
         <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
           <h2 className="text-xl font-semibold mb-4 text-purple-700 flex items-center gap-2">
             <FaPaperPlane className="w-5 h-5 text-purple-500" />
@@ -237,8 +244,27 @@ const TaskExchangeDashboardPage = () => {
           </div>
         </section>
 
-        {/* Card: Riwayat Semua Tugas (untuk Admin) */}
-        {userRole === 'Admin' && ( // Hanya tampil jika role adalah Admin
+        {/* Card: Tugas Ditugaskan Kepada Saya (BARU untuk Officer) */}
+        {userRole === 'Officer' && ( // Hanya tampil jika role adalah Officer
+          <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-600"> {/* Warna berbeda untuk highlight */}
+            <h2 className="text-xl font-semibold mb-4 text-green-800 flex items-center gap-2">
+              <FaClipboardList className="w-5 h-5 text-green-600" />
+              Tugas Ditugaskan Kepada Saya
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Kelola tugas yang telah ditugaskan langsung kepada Anda.
+            </p>
+            <div className="text-right">
+              <Link to="/task/my-assigned" className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 flex items-center justify-center gap-2 ml-auto w-fit">
+                <FaTasks className="w-4 h-4" /> Lihat Tugas Saya
+              </Link>
+            </div>
+          </section>
+        )}
+
+
+        {/* Card: Riwayat Semua Tugas (untuk Admin) (tetap) */}
+        {userRole === 'Admin' && (
           <section className="bg-white rounded-xl shadow-md p-6 border-l-4 border-gray-400">
             <h2 className="text-xl font-semibold mb-4 text-gray-700 flex items-center gap-2">
               <FaHistory className="w-5 h-5 text-gray-500" />

@@ -93,6 +93,7 @@ import SubmittedTasksPage from './Pages/Task/task-pages/submitted-task';
 import TaskHistoryPage from './Pages/Task/task-pages/history-task';
 import ApprovalTaskPage from './Pages/Task/task-pages/approval-task';
 import IncomingTasksPage from './Pages/Task/task-pages/incoming-task';
+import MyAssignedTasksPage from './Pages/Task/task-pages/assigned-tasks'; 
 
 
 function App() {
@@ -154,6 +155,7 @@ function LayoutRoutes() {
         <Route path="/task/incoming-task" element={<IncomingTasksPage />} />
         <Route path="/task/task-history" element={<TaskHistoryPage />} />
         <Route path="/task/approval-task" element={<ApprovalTaskPage />} />
+        <Route path="/task/my-assigned" element={<MyAssignedTasksPage />} />
         {/* Redundant path: <Route path="/task/history-task" element={<TaskHistoryPage />} /> */}
 
         {/* // Management Operation Routes // */}
