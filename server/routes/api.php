@@ -47,6 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/tasks/task-statuses', [TaskStatusController::class, 'index']);
 
+     Route::get('/tasks/my-assigned', [TaskController::class, 'getMyAssignedTasks']);
+
      Route::get('/tasks/my-submitted', [TaskController::class, 'getMySubmittedTasks']);
      
     // Routes untuk Task Counts Dashboard
@@ -62,6 +64,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Manajemen Departemen
     Route::get('/departments', [DepartmentController::class, 'index']);
     Route::get('/departments/{id}', [DepartmentController::class, 'show']);
+
+    Route::get('/departments/{departmentId}/officers', [UserController::class, 'getOfficersByDepartment']);
     // Jika perlu CRUD lengkap: Route::apiResource('departments', DepartmentController::class);
 
 
