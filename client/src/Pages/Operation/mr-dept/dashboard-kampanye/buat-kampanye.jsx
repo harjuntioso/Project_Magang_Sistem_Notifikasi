@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  FaPlusCircle,   // Ikon utama
-  FaSave,         // Simpan
-  FaTimes,        // Batal
-  FaInfoCircle,   // Informasi Umum
-  FaMoneyBillWave, // Anggaran
-  FaTarget,       // Target
-  FaCalendarAlt,  // Jadwal
+  FaPlusCircle,   
+  FaSave,         
+  FaTimes,        
+  FaInfoCircle,  
+  FaMoneyBillWave, 
+  FaTarget,      
+  FaCalendarAlt,  
   FaClipboardList
 } from 'react-icons/fa';
 import { TbTargetArrow } from "react-icons/tb";
@@ -19,9 +19,9 @@ const CreateCampaignPage = () => {
     endDate: '',
     budget: '',
     targetAudience: '',
-    channels: [], // Contoh: ['Social Media', 'Email', 'Website']
+    channels: [], 
     goals: '',
-    status: 'Planned', // Default status
+    status: 'Planned', 
   });
 
   const handleChange = (e) => {
@@ -43,8 +43,6 @@ const CreateCampaignPage = () => {
     e.preventDefault();
     alert('Membuat kampanye baru...');
     console.log('Data Kampanye Baru:', formData);
-    // Logika untuk mengirim data ke backend
-    // Setelah berhasil, mungkin arahkan ke halaman ringkasan kampanye atau tampilkan pesan sukses
   };
 
   return (

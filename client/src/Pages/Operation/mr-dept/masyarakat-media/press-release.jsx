@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaFileAlt,      // Ikon utama untuk dokumen
-  FaSearch,       // Cari
-  FaFilter,       // Filter
-  FaFileDownload, // Unduh
-  FaCalendarAlt,  // Tanggal
-  FaTag,          // Kategori
-  FaGlobe,        // Terpublikasi
-  FaPlusCircle,   // Buat baru
+  FaFileAlt,   
+  FaSearch,   
+  FaFilter,       
+  FaFileDownload,
+  FaCalendarAlt,  
+  FaTag,         
+  FaGlobe,       
+  FaPlusCircle,   
 } from 'react-icons/fa';
 
 const PressReleaseArchivePage = () => {
@@ -17,7 +17,6 @@ const PressReleaseArchivePage = () => {
     { id: 'PR002', title: 'Laporan CSR Tahunan Perusahaan', date: '2025-05-10', category: 'CSR', status: 'Published', link: '/pr/release/csr-report.pdf' },
     { id: 'PR003', title: 'Peningkatan Protokol Keamanan di Taman Hiburan', date: '2025-04-20', category: 'Keamanan', status: 'Published', link: '/pr/release/keamanan.pdf' },
     { id: 'PR004', title: 'Kolaborasi dengan Brand X untuk Event Musim Panas', date: '2025-03-15', category: 'Event', status: 'Published', link: '/pr/release/event-musim-panas.pdf' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

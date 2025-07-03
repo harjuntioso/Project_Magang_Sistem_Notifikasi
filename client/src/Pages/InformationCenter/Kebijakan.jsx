@@ -5,9 +5,9 @@ import {
   FaCogs,
   FaHeadset,
   FaEnvelopeOpenText,
-  FaFileAlt, // Dokumen generik
-  FaShieldAlt, // Kebijakan keamanan
-  FaClipboardList, // Prosedur
+  FaFileAlt, 
+  FaShieldAlt, 
+  FaClipboardList, 
   FaCalendarAlt,
   FaMoneyBillWave,
   FaSmile, 

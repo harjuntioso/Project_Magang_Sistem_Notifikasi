@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import {
-  FaHistory,        // Ikon utama
-  FaWarehouse,      // Aset
-  FaSearch,         // Cari
-  FaFilter,         // Filter
-  FaMapMarkerAlt,   // Lokasi
-  FaCalendarAlt,    // Tanggal
-  FaUser,           // Ditugaskan kepada
-  FaFileDownload,   // Unduh
+  FaHistory,        
+  FaWarehouse,      
+  FaSearch,         
+  FaFilter,         
+  FaMapMarkerAlt,   
+  FaCalendarAlt,    
+  FaUser,           
+  FaFileDownload,   
   FaClipboardList
 } from 'react-icons/fa';
 
 const AssetHistoryLocationPage = () => {
   const [historyData, setHistoryData] = useState([
-    // Data dummy riwayat aset
     { id: 1, assetId: 'ASTN001', assetName: 'Meja Kantor Eksekutif', event: 'Penempatan Baru', detail: 'Dipindahkan ke Kantor Direktur Utama', date: '2025-01-10', by: 'Admin Umum' },
     { id: 2, assetId: 'ASTN003', assetName: 'Mesin Kopi Otomatis', event: 'Perbaikan', detail: 'Perbaikan kerusakan pompa air', date: '2025-05-01', by: 'Teknisi Eksternal' },
     { id: 3, assetId: 'ASTN002', assetName: 'Kursi Ergonomis', event: 'Perpindahan Lokasi', detail: 'Dipindahkan ke Lantai 2, area Marketing', date: '2025-06-05', by: 'Admin Umum' },
     { id: 4, assetId: 'ASTN005', assetName: 'Kulkas Pantry', event: 'Pelaporan Kerusakan', detail: 'Kerusakan pada sistem pendingin', date: '2025-06-10', by: 'Budi Santoso' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,7 +33,7 @@ const AssetHistoryLocationPage = () => {
 
   const handleDownloadHistory = () => {
     alert('Mengunduh riwayat aset...');
-    // Logika untuk mengunduh data
+
   };
 
   return (

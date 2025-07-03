@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  FaHeadset,      // Utama untuk IT/Helpdesk
-  FaBell,         // Notifikasi/Tiket
-  FaWarehouse,    // Inventaris IT
-  FaUserCog,      // Manajemen Akun
-  FaShieldAlt,    // Keamanan Jaringan
-  FaChartBar,     // Laporan Sistem
-  FaTools,        // Konfigurasi/Setting
-  FaServer,        // Infrastruktur Server
+  FaHeadset,          
+  FaBell,        
+  FaWarehouse,   
+  FaUserCog,     
+  FaShieldAlt,    
+  FaChartBar,   
+  FaTools,       
+  FaServer,      
   FaClipboardList,
   FaPlusCircle,
   FaHistory,

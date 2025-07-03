@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import {
-  FaUsers,        // Ikon utama
-  FaSearch,       // Cari
-  FaFilter,       // Filter
-  FaPlusCircle,   // Tambah akun baru
-  FaEdit,         // Edit detail akun
-  FaTrash,        // Hapus akun
-  FaUnlockAlt,    // Status akun
-  FaUserCog,      // Role/Hak Akses
-  FaEnvelope,     // Email
+  FaUsers, 
+  FaSearch,  
+  FaFilter, 
+  FaPlusCircle, 
+  FaEdit, 
+  FaTrash,  
+  FaUnlockAlt,    
+  FaUserCog,      
+  FaEnvelope,     
   FaFileDownload
 } from 'react-icons/fa';
 
@@ -19,7 +19,6 @@ const UserAccountListPage = () => {
     { id: 'USR002', username: 'siti.n', fullName: 'Siti Nurhayati', email: 'siti.n@perusahaan.com', department: 'HRD', role: 'Staff HRD', status: 'Active', lastLogin: '2025-06-11 11:30' },
     { id: 'USR003', username: 'joko.w', fullName: 'Joko Widodo', email: 'joko.w@perusahaan.com', department: 'Keuangan', role: 'Akuntan', status: 'Active', lastLogin: '2025-06-10 09:00' },
     { id: 'USR004', username: 'guest.event', fullName: 'Akun Tamu Event', email: 'guest@perusahaan.com', department: 'N/A', role: 'Guest', status: 'Inactive', lastLogin: null },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -38,15 +37,13 @@ const UserAccountListPage = () => {
 
   const handleEditAccount = (id) => {
     alert(`Mengedit detail akun ID: ${id}`);
-    // Arahkan ke halaman edit akun
-    // Contoh: navigate(`/management/it/akun/edit/${id}`);
+    // navigate(`/management/it/akun/edit/${id}`);
   };
 
   const handleDeleteAccount = (id, username) => {
     if (window.confirm(`Apakah Anda yakin ingin menghapus akun "${username}"?`)) {
       alert(`Menghapus akun ID: ${id}`);
       setUserAccounts(userAccounts.filter(acc => acc.id !== id));
-      // Logika untuk menghapus dari backend
     }
   };
 

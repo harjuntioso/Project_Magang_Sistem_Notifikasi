@@ -1,26 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaTasks,           // Ikon utama
-  FaChartLine,       // Progress
-  FaClipboardList,   // Tugas
-  FaCalendarAlt,     // Timeline
-  FaUsers,           // Tim
-  FaCheckCircle,     // Selesai
-  FaHourglassHalf,   // Tertunda
-  FaPlayCircle,      // Sedang Berjalan
-  FaInfoCircle,      // Detail
-  FaSpinner,         // Loading
+  FaTasks,     
+  FaChartLine,   
+  FaClipboardList,  
+  FaCalendarAlt,    
+  FaUsers,   
+  FaCheckCircle,    
+  FaHourglassHalf,  
+  FaPlayCircle,     
+  FaInfoCircle,     
+  FaSpinner,       
   FaFilter
 } from 'react-icons/fa';
 
 const ProjectProgressMonitoringPage = () => {
-  const [projectId, setProjectId] = useState('PROJ001'); // State untuk memilih proyek
+  const [projectId, setProjectId] = useState('PROJ001'); 
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Simulasi pengambilan data proyek dari API berdasarkan projectId
+  
     const fetchProjectData = async () => {
       setLoading(true);
       setError(null);
@@ -65,7 +65,7 @@ const ProjectProgressMonitoringPage = () => {
         // Ganti dengan panggilan API sesungguhnya
         // const response = await api.get(`/projects/${projectId}`);
         // setProject(response.data);
-        setProject(dummyProjects[projectId]); // Menggunakan dummy data
+        setProject(dummyProjects[projectId]); 
       } catch (err) {
         setError('Gagal memuat data proyek. Silakan pilih proyek lain atau coba lagi.');
         console.error(err);
@@ -77,7 +77,7 @@ const ProjectProgressMonitoringPage = () => {
     if (projectId) {
       fetchProjectData();
     }
-  }, [projectId]); // Re-run effect jika projectId berubah
+  }, [projectId]); 
 
   const formatRupiah = (amount) => {
     return new Intl.NumberFormat('id-ID', {

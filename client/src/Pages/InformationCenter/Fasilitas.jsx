@@ -3,9 +3,9 @@ import {
   FaMapMarkerAlt,
   FaMap,
   FaBus,
-  FaBuilding, // Gedung
-  FaRestroom, // Fasilitas umum
-  FaWifi, // Konektivitas
+  FaBuilding, 
+  FaRestroom, 
+  FaWifi, 
   FaRoad, 
   FaCar,
   FaCoffee
@@ -35,7 +35,6 @@ const FasilitasPage = () => {
             <li><a href="/informasi/denah-kantor/lantai-1" className="flex items-center gap-2 hover:text-purple-700 hover:underline"><FaBuilding className="text-sm" /> Denah Lantai 1 (Lobi & Umum)</a></li>
             <li><a href="/informasi/denah-kantor/lantai-2" className="flex items-center gap-2 hover:text-purple-700 hover:underline"><FaBuilding className="text-sm" /> Denah Lantai 2 (Area Kerja Departemen)</a></li>
             <li><a href="/informasi/denah-kantor/area-tamsya" className="flex items-center gap-2 hover:text-purple-700 hover:underline"><FaMapMarkerAlt className="text-sm" /> Denah Area Tamsya</a></li>
-            {/* Tambahkan link ke gambar denah atau PDF */}
           </ul>
         </section>
 

@@ -25,7 +25,7 @@ const TaskExchangeDashboardPage = () => {
     incomingToMyDept: 0,
     myTasksPendingProcessing: 0,
     myTasksPendingMySupervisorApproval: 0,
-    myAssignedTasks: 0, // <-- TAMBAH STAT BARU UNTUK OFFICER
+    myAssignedTasks: 0,
     allTasksTotal: 0,
   });
   const [loadingStats, setLoadingStats] = useState(true);

@@ -19,7 +19,7 @@ const Signup = () => {
         setLoading(true);
 
         if (password !== confirmPassword) {
-            Swal.fire({ // SweetAlert untuk error password tidak cocok
+            Swal.fire({ 
                 icon: 'error',
                 title: 'Pendaftaran Gagal!',
                 text: 'Password tidak cocok.',
@@ -40,14 +40,14 @@ const Signup = () => {
                 department_id,
                 role_id: 4, 
             });
-            Swal.fire({ // SweetAlert untuk sukses pendaftaran
+            Swal.fire({ 
                 icon: 'success',
                 title: 'Pendaftaran Berhasil!',
                 text: 'Akun Anda telah berhasil dibuat. Silakan login.',
                 showConfirmButton: false,
                 timer: 2000
             }).then(() => {
-                navigate('/login'); // Arahkan ke halaman login setelah alert sukses
+                navigate('/login'); 
             });
         } catch (error) {
             console.error('Signup error:', error);
@@ -55,12 +55,12 @@ const Signup = () => {
             if (error.response && error.response.data && error.response.data.message) {
                 errorMessage = error.response.data.message;
             } else if (error.response && error.response.data && error.response.data.errors) {
-                // Handle validation errors from Laravel if any
+                
                 const errors = error.response.data.errors;
-                errorMessage = Object.values(errors).flat().join('\n'); // Join all error messages
+                errorMessage = Object.values(errors).flat().join('\n'); 
             }
 
-            Swal.fire({ // SweetAlert untuk error pendaftaran
+            Swal.fire({ 
                 icon: 'error',
                 title: 'Pendaftaran Gagal!',
                 text: errorMessage,

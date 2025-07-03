@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaTools,          // Ikon utama untuk suku cadang
-  FaWarehouse,      // Stok
-  FaSearch,         // Cari
-  FaFilter,         // Filter
-  FaPlusCircle,     // Tambah stok baru
-  FaExclamationTriangle, // Stok rendah
-  FaCheckCircle,    // Stok cukup
-  FaFileDownload,   // Unduh
+  FaTools,      
+  FaWarehouse,   
+  FaSearch,     
+  FaFilter,   
+  FaPlusCircle,   
+  FaExclamationTriangle, 
+  FaCheckCircle,  
+  FaFileDownload, 
 } from 'react-icons/fa';
 
 const SparePartsStockPage = () => {
@@ -17,7 +17,7 @@ const SparePartsStockPage = () => {
     { id: 'SP002', name: 'Filter Air Wahana Kolam', currentStock: 2, minStock: 5, unit: 'pcs', supplier: 'Supplier B', lastUpdate: '2025-06-05' },
     { id: 'SP003', name: 'Bohlam Lampu Dekorasi', currentStock: 50, minStock: 20, unit: 'pcs', supplier: 'Supplier C', lastUpdate: '2025-05-20' },
     { id: 'SP004', name: 'Sensor Keamanan Wahana X', currentStock: 1, minStock: 2, unit: 'pcs', supplier: 'Supplier D', lastUpdate: '2025-06-08' },
-    // ... tambahkan data dummy lainnya
+
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

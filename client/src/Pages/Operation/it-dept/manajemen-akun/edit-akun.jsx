@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaUserCog,      // Ikon utama
-  FaSave,         // Simpan
-  FaTimes,        // Batal
-  FaInfoCircle,   // Informasi Umum
-  FaAddressCard,  // Data Pribadi
-  FaBriefcase,    // Data Pekerjaan
-  FaUnlockAlt,    // Akun Login & Hak Akses
+  FaUserCog,    
+  FaSave,       
+  FaTimes,     
+  FaInfoCircle,   
+  FaAddressCard,  
+  FaBriefcase,  
+  FaUnlockAlt,   
   FaSpinner,
   FaKey
 } from 'react-icons/fa';
-// Import useParams jika menggunakan React Router untuk mendapatkan ID dari URL
+// Import useParams 
 // import { useParams } from 'react-router-dom';
 
 const EditUserAccountPage = () => {
   // const { id } = useParams(); // Jika menggunakan React Router untuk ID
   const [formData, setFormData] = useState({
-    id: '', // Ini akan diisi dari data yang diambil
+    id: '', 
     username: '',
     fullName: '',
     email: '',
@@ -26,8 +26,8 @@ const EditUserAccountPage = () => {
     jobTitle: '',
     hireDate: '',
     employeeStatus: '',
-    role: '', // Role akses sistem
-    accountStatus: '', // Active, Inactive, Locked
+    role: '', 
+    accountStatus: '', 
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -38,7 +38,6 @@ const EditUserAccountPage = () => {
       setLoading(true);
       setError(null);
       try {
-        // Ganti dengan panggilan API sesungguhnya
         const dummyData = {
           id: 'USR001',
           username: 'budi.s',
@@ -66,7 +65,7 @@ const EditUserAccountPage = () => {
     };
 
     fetchAccountData();
-  }, []); // [] agar hanya berjalan sekali saat komponen dimuat
+  }, []);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -77,8 +76,6 @@ const EditUserAccountPage = () => {
     e.preventDefault();
     alert('Mengupdate data akun...');
     console.log('Data Akun Diperbarui:', formData);
-    // Logika untuk mengirim data ke backend
-    // Setelah berhasil, mungkin arahkan kembali ke halaman daftar akun atau tampilkan pesan sukses
   };
 
   if (loading) {

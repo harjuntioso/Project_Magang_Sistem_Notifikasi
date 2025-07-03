@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import {
-  FaMoneyBillWave,  // Ikon utama untuk pembayaran
-  FaCalendarAlt,    // Jadwal
-  FaCheckCircle,    // Dibayar
-  FaClock,          // Menunggu
-  FaTimesCircle,    // Jatuh tempo
-  FaSearch,         // Cari
-  FaFilter,         // Filter
-  FaFileDownload,   // Unduh
-  FaDollarSign,     // Jumlah
+  FaMoneyBillWave,  
+  FaCalendarAlt,   
+  FaCheckCircle,   
+  FaClock,          
+  FaTimesCircle,    
+  FaSearch,         
+  FaFilter,         
+  FaFileDownload,   
+  FaDollarSign,     
   FaClipboardList
 } from 'react-icons/fa';
 
 const PaymentScheduleStatusPage = () => {
   const [payments, setPayments] = useState([
-    // Data dummy pembayaran
     { id: 'PAY001', invoiceNumber: 'INV-2025-06-001', vendorName: 'PT Solusi Abadi', amount: 15000000, dueDate: '2025-06-20', paymentDate: null, status: 'Menunggu Pembayaran' },
     { id: 'PAY002', invoiceNumber: 'INV-2025-05-010', vendorName: 'CV Kreasi Digital', amount: 8000000, dueDate: '2025-06-05', paymentDate: '2025-06-05', status: 'Sudah Dibayar' },
     { id: 'PAY003', invoiceNumber: 'INV-2025-04-025', vendorName: 'UD Lestari Perkasa', amount: 2500000, dueDate: '2025-05-10', paymentDate: null, status: 'Jatuh Tempo' },
     { id: 'PAY004', invoiceNumber: 'INV-2025-06-002', vendorName: 'PT Cahaya Logistik', amount: 4000000, dueDate: '2025-06-25', paymentDate: null, status: 'Menunggu Pembayaran' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,7 +46,6 @@ const PaymentScheduleStatusPage = () => {
       setPayments(payments.map(p =>
         p.id === id ? { ...p, status: 'Sudah Dibayar', paymentDate: new Date().toISOString().slice(0, 10) } : p
       ));
-      // Logika update ke backend
     }
   };
 

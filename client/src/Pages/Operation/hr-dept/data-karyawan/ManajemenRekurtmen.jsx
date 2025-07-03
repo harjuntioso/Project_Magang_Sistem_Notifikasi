@@ -1,19 +1,19 @@
 import React from 'react';
 import {
-  FaUserPlus,       // Icon untuk tambah user/rekrutmen baru
-  FaClipboardList,  // Icon untuk daftar/laporan
-  FaCalendarCheck,  // Icon untuk jadwal/kalender
-  FaFileAlt,        // Icon untuk dokumen/aplikasi
-  FaChartLine,      // Icon untuk statistik/overview
-  FaUsersCog,       // Icon untuk pengelolaan user/tim
-  FaTasks,          // Icon untuk tugas/proses
-  FaPaperPlane,     // Icon untuk kirim/penawaran
-  FaBell,           // Icon untuk notifikasi/aplikasi baru
-  FaHistory,        // Icon untuk riwayat
-  FaCog,            // Icon untuk pengaturan
-  FaFilter,         // Icon untuk filter
-  FaEnvelopeOpenText, // Icon untuk komunikasi
-  FaHandshake,      // Icon untuk onboarding/kesepakatan
+  FaUserPlus,    
+  FaClipboardList,
+  FaCalendarCheck,
+  FaFileAlt, 
+  FaChartLine,
+  FaUsersCog,
+  FaTasks,    
+  FaPaperPlane,   
+  FaBell,  
+  FaHistory, 
+  FaCog,    
+  FaFilter,       
+  FaEnvelopeOpenText,
+  FaHandshake,     
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 

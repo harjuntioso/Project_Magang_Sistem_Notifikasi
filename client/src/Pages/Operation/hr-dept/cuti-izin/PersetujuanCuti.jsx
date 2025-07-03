@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import {
-  FaCalendarCheck, // Ikon utama untuk cuti
-  FaUserCheck,     // Persetujuan
-  FaUserTimes,     // Penolakan
-  FaClock,         // Waktu
-  FaFileAlt,       // Detail
-  FaSearch,        // Cari
-  FaFilter,        // Filter
-  FaHistory,       // Riwayat
-  FaEnvelopeOpenText, // Untuk pengajuan dengan dokumen
+  FaCalendarCheck, 
+  FaUserCheck,     
+  FaUserTimes,     
+  FaClock,         
+  FaFileAlt,       
+  FaSearch,        
+  FaFilter,        
+  FaHistory,       
+  FaEnvelopeOpenText, 
 } from 'react-icons/fa';
 
 const PersetujuanCutiPage = () => {
@@ -30,7 +30,6 @@ const PersetujuanCutiPage = () => {
     );
     setDaftarPengajuan(updatedDaftar);
     alert(`Pengajuan cuti untuk ${daftarPengajuan.find(p => p.id === id).nama} disetujui.`);
-    // Logika untuk mengirim persetujuan ke backend
   };
 
   const handleTolak = (id) => {

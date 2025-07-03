@@ -3,22 +3,20 @@ import {
   FaCalendarAlt,
   FaBullhorn,
   FaHistory,
-  FaFileAlt, // Untuk dokumen pengumuman
-  FaSearch, // Untuk fitur pencarian
+  FaFileAlt, 
+  FaSearch, 
 } from 'react-icons/fa';
 
 const ArsipPage = () => {
-  // Data dummy untuk arsip pengumuman dan event
+  
   const archivedAnnouncements = [
     { id: 3, title: 'Pembaharuan Prosedur Keamanan', date: '2025-04-15', category: 'Umum' },
     { id: 4, title: 'Hasil Survei Kepuasan Karyawan', date: '2025-03-01', category: 'HRD' },
-    // Tambahkan lebih banyak data dummy atau ambil dari API
   ];
 
   const archivedEvents = [
     { id: 3, title: 'Lomba Olahraga Antar Departemen', date: '2024-12-10', type: 'Sosial' },
     { id: 4, title: 'Webinar Produktivitas Digital', date: '2024-11-20', type: 'Pelatihan' },
-    // Tambahkan lebih banyak data dummy atau ambil dari API
   ];
 
   return (

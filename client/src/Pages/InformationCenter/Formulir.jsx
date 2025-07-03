@@ -3,10 +3,10 @@ import {
   FaEnvelopeOpenText,
   FaBook,
   FaUsers,
-  FaFilePdf, // Dokumen PDF
-  FaFileWord, // Dokumen Word
-  FaFileExcel, // Dokumen Excel
-  FaCloudDownloadAlt, // Unduh
+  FaFilePdf, 
+  FaFileWord, 
+  FaFileExcel, 
+  FaCloudDownloadAlt, 
   FaMoneyBillWave,
 } from 'react-icons/fa';
 

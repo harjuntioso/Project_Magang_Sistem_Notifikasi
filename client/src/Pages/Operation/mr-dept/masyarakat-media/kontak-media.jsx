@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import {
-  FaUsers,        // Ikon utama untuk kontak
-  FaSearch,       // Cari
-  FaFilter,       // Filter
-  FaPlusCircle,   // Tambah kontak baru
-  FaEdit,         // Edit kontak
-  FaTrash,        // Hapus kontak
-  FaPhone,        // Telepon
-  FaEnvelope,     // Email
-  FaLink,         // Website/Sosmed
+  FaUsers,       
+  FaSearch,    
+  FaFilter,   
+  FaPlusCircle,  
+  FaEdit,      
+  FaTrash,      
+  FaPhone,     
+  FaEnvelope,   
+  FaLink,       
   FaFileDownload
 } from 'react-icons/fa';
 
@@ -19,7 +19,6 @@ const MediaContactsPage = () => {
     { id: 'MC002', name: 'Andi Pratama', organization: 'Kompas', type: 'Jurnalis', email: 'andi.p@kompas.com', phone: '081387654321', notes: 'Kontak untuk press release umum' },
     { id: 'MC003', name: 'Indah Sari', organization: 'Influencer Lifestyle', type: 'Influencer', email: 'indah.sari@gmail.com', phone: '087856781234', notes: 'Fokus pada segmen keluarga' },
     { id: 'MC004', name: 'Bayu Dirgantara', organization: 'TV Nasional XYZ', type: 'Fotografer Media', email: 'bayu.d@tvxyz.com', phone: '085798765432', notes: 'Kontak untuk liputan visual' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

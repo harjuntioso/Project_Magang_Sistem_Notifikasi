@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
 import {
-  FaWarehouse,      // Ikon utama untuk inventaris
-  FaSearch,         // Cari
-  FaFilter,         // Filter
-  FaPlusCircle,     // Tambah aset baru
-  FaEdit,           // Edit detail aset
-  FaTrash,          // Hapus aset
-  FaChair,          // Furnitur
-  FaUtensils,       // Peralatan Dapur
-  FaToolbox,        // Perlengkapan Umum
-  FaMapMarkerAlt,   // Lokasi
+  FaWarehouse,      
+  FaSearch,         
+  FaFilter,         
+  FaPlusCircle,     
+  FaEdit,           
+  FaTrash,          
+  FaChair,          
+  FaUtensils,       
+  FaToolbox,        
+  FaMapMarkerAlt,   
   FaFileDownload
 } from 'react-icons/fa';
 
 const NonItInventoryListPage = () => {
   const [assets, setAssets] = useState([
-    // Data dummy aset non-IT
     { id: 'ASTN001', name: 'Meja Kantor Eksekutif', type: 'Furnitur', brand: 'Ikea', serial: 'MEJIK001', location: 'Kantor Direktur Utama', status: 'Good', lastMaintenance: '2025-01-10' },
     { id: 'ASTN002', name: 'Kursi Ergonomis', type: 'Furnitur', brand: 'Herman Miller', serial: 'KUREGM002', location: 'Lantai 2 - Area Kerja', status: 'Good', lastMaintenance: '2025-01-10' },
     { id: 'ASTN003', name: 'Mesin Kopi Otomatis', type: 'Peralatan Dapur', brand: 'Delonghi', serial: 'MKOTM003', location: 'Pantry Lantai 1', status: 'Good', lastMaintenance: '2025-05-01' },
     { id: 'ASTN004', name: 'Whiteboard Besar', type: 'Perlengkapan Kantor', brand: 'Standard', serial: 'WHTBD004', location: 'Ruang Rapat Utama', status: 'Good', lastMaintenance: '2025-02-20' },
     { id: 'ASTN005', name: 'Kulkas Pantry', type: 'Peralatan Dapur', brand: 'Sharp', serial: 'KLKSPNT005', location: 'Pantry Lantai 2', status: 'Service Needed', lastMaintenance: '2025-03-15' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,15 +47,13 @@ const NonItInventoryListPage = () => {
 
   const handleEditAsset = (id) => {
     alert(`Mengedit detail aset ID: ${id}`);
-    // Arahkan ke halaman edit aset atau buka modal
-    // Contoh: navigate(`/management/umum/aset/edit/${id}`);
+    //navigate(`/management/umum/aset/edit/${id}`);
   };
 
   const handleDeleteAsset = (id, name) => {
     if (window.confirm(`Apakah Anda yakin ingin menghapus aset "${name}"?`)) {
       alert(`Menghapus aset ID: ${id}`);
       setAssets(assets.filter(a => a.id !== id));
-      // Logika untuk menghapus dari backend
     }
   };
 
@@ -102,7 +98,6 @@ const NonItInventoryListPage = () => {
               <option value="Furnitur">Furnitur</option>
               <option value="Peralatan Dapur">Peralatan Dapur</option>
               <option value="Perlengkapan Kantor">Perlengkapan Kantor</option>
-              {/* Tambahkan jenis aset lain */}
             </select>
           </div>
           <div>
@@ -133,7 +128,6 @@ const NonItInventoryListPage = () => {
               <option value="Lantai 2">Lantai 2</option>
               <option value="Pantry Lantai 1">Pantry Lantai 1</option>
               <option value="Kantor Direktur Utama">Kantor Direktur Utama</option>
-              {/* Tambahkan lokasi spesifik lainnya */}
             </select>
           </div>
           <div className="md:col-span-1 flex flex-col sm:flex-row gap-2">

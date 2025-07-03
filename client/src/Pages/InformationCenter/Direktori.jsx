@@ -3,9 +3,9 @@ import {
   FaUserFriends,
   FaUsers,
   FaBell,
-  FaPhone, // Untuk kontak telepon
-  FaEnvelope, // Untuk email
-  FaBuilding, // Untuk lokasi departemen
+  FaPhone, 
+  FaEnvelope, 
+  FaBuilding, 
   FaUserCircle,
   FaHeadset
 } from 'react-icons/fa';
@@ -89,7 +89,6 @@ const DirektoriPage = () => {
               <p className="text-sm flex items-center gap-1"><FaPhone className="text-xs" /> 112 (Internal)</p>
               <p className="text-sm flex items-center gap-1"><FaPhone className="text-xs" /> 021-xxxx-xxxx (Eksternal)</p>
             </li>
-            {/* Data dinamis di sini */}
           </ul>
         </section>
 

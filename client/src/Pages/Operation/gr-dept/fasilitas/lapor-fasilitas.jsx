@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import {
-  FaExclamationTriangle, // Ikon utama
-  FaSave,                // Simpan
-  FaTimes,               // Batal
-  FaInfoCircle,          // Informasi umum
-  FaPaperclip,           // Lampiran
-  FaBuilding,            // Lokasi
-  FaTools,               // Jenis masalah
-  FaUser,                // Pelapor
+  FaExclamationTriangle, 
+  FaSave,                
+  FaTimes,               
+  FaInfoCircle,          
+  FaPaperclip,           
+  FaBuilding,            
+  FaTools,               
+  FaUser,                
 } from 'react-icons/fa';
 
 const ReportFacilityIssuePage = () => {
   const [formData, setFormData] = useState({
     issueTitle: '',
-    location: '', // e.g., "Lantai 2, Ruang Meeting Utama", "Toilet Wanita Lantai 1", "Area Parkir"
-    issueType: '', // e.g., "Kerusakan Fisik", "Kebersihan", "Listrik/Air", "Pendingin Ruangan"
+    location: '',
+    issueType: '', 
     description: '',
     urgency: 'Normal',
-    reportedBy: '', // Bisa pre-filled
-    reporterContact: '', // Email/Telepon pelapor
+    reportedBy: '',
+    reporterContact: '', 
     attachments: [],
     notes: '',
   });

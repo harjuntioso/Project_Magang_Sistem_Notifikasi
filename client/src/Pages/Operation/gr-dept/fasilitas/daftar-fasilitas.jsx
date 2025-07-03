@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import {
-  FaBuilding,        // Ikon utama
-  FaMap,              // Denah
-  FaSearch,           // Cari
-  FaFilter,           // Filter
-  FaInfoCircle,       // Detail
-  FaChair,            // Ruangan Rapat
-  FaCoffee,           // Kantin
-  FaRestroom,         // Toilet/Mushola
-  FaWifi,             // Konektivitas
-  FaParking,          // Parkir
-  FaFirstAid,         // P3K/Klinik
-  FaBasketballBall,   // Area Rekreasi
+  FaBuilding,        
+  FaMap,              
+  FaSearch,           
+  FaFilter,           
+  FaInfoCircle,       
+  FaChair,            
+  FaCoffee,           
+  FaRestroom,         
+  FaWifi,             
+  FaParking,          
+  FaFirstAid,         
+  FaBasketballBall,   
 } from 'react-icons/fa';
 
 const FacilityListMapPage = () => {
@@ -23,7 +23,6 @@ const FacilityListMapPage = () => {
     { id: 'FAC004', name: 'Area Parkir Motor', type: 'Area Eksternal', location: 'Depan Gedung', description: 'Kapasitas 100 motor, hanya untuk karyawan.', status: 'Aktif', denahLink: '/denah/area-parkir.pdf' },
     { id: 'FAC005', name: 'Klinik Kesehatan Perusahaan', type: 'Layanan Darurat', location: 'Lantai Dasar', description: 'P3K dan layanan kesehatan dasar. Buka jam kerja.', status: 'Aktif', denahLink: '/denah/lantai-dasar.pdf' },
     { id: 'FAC006', name: 'Area Hiburan Karyawan', type: 'Area Rekreasi', location: 'Belakang Kantor', description: 'Lapangan basket mini, meja pingpong, area bersantai.', status: 'Aktif', denahLink: '/denah/area-rekreasi.pdf' },
-    // ... tambahkan data dummy fasilitas
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -107,7 +106,6 @@ const FacilityListMapPage = () => {
               <option value="Lantai 2">Lantai 2</option>
               <option value="Depan Gedung">Depan Gedung</option>
               <option value="Belakang Kantor">Belakang Kantor</option>
-              {/* Tambahkan lokasi spesifik lainnya */}
             </select>
           </div>
           <button className="px-6 py-2 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition-colors duration-200 flex items-center justify-center gap-2">

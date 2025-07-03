@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import {
-  FaLaptopCode,    // Ikon utama untuk perangkat IT
-  FaSearch,        // Cari
-  FaFilter,        // Filter
-  FaPlusCircle,    // Tambah perangkat baru
-  FaEdit,          // Edit detail perangkat
-  FaTrash,         // Hapus perangkat
-  FaDesktop,       // Desktop
-  FaLaptop,        // Laptop
-  FaTabletAlt,     // Tablet
-  FaMobileAlt,     // Mobile
-  FaPrint,         // Printer
-  FaServer,        // Server/Jaringan
-  FaInfoCircle,    // Detail
+  FaLaptopCode,    
+  FaSearch,        
+  FaFilter,        
+  FaPlusCircle,    
+  FaEdit,          
+  FaTrash,         
+  FaDesktop,       
+  FaLaptop,        
+  FaTabletAlt,     
+  FaMobileAlt,     
+  FaPrint,         
+  FaServer,        
+  FaInfoCircle,    
   FaFileDownload
 } from 'react-icons/fa';
 
@@ -24,7 +24,6 @@ const ItDeviceListPage = () => {
     { id: 'PRN002', name: 'Printer Keuangan (Color)', type: 'Printer', brand: 'Epson', model: 'L3110', serial: 'SNL3110PR002', location: 'Ruang Keuangan', status: 'Available', assignedTo: null, lastMaintenance: '2025-06-05' },
     { id: 'SRV001', name: 'Server Database Utama', type: 'Server', brand: 'Dell', model: 'PowerEdge R740', serial: 'SNR740SR001', location: 'Ruang Server', status: 'In Use', assignedTo: 'Tim IT', lastMaintenance: '2025-06-01' },
     { id: 'MBL001', name: 'Smartphone Operasional', type: 'Mobile', brand: 'Samsung', model: 'Galaxy A52', serial: 'SNA52MB001', location: 'Gudang Operasional', status: 'In Use', assignedTo: 'Supervisor Operasional', lastMaintenance: '2025-02-20' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -56,8 +55,7 @@ const ItDeviceListPage = () => {
 
   const handleEditDevice = (id) => {
     alert(`Mengedit detail perangkat ID: ${id}`);
-    // Arahkan ke halaman edit perangkat atau buka modal
-    // Contoh: navigate(`/management/it/aset/edit/${id}`);
+    // navigate(`/management/it/aset/edit/${id}`);
   };
 
   const handleDeleteDevice = (id, name) => {

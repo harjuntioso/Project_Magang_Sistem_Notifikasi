@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  FaBriefcase,     // Utama untuk Umum/Administrasi
-  FaClipboardList, // Manajemen Proyek
-  FaTools,         // Fasilitas
-  FaWarehouse,     // Aset Perusahaan
-  FaFileAlt,       // Dokumen/Arsip
-  FaCalendarAlt,   // Pemesanan Ruangan
-  FaBuilding ,      // Gedung/Fasilitas
+  FaBriefcase,     
+  FaClipboardList, 
+  FaTools,         
+  FaWarehouse,     
+  FaFileAlt,       
+  FaCalendarAlt,   
+  FaBuilding ,      
   FaChartBar,
   FaPlusCircle,
   FaTasks,

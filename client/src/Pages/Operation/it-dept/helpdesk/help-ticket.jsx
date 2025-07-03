@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import {
-  FaBell,            // Ikon utama untuk tiket
-  FaSearch,          // Cari
-  FaFilter,          // Filter
-  FaEye,             // Lihat Detail
-  FaUserEdit,        // Assign
-  FaExclamationTriangle, // Prioritas Tinggi
-  FaClock,           // Status Menunggu
-  FaCheckCircle,     // Status Selesai (jika ada di filter)
+  FaBell,          
+  FaEnvelopeOpenText,
+  FaSearch,        
+  FaFilter,        
+  FaEye,            
+  FaUserEdit,      
+  FaExclamationTriangle, 
+  FaClock,          
+  FaCheckCircle,    
   FaPlusCircle,
   FaClipboardList,
 } from 'react-icons/fa';
@@ -19,7 +20,6 @@ const OpenSupportTicketsPage = () => {
     { id: 'TKT002', subject: 'Akses sistem HRIS error', requester: 'Siti Nurhayati', department: 'HRD', priority: 'Medium', status: 'Open', assignedTo: 'Dewi (IT)', lastUpdate: '2025-06-09 15:00', createdAt: '2025-06-09 14:00' },
     { id: 'TKT003', subject: 'Printer di ruang Keuangan tidak berfungsi', requester: 'Joko Widodo', department: 'Keuangan', priority: 'Low', status: 'Open', assignedTo: 'Belum Ditugaskan', lastUpdate: '2025-06-10 08:45', createdAt: '2025-06-10 08:00' },
     { id: 'TKT004', subject: 'Permintaan instalasi software baru', requester: 'Ayu Lestari', department: 'Pemasaran', priority: 'Medium', status: 'Open', assignedTo: 'Belum Ditugaskan', lastUpdate: '2025-06-08 11:00', createdAt: '2025-06-08 10:00' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

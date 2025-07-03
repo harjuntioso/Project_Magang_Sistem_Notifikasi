@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  FaHandshake,    // Ikon utama
-  FaUsers,        // Mitra/Pihak
-  FaPlusCircle,   // Ajukan/Tambah baru
-  FaSearch,       // Cari
-  FaCheckCircle,  // Status aktif
-  FaClock,        // Status menunggu
-  FaFileAlt,      // Detail perjanjian
+  FaHandshake, 
+  FaUsers,   
+  FaPlusCircle,
+  FaSearch, 
+  FaCheckCircle,
+  FaClock,      
+  FaFileAlt,     
   FaFilter
 } from 'react-icons/fa';
 
@@ -16,7 +16,6 @@ const PartnershipCollaborationPage = () => {
     { id: 'PART001', name: 'Brand XYZ', type: 'Sponsor Event', status: 'Aktif', startDate: '2025-01-01', endDate: '2025-12-31', contactPerson: 'Budi (budi@xyz.com)' },
     { id: 'PART002', name: 'Influencer Mega', type: 'Influencer Campaign', status: 'Aktif', startDate: '2025-06-01', endDate: '2025-08-31', contactPerson: 'Mega (mega@email.com)' },
     { id: 'PART003', name: 'Media ABC', type: 'Kerja Sama Liputan', status: 'Menunggu Persetujuan', startDate: '2025-07-01', endDate: 'N/A', contactPerson: 'Contact ABC (info@abc.com)' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

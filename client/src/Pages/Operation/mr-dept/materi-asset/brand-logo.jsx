@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  FaStar,             // Ikon utama untuk brand
-  FaBook,             // Pedoman
-  FaFilePdf,          // Dokumen PDF
-  FaDownload,         // Unduh
-  FaPalette,          // Warna
-  FaFont,             // Tipografi
-  FaImage,            // Logo/Visual
-  FaInfoCircle,       // Informasi Umum
+  FaStar, 
+  FaBook,    
+  FaFilePdf, 
+  FaDownload,   
+  FaPalette,  
+  FaFont,   
+  FaImage,      
+  FaInfoCircle,     
   FaClipboardList
 } from 'react-icons/fa';
 

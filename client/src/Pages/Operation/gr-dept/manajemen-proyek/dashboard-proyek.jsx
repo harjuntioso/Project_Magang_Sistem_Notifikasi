@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaChartBar,        // Ikon utama
-  FaClipboardList,   // Proyek
-  FaPlayCircle,      // Aktif
-  FaCheckCircle,     // Selesai
-  FaTasks,           // Tugas
-  FaUsers,           // Anggota Tim
-  FaCalendarAlt,     // Deadline
-  FaPlusCircle,      // Buat baru
+  FaChartBar,     
+  FaClipboardList,  
+  FaPlayCircle,     
+  FaCheckCircle,  
+  FaTasks,  
+  FaUsers,   
+  FaCalendarAlt,   
+  FaPlusCircle,    
 } from 'react-icons/fa';
 
 const ProjectDashboardPage = () => {
@@ -15,14 +15,13 @@ const ProjectDashboardPage = () => {
     activeProjects: 3,
     completedProjects: 8,
     totalTasksOpen: 45,
-    upcomingDeadlines: 5, // dalam 7 hari
+    upcomingDeadlines: 5,
   });
 
   const [recentProjects, setRecentProjects] = useState([
     { id: 'PROJ001', name: 'Implementasi Sistem HRIS Baru', status: 'In Progress', progress: 75, deadline: '2025-08-31', manager: 'Siti Nurhayati (HRD)' },
     { id: 'PROJ002', name: 'Pengembangan Wahana Air Baru', status: 'In Progress', progress: 50, deadline: '2025-12-15', manager: 'Budi Santoso (Operasional)' },
     { id: 'PROJ003', name: 'Kampanye Pemasaran Liburan Akhir Tahun', status: 'In Progress', progress: 30, deadline: '2025-11-30', manager: 'Ayu Lestari (Pemasaran)' },
-    // ... tambahkan data dummy proyek terbaru
   ]);
 
   return (

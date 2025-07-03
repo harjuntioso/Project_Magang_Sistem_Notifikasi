@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  FaCalendarAlt,    // Icon utama untuk absensi
-  FaChartLine,      // Dashboard/Analisis
-  FaUsers,          // Karyawan
-  FaUserCheck,      // Hadir
-  FaUserTimes,      // Tidak Hadir
-  FaClock,          // Waktu
-  FaMapMarkerAlt,   // Lokasi
-  FaPercentage,     // Persentase
+  FaCalendarAlt,    
+  FaChartLine,      
+  FaUsers,          
+  FaUserCheck,      
+  FaUserTimes,      
+  FaClock,          
+  FaMapMarkerAlt,   
+  FaPercentage,     
 } from 'react-icons/fa';
 
 const AbsensiDashboardPage = () => {

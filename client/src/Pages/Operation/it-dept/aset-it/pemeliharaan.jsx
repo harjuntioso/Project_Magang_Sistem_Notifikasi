@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import {
-  FaTools,        // Ikon utama untuk perawatan
-  FaCalendarAlt,  // Jadwal
-  FaHistory,      // Riwayat
-  FaLaptopCode,   // Perangkat
-  FaPlusCircle,   // Tambah jadwal
-  FaCheckCircle,  // Selesai
-  FaExclamationTriangle, // Perlu perhatian
-  FaSearch,       // Cari
-  FaFilter,       // Filter
+  FaTools,       
+  FaCalendarAlt, 
+  FaHistory,      
+  FaLaptopCode, 
+  FaPlusCircle,   
+  FaCheckCircle, 
+  FaExclamationTriangle, 
+  FaSearch,     
+  FaFilter,      
 } from 'react-icons/fa';
 
 const ItMaintenanceSchedulePage = () => {

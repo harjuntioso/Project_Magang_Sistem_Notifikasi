@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  FaHistory,        // Ikon utama
-  FaUsers,          // Karyawan
-  FaSearch,         // Pencarian
-  FaFilter,         // Filter
-  FaFileDownload,   // Unduh
-  FaBuilding,       // Departemen
-  FaBriefcase,      // Jabatan
+  FaHistory,  
+  FaUsers,   
+  FaSearch,   
+  FaFilter, 
+  FaFileDownload,   
+  FaBuilding, 
+  FaBriefcase,  
 } from 'react-icons/fa';
 
 const RiwayatKaryawanPage = () => {
@@ -16,7 +16,6 @@ const RiwayatKaryawanPage = () => {
     { id: 2, karyawanId: 'KRY002', nama: 'Siti Nurhayati', jenisPerubahan: 'Perubahan Departemen', detail: 'Dari Departemen Umum ke HRD', tanggal: '2023-09-15' },
     { id: 3, karyawanId: 'KRY003', nama: 'Joko Widodo', jenisPerubahan: 'Kenaikan Gaji', detail: 'Penyesuaian gaji tahunan', tanggal: '2024-03-01' },
     { id: 4, karyawanId: 'KRY001', nama: 'Budi Santoso', jenisPerubahan: 'Masa Percobaan Selesai', detail: 'Status karyawan tetap', tanggal: '2023-07-01' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

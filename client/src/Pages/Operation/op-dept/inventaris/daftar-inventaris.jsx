@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
 import {
-  FaWarehouse,      // Ikon utama untuk inventaris
-  FaSearch,         // Cari
-  FaFilter,         // Filter
-  FaPlusCircle,     // Tambah atraksi baru
-  FaEdit,           // Edit detail
-  FaTrash,          // Hapus
-  FaGamepad,        // Permainan
-  FaUmbrellaBeach,  // Area
-  FaInfoCircle,     // Detail
+  FaWarehouse,     
+  FaSearch,    
+  FaFilter,   
+  FaPlusCircle,    
+  FaEdit,    
+  FaTrash,       
+  FaGamepad,      
+  FaUmbrellaBeach,  
+  FaInfoCircle,    
   FaFileDownload,
   FaMapMarkerAlt
 } from 'react-icons/fa';
 import { LuRollerCoaster } from "react-icons/lu";
+import { useNavigate } from 'react-router-dom';
 
 const AttractionInventoryListPage = () => {
+  const navigate = useNavigate();
   const [attractions, setAttractions] = useState([
     // Data dummy inventaris atraksi
     { id: 'ATRK001', name: 'Roller Coaster Fantasi', type: 'Wahana', location: 'Area Utama', status: 'Active', lastMaintenance: '2025-06-01', capacity: 24 },
     { id: 'ATRK002', name: 'Komedi Putar Ajaib', type: 'Permainan', location: 'Area Anak', status: 'Active', lastMaintenance: '2025-05-15', capacity: 30 },
     { id: 'ATRK003', name: 'Rumah Hantu Misteri', type: 'Wahana', location: 'Zona Horor', status: 'Under Maintenance', lastMaintenance: '2025-06-05', capacity: 15 },
     { id: 'ATRK004', name: 'Area Permainan Air', type: 'Area', location: 'Zona Air', status: 'Active', lastMaintenance: '2025-04-10', capacity: 'N/A' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,8 +49,7 @@ const AttractionInventoryListPage = () => {
 
   const handleEditAttraction = (id) => {
     alert(`Mengedit detail atraksi ID: ${id}`);
-    // Arahkan ke halaman edit atraksi atau buka modal
-    // Contoh: navigate(`/management/ops/inventaris-atraksi/edit/${id}`);
+    navigate(`/management/ops/inventaris-atraksi/edit/${id}`);
   };
 
   const handleDeleteAttraction = (id, name) => {

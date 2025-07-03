@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaUsers,        // Ikon utama
-  FaSearch,       // Pencarian
-  FaFilter,       // Filter
-  FaEdit,         // Edit
-  FaTrash,        // Hapus
-  FaUserPlus,     // Tambah karyawan
-  FaFileDownload, // Unduh data
-  FaUserCircle,   // Profil
+  FaUsers,  
+  FaSearch,
+  FaFilter,
+  FaUserPlus,  
+  FaEdit,
+  FaTrash, 
+  FaFileDownload, 
+  FaUserCircle,   
 } from 'react-icons/fa';
 
 const DaftarKaryawanPage = () => {
@@ -18,7 +18,6 @@ const DaftarKaryawanPage = () => {
     { id: 'KRY003', nama: 'Joko Widodo', email: 'joko.w@perusahaan.com', departemen: 'Keuangan', jabatan: 'Akuntan', status: 'Aktif' },
     { id: 'KRY004', nama: 'Ayu Lestari', email: 'ayu.l@perusahaan.com', departemen: 'Pemasaran', jabatan: 'Spesialis Pemasaran', status: 'Aktif' },
     { id: 'KRY005', nama: 'Cahyo Wibowo', email: 'cahyo.w@perusahaan.com', departemen: 'IT', jabatan: 'IT Support', status: 'Aktif' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -35,15 +34,13 @@ const DaftarKaryawanPage = () => {
 
   const handleEditKaryawan = (id) => {
     alert(`Mengedit data karyawan ID: ${id}`);
-    // Arahkan ke halaman edit karyawan atau buka modal
-    // Contoh: navigate(`/management/hrd/data-karyawan/edit/${id}`);
+    // navigate(`/management/hrd/data-karyawan/edit/${id}`);
   };
 
   const handleDeleteKaryawan = (id, nama) => {
     if (window.confirm(`Apakah Anda yakin ingin menghapus karyawan ${nama}?`)) {
       alert(`Menghapus karyawan ID: ${id}`);
       setDaftarKaryawan(daftarKaryawan.filter(k => k.id !== id));
-      // Logika untuk menghapus dari backend
     }
   };
 

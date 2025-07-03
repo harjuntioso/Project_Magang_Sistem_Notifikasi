@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import {
-  FaCheckCircle,    // Icon utama untuk verifikasi
-  FaUserEdit,       // Pengajuan menunggu
-  FaHistory,        // Riwayat
-  FaSearch,         // Pencarian/Filter
-  FaCalendarCheck,  // Cuti
-  FaProcedures,     // Sakit
-  FaHandshake,      // Izin lain
+  FaCheckCircle,    
+  FaUserEdit,       
+  FaHistory,        
+  FaSearch,         
+  FaCalendarCheck,  
+  FaProcedures,     
+  FaHandshake,      
 } from 'react-icons/fa';
 
 const AbsensiVerificationPage = () => {
-  const [filterStatus, setFilterStatus] = useState('Menunggu'); // Menunggu, Disetujui, Ditolak
+  const [filterStatus, setFilterStatus] = useState('Menunggu');
   const [pendingRequests, setPendingRequests] = useState([
     // Data dummy pengajuan
     { id: 1, nama: 'Bayu Prakoso', jenis: 'Cuti Tahunan', tanggalMulai: '2025-06-15', tanggalSelesai: '2025-06-17', status: 'Menunggu', diajukanOleh: 'HRD Manager' },
@@ -20,18 +20,17 @@ const AbsensiVerificationPage = () => {
 
   const handleApprove = (id) => {
     alert(`Pengajuan ID ${id} disetujui.`);
-    setPendingRequests(pendingRequests.filter(req => req.id !== id)); // Hapus dari daftar menunggu
+    setPendingRequests(pendingRequests.filter(req => req.id !== id)); 
     // Logika untuk mengirim persetujuan ke backend
   };
 
   const handleReject = (id) => {
     alert(`Pengajuan ID ${id} ditolak.`);
-    setPendingRequests(pendingRequests.filter(req => req.id !== id)); // Hapus dari daftar menunggu
+    setPendingRequests(pendingRequests.filter(req => req.id !== id)); 
     // Logika untuk mengirim penolakan ke backend
   };
 
   const filteredRequests = pendingRequests.filter(req => {
-    // Implementasi filter berdasarkan status, jenis, dll.
     return req.status === filterStatus;
   });
 

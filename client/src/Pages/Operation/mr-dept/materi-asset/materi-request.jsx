@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import {
-  FaPlusCircle,      // Ikon utama
-  FaSave,            // Simpan
-  FaTimes,           // Batal
-  FaFileAlt,         // Jenis materi
-  FaInfoCircle,      // Informasi umum
-  FaCalendarAlt,     // Deadline
-  FaPaperclip,       // Lampiran
+  FaPlusCircle,     
+  FaSave,     
+  FaTimes,     
+  FaFileAlt,     
+  FaInfoCircle,    
+  FaCalendarAlt,    
+  FaPaperclip,   
 } from 'react-icons/fa';
 
 const MaterialRequestPage = () => {
   const [formData, setFormData] = useState({
     requestTitle: '',
-    materialType: '', // e.g., "Poster", "Video", "Artikel", "Infografis"
+    materialType: '', 
     description: '',
     purpose: '',
     targetAudience: '',
@@ -20,7 +20,7 @@ const MaterialRequestPage = () => {
     priority: 'Normal',
     budgetEstimate: '',
     notes: '',
-    attachments: [], // Untuk file lampiran
+    attachments: [], 
   });
 
   const handleChange = (e) => {
@@ -36,8 +36,6 @@ const MaterialRequestPage = () => {
     e.preventDefault();
     alert('Pengajuan pembuatan materi berhasil dikirim!');
     console.log('Data Pengajuan Materi:', formData);
-    // Logika untuk mengirim data ke backend (termasuk file lampiran)
-    // Setelah berhasil, reset form atau arahkan ke halaman daftar pengajuan
   };
 
   return (

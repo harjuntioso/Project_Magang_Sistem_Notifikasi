@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  FaUserPlus,     // Ikon utama
-  FaSave,         // Simpan
-  FaTimes,        // Batal
-  FaInfoCircle,   // Informasi
-  FaAddressCard,  // Data Pribadi
-  FaBriefcase,    // Data Pekerjaan
-  FaUnlockAlt,    // Akun Login
+  FaUserPlus,  
+  FaSave, 
+  FaTimes,    
+  FaInfoCircle,
+  FaAddressCard,  
+  FaBriefcase,  
+  FaUnlockAlt,   
 } from 'react-icons/fa';
 
 const TambahKaryawanPage = () => {
@@ -33,8 +33,6 @@ const TambahKaryawanPage = () => {
     e.preventDefault();
     alert('Menambahkan karyawan baru...');
     console.log('Data Karyawan Baru:', formData);
-    // Logika untuk mengirim data ke backend
-    // Setelah berhasil, mungkin arahkan ke halaman daftar karyawan atau tampilkan pesan sukses
   };
 
   return (

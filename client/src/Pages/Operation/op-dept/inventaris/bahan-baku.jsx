@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaShoppingCart,   // Ikon utama
-  FaSave,           // Simpan
-  FaTimes,          // Batal
-  FaInfoCircle,     // Informasi Umum
-  FaListAlt,        // Daftar Barang
-  FaUser,           // Pemohon
-  FaCalendarAlt,    // Tanggal
-  FaPaperclip,      // Lampiran
+  FaShoppingCart,
+  FaSave,  
+  FaTimes,     
+  FaInfoCircle,  
+  FaListAlt,      
+  FaUser,      
+  FaCalendarAlt,    
+  FaPaperclip,   
   FaTimesCircle,
   FaPlusCircle
 } from 'react-icons/fa';
@@ -15,11 +15,11 @@ import {
 const MaterialRequestOpsPage = () => {
   const [formData, setFormData] = useState({
     requestTitle: '',
-    requesterName: '', // Bisa pre-filled
-    requesterDepartment: 'Operasional Lapangan', // Bisa pre-filled
+    requesterName: '',
+    requesterDepartment: 'Operasional Lapangan', 
     requesterContact: '',
-    items: [{ name: '', quantity: 1, unit: '', rationale: '' }], // Array untuk daftar barang
-    purpose: '', // Misal: Untuk perawatan wahana X, untuk operasional food stall
+    items: [{ name: '', quantity: 1, unit: '', rationale: '' }], 
+    purpose: '', 
     urgency: 'Normal',
     preferredVendor: '',
     budgetEstimate: '',
@@ -59,8 +59,6 @@ const MaterialRequestOpsPage = () => {
     e.preventDefault();
     alert('Permintaan bahan baku/barang berhasil dikirim!');
     console.log('Data Permintaan Bahan Baku/Barang:', formData);
-    // Logika untuk mengirim data ke backend (termasuk file lampiran)
-    // Setelah berhasil, reset form atau arahkan ke halaman riwayat permintaan
   };
 
   return (

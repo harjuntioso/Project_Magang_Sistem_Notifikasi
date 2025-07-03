@@ -1,30 +1,28 @@
 import React, { useState } from 'react';
 import {
-  FaFileInvoiceDollar, // Ikon utama untuk faktur
-  FaSearch,            // Cari
-  FaFilter,            // Filter
-  FaPlusCircle,        // Unggah faktur baru
-  FaCheckCircle,       // Verifikasi/Setujui
-  FaClock,             // Menunggu
-  FaEye,               // Lihat Detail
-  FaFileDownload,      // Unduh faktur
-  FaFileUpload,        // Unggah
+  FaFileInvoiceDollar, 
+  FaSearch,           
+  FaFilter,            
+  FaPlusCircle,        
+  FaCheckCircle,       
+  FaClock,             
+  FaEye,               
+  FaFileDownload,      
+  FaFileUpload,       
   FaClipboardList,
   FaChartBar
 } from 'react-icons/fa';
 
 const ManageIncomingInvoicesPage = () => {
   const [invoices, setInvoices] = useState([
-    // Data dummy faktur masuk
     { id: 'INV001', invoiceNumber: 'INV-2025-06-001', vendorName: 'PT Solusi Abadi', amount: 15000000, receivedDate: '2025-06-10', dueDate: '2025-06-20', status: 'Menunggu Verifikasi', attachedFile: 'invoice_SA001.pdf' },
     { id: 'INV002', invoiceNumber: 'INV-2025-06-002', vendorName: 'PT Cahaya Logistik', amount: 4000000, receivedDate: '2025-06-11', dueDate: '2025-06-25', status: 'Menunggu Verifikasi', attachedFile: 'invoice_CL002.pdf' },
     { id: 'INV003', invoiceNumber: 'INV-2025-05-010', vendorName: 'CV Kreasi Digital', amount: 8000000, receivedDate: '2025-06-01', dueDate: '2025-06-05', status: 'Diverifikasi', attachedFile: 'invoice_KD010.pdf' },
     { id: 'INV004', invoiceNumber: 'INV-2025-05-025', vendorName: 'UD Lestari Perkasa', amount: 2500000, receivedDate: '2025-05-01', dueDate: '2025-05-10', status: 'Ditolak', attachedFile: 'invoice_UL025.pdf' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('Menunggu Verifikasi'); // Default: hanya menunggu verifikasi
+  const [filterStatus, setFilterStatus] = useState('Menunggu Verifikasi'); 
   const [filterVendor, setFilterVendor] = useState('All');
 
   const filteredInvoices = invoices.filter(invoice =>
@@ -39,7 +37,7 @@ const ManageIncomingInvoicesPage = () => {
       case 'Menunggu Verifikasi': return 'bg-orange-200 text-orange-800';
       case 'Diverifikasi': return 'bg-green-200 text-green-800';
       case 'Ditolak': return 'bg-red-200 text-red-800';
-      case 'Menunggu Pembayaran': return 'bg-blue-200 text-blue-800'; // Jika ada status ini
+      case 'Menunggu Pembayaran': return 'bg-blue-200 text-blue-800'; 
       default: return 'bg-gray-200 text-gray-800';
     }
   };
@@ -50,7 +48,6 @@ const ManageIncomingInvoicesPage = () => {
       setInvoices(invoices.map(inv =>
         inv.id === id ? { ...inv, status: 'Diverifikasi' } : inv
       ));
-      // Logika update ke backend
     }
   };
 
@@ -60,7 +57,6 @@ const ManageIncomingInvoicesPage = () => {
       setInvoices(invoices.map(inv =>
         inv.id === id ? { ...inv, status: 'Ditolak' } : inv
       ));
-      // Logika update ke backend
     }
   };
 

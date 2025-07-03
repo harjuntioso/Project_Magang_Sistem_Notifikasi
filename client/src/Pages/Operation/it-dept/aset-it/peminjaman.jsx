@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaExchangeAlt,   // Ikon utama
-  FaPlusCircle,    // Pinjam baru
-  FaUndo,          // Kembalikan
-  FaSearch,        // Cari
-  FaFilter,        // Filter
-  FaClock,         // Status
-  FaUser,          // Peminjam
-  FaLaptopCode,    // Perangkat
+  FaExchangeAlt,   
+  FaPlusCircle,    
+  FaUndo,          
+  FaSearch,        
+  FaFilter,        
+  FaClock,         
+  FaUser,          
+  FaLaptopCode,    
   FaClipboardList
 } from 'react-icons/fa';
 

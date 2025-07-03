@@ -20,14 +20,19 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
+  const { user } = useAuth();
+
   const navItems = [
     { path: '/dashboard', icon: FiHome, label: 'Dashboard' },
     { path: '/comp-info', icon: IoIosInformationCircleOutline, label: 'Information' },
     { path: '/task-exchange', icon: SiTask, label: 'Tasks' },
     { path: '/mg-opr', icon: SiLibreofficebase, label: 'Operation' },
-    { path: '/contacts', icon: FiUsers, label: 'Contacts' },
+    // Kontak hanya untuk Manager dan Admin
+    ...(user && (user.role === 'Manager' || user.role === 'Admin')
+      ? [{ path: '/contacts', icon: FiUsers, label: 'Contacts' }]
+      : []),
     { path: '/settings', icon: FiSettings, label: 'Settings' },
-];
+  ];
 
   const handleLogout = async () => {
     // 1. Konfirmasi Logout dengan SweetAlert2

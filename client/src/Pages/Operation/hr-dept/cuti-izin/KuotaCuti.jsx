@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  FaCalendarAlt,    // Ikon utama untuk cuti
-  FaUsers,          // Karyawan
-  FaEdit,           // Edit kuota
-  FaPlus,           // Tambah karyawan/kuota baru
-  FaSearch,         // Cari
-  FaFileDownload,   // Unduh data
-  FaFileUpload,     // Unggah data
+  FaCalendarAlt,    
+  FaUsers,          
+  FaEdit,           
+  FaPlus,           
+  FaSearch,         
+  FaFileDownload,   
+  FaFileUpload,     
 } from 'react-icons/fa';
 
 const KelolaKuotaCutiPage = () => {
@@ -16,7 +16,6 @@ const KelolaKuotaCutiPage = () => {
     { id: 2, nama: 'Siti Nurhayati', departemen: 'HRD', kuotaTahunan: 12, sisaTahunan: 10, kuotaSakit: 14, sisaSakit: 14, cutiKhusus: 0 },
     { id: 3, nama: 'Joko Widodo', departemen: 'Keuangan', kuotaTahunan: 12, sisaTahunan: 5, kuotaSakit: 14, sisaSakit: 12, cutiKhusus: 1 },
     { id: 4, nama: 'Ayu Lestari', departemen: 'Pemasaran', kuotaTahunan: 12, sisaTahunan: 8, kuotaSakit: 14, sisaSakit: 13, cutiKhusus: 0 },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

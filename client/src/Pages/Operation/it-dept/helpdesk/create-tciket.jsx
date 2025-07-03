@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import {
-  FaPlusCircle,      // Ikon utama
-  FaSave,            // Simpan
-  FaTimes,           // Batal
-  FaInfoCircle,      // Informasi umum
-  FaPaperclip,       // Lampiran
-  FaUser,            // Pemohon
-  FaClipboardList,   // Kategori
-  FaExclamationTriangle, // Prioritas
+  FaPlusCircle,     
+  FaSave,          
+  FaTimes,          
+  FaInfoCircle,     
+  FaPaperclip,     
+  FaUser,           
+  FaClipboardList,   
+  FaExclamationTriangle, 
 } from 'react-icons/fa';
 
 const CreateNewTicketPage = () => {
   const [formData, setFormData] = useState({
     subject: '',
     description: '',
-    category: '', // e.g., "Hardware", "Software", "Network", "Account Access", "Printer"
+    category: '', 
     priority: 'Medium',
-    requesterName: '', // Bisa pre-filled jika ada user login
-    requesterDepartment: '', // Bisa pre-filled
+    requesterName: '', 
+    requesterDepartment: '',
     attachments: [],
     notes: '',
   });
@@ -35,8 +35,6 @@ const CreateNewTicketPage = () => {
     e.preventDefault();
     alert('Tiket dukungan berhasil dibuat!');
     console.log('Data Tiket Baru:', formData);
-    // Logika untuk mengirim data ke backend (termasuk file lampiran)
-    // Setelah berhasil, reset form atau arahkan ke halaman daftar tiket terbuka
   };
 
   return (

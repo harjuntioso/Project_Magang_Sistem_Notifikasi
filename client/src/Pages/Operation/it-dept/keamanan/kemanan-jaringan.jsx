@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaShieldAlt,      // Ikon utama untuk keamanan
-  FaChartLine,      // Grafik/Tren
-  FaBell,           // Notifikasi/Ancaman
-  FaFilter,         // Filter
-  FaSearch,         // Cari
-  FaExclamationTriangle, // Peringatan
-  FaCheckCircle,    // Status Normal
-  FaBug,            // Ancaman
-  FaServer,         // Perangkat Jaringan
+  FaShieldAlt,   
+  FaChartLine, 
+  FaBell,        
+  FaFilter,        
+  FaSearch,       
+  FaExclamationTriangle, 
+  FaCheckCircle,    
+  FaBug,           
+  FaServer,       
   FaCalendarAlt
 } from 'react-icons/fa';
 
@@ -24,11 +24,10 @@ const NetworkSecurityMonitoringPage = () => {
     { id: 1, type: 'Critical', source: 'Firewall', description: 'Upaya akses tidak sah dari IP asing (192.168.1.100)', timestamp: '2025-06-11 09:15 WIB' },
     { id: 2, type: 'Warning', source: 'Antivirus Server', description: 'Malware terdeteksi di workstation KRY005', timestamp: '2025-06-11 09:00 WIB' },
     { id: 3, type: 'Info', source: 'Login Log', description: 'Login gagal berulang dari KRY010', timestamp: '2025-06-10 17:30 WIB' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('All'); // Critical, Warning, Info
+  const [filterType, setFilterType] = useState('All'); 
 
   const filteredAlerts = recentAlerts.filter(alert =>
     (filterType === 'All' || alert.type === filterType) &&

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import {
-  FaHistory,         // Ikon utama untuk riwayat
-  FaCheckCircle,     // Status Selesai
-  FaSearch,          // Cari
-  FaFilter,          // Filter
-  FaEye,             // Lihat Detail
-  FaCalendarAlt,     // Filter Tanggal
-  FaTag,             // Filter Kategori
+  FaHistory,     
+  FaCheckCircle,   
+  FaSearch,    
+  FaFilter,     
+  FaEye,         
+  FaCalendarAlt,    
+  FaTag,             
   FaFileDownload 
 } from 'react-icons/fa';
 
@@ -17,7 +17,6 @@ const ClosedTicketHistoryPage = () => {
     { id: 'TKT002', subject: 'Akses sistem HRIS error', requester: 'Siti Nurhayati', category: 'Software', solution: 'Reset password dan panduan akses.', closedBy: 'Dewi (IT)', closedAt: '2025-06-09 16:30' },
     { id: 'TKT005', subject: 'Permintaan instalasi software desain grafis', requester: 'Bayu Prakoso', category: 'Software', solution: 'Software berhasil diinstal dan dikonfigurasi.', closedBy: 'Andi (IT)', closedAt: '2025-06-07 10:00' },
     { id: 'TKT006', subject: 'Keyboard tidak berfungsi', requester: 'Indah Sari', category: 'Hardware', solution: 'Penggantian keyboard.', closedBy: 'Dewi (IT)', closedAt: '2025-06-05 14:00' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

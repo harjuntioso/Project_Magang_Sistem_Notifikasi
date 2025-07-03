@@ -14,14 +14,14 @@ import {
 const SecurityIncidentReportingPage = () => {
   const [formData, setFormData] = useState({
     incidentTitle: '',
-    incidentType: '', // e.g., "Phishing", "Malware", "Unauthorized Access", "Data Leak", "Lost Device"
+    incidentType: '', 
     incidentDate: '',
     incidentTime: '',
-    location: '', // e.g., "Workstation KRY005", "Server Database", "Email"
+    location: '',
     description: '',
-    impact: '', // e.g., "Minor", "Moderate", "Severe"
-    reportedBy: '', // Bisa pre-filled
-    reporterDepartment: '', // Bisa pre-filled
+    impact: '', 
+    reportedBy: '', 
+    reporterDepartment: '',
     attachments: [],
     notes: '',
   });
@@ -39,8 +39,7 @@ const SecurityIncidentReportingPage = () => {
     e.preventDefault();
     alert('Laporan insiden keamanan berhasil dikirim!');
     console.log('Data Laporan Insiden:', formData);
-    // Logika untuk mengirim data ke backend (termasuk file lampiran)
-    // Setelah berhasil, reset form atau arahkan ke halaman riwayat insiden
+
   };
 
   return (

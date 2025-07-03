@@ -2,14 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "../../axiosClient";
 import { useRef, useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
-import Swal from 'sweetalert2'; // Import SweetAlert2
+import Swal from 'sweetalert2'; 
 
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login } = useAuth(); // Menggunakan fungsi login dari AuthContext
+  const { login } = useAuth(); 
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // Untuk redirect
+  const navigate = useNavigate(); 
 
   const onSubmit = (ev) => {
     ev.preventDefault();
@@ -23,15 +23,15 @@ export default function Login() {
     axiosClient
       .post("/login", payload)
       .then(({ data }) => {
-        login(data.user, data.token); // Memanggil fungsi login dari AuthContext
-        Swal.fire({ // SweetAlert untuk sukses
+        login(data.user, data.token); 
+        Swal.fire({ 
           icon: 'success',
           title: 'Login Berhasil!',
           text: 'Anda telah berhasil login.',
           showConfirmButton: false,
           timer: 1500
         }).then(() => {
-          navigate('/dashboard'); // Arahkan ke dashboard setelah alert sukses
+          navigate('/dashboard'); 
         });
       })
       .catch((err) => {
@@ -43,7 +43,7 @@ export default function Login() {
             errorMessage = response.data.message;
         }
 
-        Swal.fire({ // SweetAlert untuk error
+        Swal.fire({
           icon: 'error',
           title: 'Login Gagal!',
           text: errorMessage,

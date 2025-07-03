@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react'; // <<<--- Import useEffect dan useRef
-import Sidebar from './Bar/SideBar'; // Sesuaikan path jika perlu
-import Topbar from './Bar/NavBar';   // Sesuaikan path jika perlu
-import { useAuth } from '../../Context/AuthContext'; // <<<--- Import useAuth
-import { useNavigate } from 'react-router-dom'; // Opsional, jika logout() tidak menangani redirect sendiri
+import React, { useEffect, useRef } from 'react'; 
+import Sidebar from './Bar/SideBar'; 
+import Topbar from './Bar/NavBar';  
+import { useAuth } from '../../Context/AuthContext'; 
+import { useNavigate } from 'react-router-dom'; 
 
 const Layout = ({ children }) => {
   const { user, logout } = useAuth(); 
@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
     inactivityTimerRef.current = setTimeout(() => {
       // Jika timer habis, panggil logout
       console.log('Inactivity detected. Logging out...');
-      logout(); // Memanggil fungsi logout dari AuthContext
+      logout();
       // Redirect manual jika AuthContext tidak menjamin redirect
       navigate('/login');
     }, INACTIVITY_TIMEOUT);

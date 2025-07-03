@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaChartBar,    // Ikon utama
-  FaChartLine,   // Tren
-  FaChartPie,    // Distribusi
-  FaFilter,      // Filter
-  FaCalendarAlt, // Rentang waktu
-  FaSearch,      // Cari
-  FaFileDownload, // Unduh laporan
+  FaChartBar,  
+  FaChartLine,  
+  FaChartPie,  
+  FaFilter,      
+  FaCalendarAlt, 
+  FaSearch,     
+  FaFileDownload, 
   FaUsers,
   FaMoneyBillWave,
   FaFilePdf,
@@ -15,14 +15,13 @@ import {
 
 const CampaignAnalyticsPage = () => {
   const [selectedCampaign, setSelectedCampaign] = useState('');
-  const [dateRange, setDateRange] = useState(''); // Contoh: 'Last 30 Days', 'Custom'
+  const [dateRange, setDateRange] = useState('');
   const [campaignOptions, setCampaignOptions] = useState([
     // Data dummy opsi kampanye
     { id: 'all', name: 'Semua Kampanye' },
     { id: 'CAMP001', name: 'Promo Liburan Sekolah 2025' },
     { id: 'CAMP002', name: 'Diskon Spesial Hari Raya' },
     { id: 'CAMP003', name: 'Brand Awareness Q3' },
-    // Tambahkan kampanye lain dari backend Anda
   ]);
 
   // Data dummy untuk metrik yang akan digambar di grafik
@@ -38,17 +37,14 @@ const CampaignAnalyticsPage = () => {
       { month: 'May', leads: 900, conversions: 40 },
       { month: 'Jun', leads: 1000, conversions: 45 },
     ],
-    // ... data lain untuk berbagai grafik (misal: leads by channel, conversion by audience segment)
   });
 
   const handleApplyFilter = () => {
     alert(`Menerapkan filter untuk Kampanye: ${selectedCampaign}, Rentang Waktu: ${dateRange}`);
-    // Di sini Anda akan memanggil API untuk memuat data analitik berdasarkan filter
   };
 
   const handleDownloadReport = (format) => {
     alert(`Mengunduh laporan analitik dalam format ${format}...`);
-    // Logika untuk mengunduh laporan
   };
 
   const formatRupiah = (amount) => {

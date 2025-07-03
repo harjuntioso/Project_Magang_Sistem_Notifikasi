@@ -88,21 +88,20 @@ const IncomingTasksPage = () => {
           console.error("Gagal memuat daftar officer departemen:", error.response || error);
           Swal.fire('Error', 'Gagal memuat daftar officer untuk penugasan. Coba refresh halaman.', 'error');
         } finally {
-          setLoadingOfficers(false); // Selesai loading Officer
+          setLoadingOfficers(false); 
         }
       } else if (user) {
-        // User ada tapi departmentId tidak ada, mungkin perlu pesan info lebih lanjut
+
         console.warn("User has no department_id, cannot fetch department officers.");
       }
     };
     fetchDepartmentOfficers();
-  }, [userDepartmentId, user]); // Dependensi pada userDepartmentId dan user (untuk kasus awal load)
+  }, [userDepartmentId, user]); 
 
 
-  // EFFECT KEDUA: Untuk memuat tugas masuk (berjalan saat filter atau user berubah)
   useEffect(() => {
-    // Pastikan userDepartmentId ada DAN status tugas sudah dimuat DAN daftar officer sudah dimuat
-    if (userDepartmentId && !loadingStatuses) { // loadingOfficers tidak perlu di sini karena fetchIncomingTasks tidak bergantung pada daftar officer
+  
+    if (userDepartmentId && !loadingStatuses) { 
       fetchIncomingTasks();
     } else if (!userDepartmentId && user) {
       Swal.fire('Info', 'Akun Anda tidak terasosiasi dengan departemen. Tidak dapat memuat tugas masuk.', 'info');

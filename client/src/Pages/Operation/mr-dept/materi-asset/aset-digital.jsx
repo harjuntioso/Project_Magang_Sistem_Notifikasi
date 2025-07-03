@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import {
-  FaBook,             // Ikon utama untuk perpustakaan
-  FaSearch,           // Cari
-  FaFilter,           // Filter
-  FaFileImage,        // Gambar
-  FaFileVideo,        // Video
-  FaFilePdf,          // Dokumen PDF
-  FaFileWord,         // Dokumen Word
-  FaFilePowerpoint,   // Dokumen PowerPoint
-  FaDownload,         // Unduh
-  FaPlusCircle,       // Tambah aset baru
+  FaBook,        
+  FaFilter,     
+  FaFileImage,
+  FaFileVideo,    
+  FaFilePdf,          
+  FaFileWord,      
+  FaFilePowerpoint, 
+  FaDownload,         
+  FaPlusCircle,      
   FaFileAlt
 } from 'react-icons/fa';
 
@@ -21,7 +20,6 @@ const DigitalAssetLibraryPage = () => {
     { id: 'AST003', name: 'Brosur Paket Keluarga 2025', type: 'Dokumen', format: 'PDF', size: '3 MB', lastUpdated: '2025-04-01', tags: ['brosur', 'paket'], link: '/assets/brosur_keluarga.pdf' },
     { id: 'AST004', name: 'Template Presentasi Branding', type: 'Dokumen', format: 'PPTX', size: '10 MB', lastUpdated: '2024-11-15', tags: ['template', 'presentasi'], link: '/assets/template_pptx.pptx' },
     { id: 'AST005', name: 'Foto Atraksi Utama (HD)', type: 'Gambar', format: 'JPG', size: '8 MB', lastUpdated: '2025-03-05', tags: ['foto', 'atraksi'], link: '/assets/atraksi_utama.jpg' },
-    // ... tambahkan data dummy lainnya
   ]);
 
   const [searchTerm, setSearchTerm] = useState('');

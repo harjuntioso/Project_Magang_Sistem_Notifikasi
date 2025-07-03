@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaCalendarAlt,    // Ikon utama untuk kalender cuti
-  FaCalendar,       // Ikon untuk kalender itu sendiri
-  FaUserFriends,    // Untuk daftar cuti per karyawan
-  FaInfoCircle,     // Untuk detail event
-  FaFilter,         // Untuk filter
-  FaList,           // Untuk daftar event
-  FaSearch,         // Untuk pencarian
+  FaCalendarAlt,    
+  FaCalendar,       
+  FaUserFriends,    
+  FaInfoCircle,     
+  FaFilter,         
+  FaList,           
+  FaSearch,         
   FaChartBar
 } from 'react-icons/fa';
 
-// Anda akan mengimpor komponen kalender dari library yang Anda gunakan
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -19,12 +18,11 @@ const localizer = momentLocalizer(moment);
 
 const KalenderCutiPage = () => {
   // Data dummy untuk daftar cuti.
-  // Dalam aplikasi nyata, ini akan diambil dari API.
   const [cutiEvents, setCutiEvents] = useState([
     {
       id: 1,
       title: 'Cuti Tahunan - Budi S.',
-      start: new Date(2025, 6, 1), // Bulan Juli (0-indexed)
+      start: new Date(2025, 6, 1),
       end: new Date(2025, 6, 5),
       allDay: true,
       resource: { karyawanId: 'KS001', jenisCuti: 'Tahunan' },
@@ -40,12 +38,11 @@ const KalenderCutiPage = () => {
     {
       id: 3,
       title: 'Cuti Melahirkan - Ayu L.',
-      start: new Date(2025, 7, 1), // Bulan Agustus
-      end: new Date(2025, 9, 30), // Hingga Oktober
+      start: new Date(2025, 7, 1), 
+      end: new Date(2025, 9, 30), 
       allDay: true,
       resource: { karyawanId: 'AL003', jenisCuti: 'Melahirkan' },
     },
-    // ... Tambahkan lebih banyak event cuti
   ]);
 
   const [upcomingEvents, setUpcomingEvents] = useState([]);
@@ -53,7 +50,7 @@ const KalenderCutiPage = () => {
   const [filterJenisCuti, setFilterJenisCuti] = useState('Semua');
 
   useEffect(() => {
-    // Filter event yang akan datang (contoh: dalam 30 hari ke depan)
+
     const today = new Date();
     const thirtyDaysLater = new Date();
     thirtyDaysLater.setDate(today.getDate() + 30);
@@ -63,18 +60,16 @@ const KalenderCutiPage = () => {
     ).sort((a, b) => new Date(a.start) - new Date(b.start)); // Urutkan berdasarkan tanggal
 
     setUpcomingEvents(filteredUpcoming);
-  }, [cutiEvents]); // Re-run effect jika cutiEvents berubah
+  }, [cutiEvents]); 
 
   const handleEventClick = (event) => {
     alert(`Detail Cuti: ${event.title}\nDari: ${event.start.toLocaleDateString()}\nHingga: ${event.end.toLocaleDateString()}\nJenis: ${event.resource.jenisCuti}`);
-    // Di sini Anda bisa membuka modal dengan detail lebih lanjut tentang event cuti
+  
   };
 
   const handleFilterChange = () => {
     // Logika untuk memfilter cutiEvents yang ditampilkan di kalender/daftar
-    // Ini akan memanggil API atau memfilter state cutiEvents lokal
     console.log(`Filter diterapkan: Karyawan: ${filterKaryawan}, Jenis Cuti: ${filterJenisCuti}`);
-    // Di aplikasi nyata, Anda akan memuat ulang events kalender berdasarkan filter ini
   };
 
   return (
@@ -138,8 +133,8 @@ const KalenderCutiPage = () => {
             <FaCalendar className="w-5 h-5 text-primary" />
             Kalender Utama
           </h2>
-          <div style={{ height: 600 }}> {/* Tinggi ini penting untuk komponen kalender */}
-            {/* Ini adalah placeholder untuk komponen kalender yang sebenarnya */}
+          <div style={{ height: 600 }}>
+            {/* Komponen Kalender Interaktif */}
             <div className="bg-gray-100 h-full flex items-center justify-center text-gray-400 rounded-lg text-center p-4">
               <p>
                 [Komponen Kalender Interaktif seperti **React Big Calendar** atau **FullCalendar** akan muncul di sini.]

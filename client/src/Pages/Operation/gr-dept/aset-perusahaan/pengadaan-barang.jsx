@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaShoppingCart,   // Ikon utama
-  FaSave,           // Simpan
-  FaTimes,          // Batal
-  FaInfoCircle,     // Informasi Umum
-  FaListAlt,        // Daftar Barang
-  FaUser,           // Pemohon
-  FaCalendarAlt,    // Tanggal
-  FaPaperclip,      // Lampiran
+  FaShoppingCart,   
+  FaSave,       
+  FaTimes,     
+  FaInfoCircle,     
+  FaListAlt,        
+  FaUser,          
+  FaCalendarAlt,  
+  FaPaperclip,     
   FaPlusCircle,
   FaTimesCircle
 } from 'react-icons/fa';
@@ -60,8 +60,6 @@ const ProcurementRequestPage = () => {
     e.preventDefault();
     alert('Pengajuan pengadaan barang berhasil dikirim!');
     console.log('Data Pengadaan Barang:', formData);
-    // Logika untuk mengirim data ke backend (termasuk file lampiran)
-    // Setelah berhasil, reset form atau arahkan ke halaman riwayat pengadaan
   };
 
   return (

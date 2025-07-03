@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-  FaClipboardList, // Icon utama untuk laporan
-  FaCalendarAlt,   // Filter tanggal
-  FaUsers,         // Filter karyawan
-  FaSearch,        // Tombol cari/filter
-  FaFileDownload,  // Unduh laporan
-  FaFileAlt,       // Tipe laporan
+  FaClipboardList, 
+  FaCalendarAlt,   
+  FaUsers,         
+  FaSearch,        
+  FaFileDownload,  
+  FaFileAlt,       
 } from 'react-icons/fa';
 
 const AbsensiReportPage = () => {

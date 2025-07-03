@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import {
-  FaHandshake,       // Ikon utama untuk vendor
-  FaSearch,          // Cari
-  FaFilter,          // Filter
-  FaPlusCircle,      // Tambah vendor baru
-  FaEdit,            // Edit detail vendor
-  FaTrash,           // Hapus vendor
-  FaBuilding,        // Tipe Vendor (Perusahaan)
-  FaUserTie,         // Kontak Person
-  FaPhone,           // Telepon
-  FaEnvelope,        // Email
-  FaDollarSign,      // Keuangan
+  FaHandshake,       
+  FaSearch,          
+  FaFilter,          
+  FaPlusCircle,      
+  FaEdit,            
+  FaTrash,           
+  FaBuilding,        
+  FaUserTie,         
+  FaPhone,           
+  FaEnvelope,        
+  FaDollarSign,      
   FaFileDownload
 } from 'react-icons/fa';
 
@@ -44,7 +44,6 @@ const ActiveVendorListPage = () => {
   };
 
   const handleSaveEdit = (id) => {
-    // Logika untuk menyimpan perubahan ke backend
     alert(`Data vendor ${editFormData.name} berhasil diperbarui.`);
     setVendors(vendors.map(v => v.id === id ? editFormData : v));
     setEditingVendorId(null);
@@ -60,7 +59,6 @@ const ActiveVendorListPage = () => {
     if (window.confirm(`Apakah Anda yakin ingin menghapus vendor "${name}"?`)) {
       alert(`Vendor ID: ${id} dihapus.`);
       setVendors(vendors.filter(v => v.id !== id));
-      // Logika untuk menghapus dari backend
     }
   };
 

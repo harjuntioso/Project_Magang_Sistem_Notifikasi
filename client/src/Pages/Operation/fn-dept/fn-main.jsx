@@ -4,11 +4,11 @@ import {
   FaChartBar,
   FaClipboardList,
   FaHandshake,
-  FaFileInvoiceDollar, // Faktur
-  FaRegCreditCard, // Pembayaran
-  FaReceipt, // Pengajuan biaya
-  FaHistory, // Laporan keuangan
-  FaChartLine, // Dashboard keuangan
+  FaFileInvoiceDollar, 
+  FaRegCreditCard, 
+  FaReceipt, 
+  FaHistory, 
+  FaChartLine, 
   FaUsers
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';

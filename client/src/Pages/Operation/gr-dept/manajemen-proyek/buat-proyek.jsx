@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaPlusCircle,    // Ikon utama
-  FaSave,          // Simpan
-  FaTimes,         // Batal
-  FaInfoCircle,    // Informasi Umum
-  FaUsers,         // Tim Proyek
-  FaCalendarAlt,   // Jadwal
-  FaTasks,         // Tujuan/Deliverables
-  FaMoneyBillWave, // Anggaran
+  FaPlusCircle, 
+  FaSave,  
+  FaTimes,
+  FaInfoCircle,
+  FaUsers,   
+  FaCalendarAlt,   
+  FaTasks,        
+  FaMoneyBillWave, 
 } from 'react-icons/fa';
 
 const CreateNewProjectPage = () => {
@@ -18,8 +18,8 @@ const CreateNewProjectPage = () => {
     startDate: '',
     endDate: '',
     budget: '',
-    status: 'Planned', // Default status
-    teamMembers: [], // Contoh: ['KRY001', 'KRY005']
+    status: 'Planned', 
+    teamMembers: [],
     keyDeliverables: '',
     notes: '',
   });

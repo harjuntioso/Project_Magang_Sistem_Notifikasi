@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaCog,            // Utama untuk Pengaturan
-  FaUserCircle,     // Pengaturan Akun
-  FaBell,           // Notifikasi
-  FaPalette,        // Preferensi Tampilan
-  FaLock,           // Keamanan
-  FaLanguage,       // Bahasa
-  FaShieldAlt,      // Privasi
-  FaQuestionCircle, // Bantuan
+  FaCog,            
+  FaUserCircle,     
+  FaBell,           
+  FaPalette,        
+  FaLock,           
+  FaLanguage,       
+  FaShieldAlt,      
+  FaQuestionCircle, 
   FaKey,
 } from 'react-icons/fa';
 
@@ -19,7 +19,6 @@ const SettingsPage = () => {
 
   const handleSaveSettings = () => {
     alert('Pengaturan berhasil disimpan!');
-    // Di sini Anda akan mengirim data pengaturan ke backend
     console.log({ receiveNotifications, darkMode, language });
   };
 
@@ -167,7 +166,7 @@ const SettingsPage = () => {
 
       </div>
       
-      {/* Tombol Simpan Global (opsional, tergantung alur simpan Anda) */}
+      {/* Tombol Simpan Pengaturan */}
       <div className="mt-10 text-center">
         <button
           onClick={handleSaveSettings}

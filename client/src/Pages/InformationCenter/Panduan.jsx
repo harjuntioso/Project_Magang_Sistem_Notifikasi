@@ -5,9 +5,9 @@ import {
   FaEnvelopeOpenText,
   FaQuestionCircle,
   FaBullhorn,
-  FaBook, // Umum untuk panduan
-  FaFilePdf, // Dokumen PDF
-  FaPlayCircle, // Video tutorial
+  FaBook, 
+  FaFilePdf, 
+  FaPlayCircle, 
   FaCalendarAlt,
   FaClipboardList,
   FaHeadse,

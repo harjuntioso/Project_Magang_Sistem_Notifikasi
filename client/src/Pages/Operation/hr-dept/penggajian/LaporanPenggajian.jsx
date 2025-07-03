@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaChartBar,       // Ikon utama untuk laporan
-  FaMoneyBillWave,  // Gaji
-  FaFileDownload,   // Unduh
-  FaSearch,         // Cari/Filter
-  FaUsers,          // Karyawan
-  FaCalendarAlt,    // Bulan/Tahun
-  FaFilePdf,        // Unduh PDF
-  FaFileExcel,      // Unduh Excel
+  FaChartBar,      
+  FaMoneyBillWave, 
+  FaFileDownload,   
+  FaSearch,    
+  FaUsers,     
+  FaCalendarAlt,   
+  FaFilePdf,     
+  FaFileExcel,   
   FaFilter
 } from 'react-icons/fa';
 

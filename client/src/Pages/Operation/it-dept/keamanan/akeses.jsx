@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import {
-  FaLock,           // Ikon utama untuk akses
-  FaUserCog,        // Pengaturan user
-  FaUserShield,     // Role
-  FaSearch,         // Cari
-  FaPlusCircle,     // Tambah
-  FaEdit,           // Edit
-  FaTrash,          // Hapus
-  FaServer,         // Sumber Daya
+  FaLock,          
+  FaUserCog,      
+  FaUserShield,   
+  FaSearch,         
+  FaPlusCircle,    
+  FaEdit,        
+  FaTrash,        
+  FaServer,        
   FaFilter
 } from 'react-icons/fa';
 
@@ -88,7 +88,7 @@ const AccessAuthorizationPage = () => {
               <option value="Departemen HRD">Departemen HRD</option>
               <option value="Departemen Keuangan">Departemen Keuangan</option>
               <option value="Semua Karyawan">Semua Karyawan</option>
-              {/* Tambahkan grup pengguna lain */}
+             
             </select>
           </div>
           <div>
@@ -103,7 +103,7 @@ const AccessAuthorizationPage = () => {
               <option value="Sistem HRIS">Sistem HRIS</option>
               <option value="Sistem Akuntansi">Sistem Akuntansi</option>
               <option value="Intranet Perusahaan">Intranet Perusahaan</option>
-              {/* Tambahkan sumber daya lain */}
+            
             </select>
           </div>
           <a href="/management/it/keamanan/akses/tambah" className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors duration-200 flex items-center justify-center gap-2">

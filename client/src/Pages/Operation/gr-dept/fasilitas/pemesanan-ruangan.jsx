@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import {
-  FaCalendarAlt,    // Ikon utama untuk kalender/pemesanan
-  FaChair,          // Ruangan rapat
-  FaPlusCircle,     // Buat pemesanan baru
-  FaSearch,         // Cari
-  FaFilter,         // Filter
-  FaCheckCircle,    // Status tersedia
-  FaTimesCircle,    // Status tidak tersedia
-  FaInfoCircle,     // Detail ruangan
-  FaClock,          // Waktu
+  FaCalendarAlt,    
+  FaChair,          
+  FaPlusCircle,     
+  FaSearch,         
+  FaFilter,         
+  FaCheckCircle,    
+  FaTimesCircle,    
+  FaInfoCircle,     
+  FaClock,          
 } from 'react-icons/fa';
 
 const MeetingRoomBookingPage = () => {
@@ -18,7 +18,7 @@ const MeetingRoomBookingPage = () => {
     { id: 'ROOM002', name: 'Ruang Diskusi (Lantai 1)', capacity: 8, facilities: ['Monitor TV', 'Whiteboard'], status: 'Available' },
     { id: 'ROOM003', name: 'Auditorium (Lantai Dasar)', capacity: 50, facilities: ['Sound System', 'Proyektor Besar'], status: 'Booked' },
     { id: 'ROOM004', name: 'Ruang Kreatif (Lantai 3)', capacity: 12, facilities: ['Smart Board', 'Bean Bags'], status: 'Available' },
-    // ... tambahkan data dummy ruangan
+    
   ]);
 
   const [bookings, setBookings] = useState([
@@ -26,7 +26,6 @@ const MeetingRoomBookingPage = () => {
     { id: 'BOOK001', roomId: 'ROOM003', roomName: 'Auditorium (Lantai Dasar)', date: '2025-06-12', time: '10:00-12:00', bookedBy: 'Marketing Dept.', purpose: 'Workshop Strategi Pemasaran' },
     { id: 'BOOK002', roomId: 'ROOM001', roomName: 'Ruang Rapat Utama (Lantai 2)', date: '2025-06-12', time: '14:00-16:00', bookedBy: 'HRD Dept.', purpose: 'Interview Calon Karyawan' },
     { id: 'BOOK003', roomId: 'ROOM002', roomName: 'Ruang Diskusi (Lantai 1)', date: '2025-06-13', time: '09:00-10:00', bookedBy: 'IT Dept.', purpose: 'Rapat Internal Tim' },
-    // ... tambahkan data dummy pemesanan
   ]);
 
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10)); // Tanggal hari ini

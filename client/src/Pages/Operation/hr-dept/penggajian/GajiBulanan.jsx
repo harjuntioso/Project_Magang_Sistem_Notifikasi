@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaMoneyBillWave,  // Ikon utama
-  FaPlayCircle,     // Mulai proses
-  FaCheckCircle,    // Verifikasi
-  FaPrint,          // Cetak slip gaji
-  FaSpinner,        // Loading
-  FaInfoCircle,     // Info
-  FaUsers,          // Karyawan
-  FaExclamationTriangle, // Peringatan
+  FaMoneyBillWave, 
+  FaPlayCircle,  
+  FaCheckCircle, 
+  FaPrint,   
+  FaSpinner, 
+  FaInfoCircle,
+  FaUsers,         
+  FaExclamationTriangle,
   FaClipboardList,
   FaFileAlt
 } from 'react-icons/fa';
@@ -46,8 +46,8 @@ const ProsesGajiBulananPage = () => {
     // Step 1: Validasi Data Karyawan & Absensi
     setProcessStep(1);
     await simulateProcess('Validasi Data Karyawan & Absensi', 2000);
-    // Contoh error validasi
-    if (Math.random() < 0.2) { // 20% kemungkinan ada error
+
+    if (Math.random() < 0.2) { 
       setValidationErrors(['Data absensi karyawan ID KRY012 belum lengkap.', 'Data bank karyawan ID KRY045 tidak valid.']);
       setProcessLog(prev => [...prev, { type: 'error', message: 'Validasi menemukan beberapa masalah. Harap periksa detail kesalahan.' }]);
       setIsProcessing(false);

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  FaChartLine,      // Ikon utama
-  FaRunning,        // Kampanye Aktif
-  FaChartBar,       // Metrik
-  FaMoneyBillWave,  // Anggaran
-  FaUsers,          // Leads/Audiens
-  FaPlusCircle,     // Buat baru
-  FaSearch,         // Filter/Cari
+  FaChartLine,  
+  FaRunning,  
+  FaChartBar,  
+  FaMoneyBillWave,  
+  FaUsers,        
+  FaPlusCircle,    
+  FaSearch,         
 } from 'react-icons/fa';
 
 const CampaignOverviewPage = () => {
@@ -15,7 +15,6 @@ const CampaignOverviewPage = () => {
     { id: 'CAMP001', name: 'Promo Liburan Sekolah 2025', status: 'Berjalan', startDate: '2025-06-01', endDate: '2025-07-31', budget: 50000000, leads: 3200, conversionRate: 2.5, roi: 120 },
     { id: 'CAMP002', name: 'Diskon Spesial Hari Raya', status: 'Berjalan', startDate: '2025-06-15', endDate: '2025-07-15', budget: 40000000, leads: 2850, conversionRate: 1.8, roi: 110 },
     { id: 'CAMP003', name: 'Brand Awareness Q3', status: 'Berjalan', startDate: '2025-07-01', endDate: '2025-09-30', budget: 35000000, leads: 2500, conversionRate: 1.0, roi: 95 },
-    // Tambahkan lebih banyak data dummy
   ]);
 
   const [campaignStats, setCampaignStats] = useState({
