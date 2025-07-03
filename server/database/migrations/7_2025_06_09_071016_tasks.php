@@ -9,6 +9,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasTable('tasks')) {
+            return;
+        }
+
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -38,7 +42,7 @@ return new class extends Migration
 
             // Kolom untuk feedback/status khusus
             $table->text('rejection_reason')->nullable(); // Alasan jika ditolak
-            $table->text('revision_notes')->nullable();   // Catatan jika diminta revisi
+            $table->text('revision_notes')->nullable();// Catatan jika diminta revisi
 
             // Siapa yang mengambil aksi terakhir pada tugas (untuk logging/audit)
             $table->foreignId('last_action_by_id')->nullable()->constrained('users')->onDelete('set null');

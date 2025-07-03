@@ -71,7 +71,7 @@ class UserController extends Controller
     
     /**
      * Get officers by department ID.
-     * This is useful for populating dropdowns for task assignment.
+     * 
      *
      * @param  int  $departmentId
      * @return \Illuminate\Http\JsonResponse
@@ -79,7 +79,6 @@ class UserController extends Controller
     public function getOfficersByDepartment(int $departmentId)
     {
         try {
-            // Dapatkan ID role Officer
             $officerRole = Role::where('name', 'Officer')->first();
 
             if (!$officerRole) {
@@ -87,10 +86,9 @@ class UserController extends Controller
                 return response()->json(['message' => 'Internal Server Error: Officer role not configured.'], 500);
             }
 
-            // Ambil semua user di departemen yang diberikan dengan role Officer
             $officers = User::where('department_id', $departmentId)
                             ->where('role_id', $officerRole->id)
-                            ->select('id', 'name') // Hanya ambil ID dan nama yang dibutuhkan
+                            ->select('id', 'name') 
                             ->get();
 
             return response()->json($officers);

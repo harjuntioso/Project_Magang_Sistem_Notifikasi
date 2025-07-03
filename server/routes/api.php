@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WhatsAppController; 
 use App\Http\Controllers\Api\ChatController;  
 use App\Http\Controllers\Api\TaskStatusController;   
+use App\Http\Controllers\Api\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,10 +48,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/tasks/task-statuses', [TaskStatusController::class, 'index']);
 
-     Route::get('/tasks/my-assigned', [TaskController::class, 'getMyAssignedTasks']);
+    Route::get('/tasks/my-assigned', [TaskController::class, 'getMyAssignedTasks']);
 
-     Route::get('/tasks/my-submitted', [TaskController::class, 'getMySubmittedTasks']);
-     
+    Route::get('/tasks/my-submitted', [TaskController::class, 'getMySubmittedTasks']);
+
     // Routes untuk Task Counts Dashboard
     Route::get('/tasks/counts', [TaskController::class, 'getTaskCounts']); 
 
@@ -60,6 +61,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Manajemen Kategori Tugas (CRUD Lengkap)
     Route::apiResource('task-categories', TaskCategoryController::class);
+
+     // Notification Management
+    Route::get('/notifications/{userId}', [NotificationController::class, 'getUserNotifications']);
+    Route::post('/notifications/{userId}/mark-all-read', [NotificationController::class, 'markAllAsRead']);
 
     // Manajemen Departemen
     Route::get('/departments', [DepartmentController::class, 'index']);

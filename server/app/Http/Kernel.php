@@ -39,13 +39,10 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
-            // Pastikan Sanctum middleware ada di sini
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            // Tambahkan middleware session berikut ini
             // \Illuminate\Cookie\Middleware\EncryptCookies::class, // Mengenkripsi cookies
-            \Illuminate\Session\Middleware\StartSession::class,   // Memulai session
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class, // Opsional, tapi seringkali diperlukan untuk session
-            // ... (middleware lainnya seperti throttle)
+            \Illuminate\Session\Middleware\StartSession::class,  
+            \Illuminate\View\Middleware\ShareErrorsFromSession::class, 
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],

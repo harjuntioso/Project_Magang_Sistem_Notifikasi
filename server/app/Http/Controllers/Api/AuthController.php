@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller; // Pastikan ini benar (namespace)
+use App\Http\Controllers\Controller; 
 
 class AuthController extends Controller
 {
@@ -118,8 +118,6 @@ class AuthController extends Controller
             'session_token' => $request->session()->token(),
         ]);
 
-        // Hapus token API yang sedang digunakan oleh user yang terautentikasi
-        // Ini adalah cara yang benar untuk logout di Laravel Sanctum SPA
         if ($request->user()) {
             $request->user()->currentAccessToken()->delete();
             Log::info('--- Laravel Logout Success ---', [
@@ -142,14 +140,12 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        // Memuat relasi 'department' dan 'role' bersamaan dengan user
-        // Pastikan relasi department() dan role() didefinisikan di App\Models\User
         return response()->json($request->user()->load('department', 'role'));
     }
 
     /**
      * Get CSRF cookie. This route is typically accessed once when the SPA loads
-     * to set the XSRF-TOKEN cookie for subsequent requests.
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -161,8 +157,6 @@ class AuthController extends Controller
             'session_id' => $request->session()->getId(),
             'session_token_from_session' => $request->session()->token(),
         ]);
-        // Laravel secara otomatis akan menempatkan XSRF-TOKEN di cookie response
-        // melalui middleware saat request ini diproses.
         return response()->json(['message' => 'CSRF cookie obtained successfully']);
     }
 }

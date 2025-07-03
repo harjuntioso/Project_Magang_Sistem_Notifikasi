@@ -8,13 +8,11 @@ use App\Http\Controllers\Controller;
 
 class DepartmentController extends Controller
 {
-    // List all departments
     public function index()
     {
         return response()->json(Department::all());
     }
 
-    // Create new department
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -24,14 +22,12 @@ class DepartmentController extends Controller
         return response()->json($department, 201);
     }
 
-    // Show single department
     public function show($id)
     {
         $department = Department::findOrFail($id);
         return response()->json($department);
     }
 
-    // Update department
     public function update(Request $request, $id)
     {
         $department = Department::findOrFail($id);
@@ -42,7 +38,7 @@ class DepartmentController extends Controller
         return response()->json($department);
     }
 
-    // Delete department
+
     public function destroy($id)
     {
         $department = Department::findOrFail($id);

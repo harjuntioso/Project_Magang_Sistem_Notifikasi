@@ -10,6 +10,6 @@ class TaskStatus extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'description', 'color_code'];
-    protected $table = 'task_statuses'; // Opsional, jika nama model bukan plural dari nama tabel
+    protected $table = 'task_statuses';
 }
 

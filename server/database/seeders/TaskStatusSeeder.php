@@ -73,7 +73,6 @@ class TaskStatusSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            // Tambahkan status lain sesuai kebutuhan
         ]);
     }
 }

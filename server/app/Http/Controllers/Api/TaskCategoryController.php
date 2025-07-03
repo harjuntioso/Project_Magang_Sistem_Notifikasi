@@ -13,7 +13,7 @@ class TaskCategoryController extends Controller
 {
     /**
      * Display a listing of the task categories.
-     * Optionally includes department relation.
+     * 
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -37,7 +37,6 @@ class TaskCategoryController extends Controller
     public function show(TaskCategory $taskCategory)
     {
         try {
-            // Memuat relasi department saat menampilkan satu kategori
             $taskCategory->load('department');
             return response()->json($taskCategory);
         } catch (\Exception $e) {
@@ -64,7 +63,6 @@ class TaskCategoryController extends Controller
 
             $taskCategory = TaskCategory::create($validatedData);
 
-            // Muat relasi setelah dibuat untuk respons yang konsisten
             $taskCategory->load('department');
 
             Log::info('Task category created successfully:', ['id' => $taskCategory->id, 'name' => $taskCategory->name]);
@@ -100,14 +98,13 @@ class TaskCategoryController extends Controller
 
             $taskCategory->update($validatedData);
 
-            // Muat relasi setelah diupdate untuk respons yang konsisten
             $taskCategory->load('department');
 
             Log::info('Task category updated successfully:', ['id' => $taskCategory->id, 'name' => $taskCategory->name]);
             return response()->json([
                 'message' => 'Task category updated successfully!',
                 'task_category' => $taskCategory,
-            ]); // Default 200 OK
+            ]); 
         } catch (ValidationException $e) {
             Log::warning('Task category validation failed during update:', ['id' => $taskCategory->id, 'errors' => $e->errors()]);
             return response()->json(['message' => 'Validation Error', 'errors' => $e->errors()], 422);

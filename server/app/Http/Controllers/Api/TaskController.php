@@ -15,15 +15,13 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
-
-// Import WhatsAppController jika method sendNotification ada di sana
 use App\Http\Controllers\Api\WhatsAppController;
 
 class TaskController extends Controller
 {
     /**
      * Get the phone number of a manager/supervisor for a given department.
-     * Assumes a user with role 'Manager' or 'Supervisor' in that department.
+     * 
      *
      * @param int $departmentId
      * @return string|null The manager's phone number or null if not found.
@@ -58,7 +56,7 @@ class TaskController extends Controller
             return false;
         }
         try {
-            // Asumsi WhatsAppController memiliki method sendNotificationStatic yang public static
+         
             WhatsAppController::sendNotificationStatic($number, $message);
             Log::info('WhatsApp notification sent:', ['number' => $number, 'message_preview' => substr($message, 0, 50) . '...']);
             return true;
@@ -66,6 +64,22 @@ class TaskController extends Controller
             Log::error('Failed to send WhatsApp notification:', ['number' => $number, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             return false;
         }
+    }
+
+    /**
+     * Helper to construct the full task detail URL for the frontend.
+     *
+     * @param int $taskId
+     * @return string
+     */
+    private function getFrontendTaskDetailUrl(int $taskId): string
+    {
+        $baseUrl = env('FRONTEND_APP_URL');
+        if (!$baseUrl) {
+            Log::error('FRONTEND_APP_URL not configured in .env. Task detail link will be generic.');
+            return '#'; 
+        }
+        return "{$baseUrl}/task-exchange/detail/{$taskId}";
     }
 
     /**
@@ -112,7 +126,7 @@ class TaskController extends Controller
 
     /**
      * Store a newly created task in storage.
-     * This method aligns with the complex task workflow including initial notification.
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -187,7 +201,8 @@ class TaskController extends Controller
             if ($requester && $requester->department_id) {
                 $supervisorPhone = $this->getSupervisorPhoneNumberByDepartmentId($requester->department_id);
                 if ($supervisorPhone) {
-                    $message = "Halo, Supervisor Departemen " . $requester->department->name . "! Tugas baru '" . $task->title . "' dari " . $requester->name . " membutuhkan persetujuan Anda. Cek di sistem.";
+                    $taskDetailLink = $this->getFrontendTaskDetailUrl($task->id);
+                     $message = "Halo, Supervisor Departemen " . $requester->department->name . "! Tugas baru '" . $task->title . "' dari " . $requester->name . " membutuhkan persetujuan Anda. Klik link untuk melihat: {$taskDetailLink}";
                     $this->sendWhatsAppNotification($supervisorPhone, $message);
                 } else {
                     Log::warning('No supervisor phone found for department ' . $requester->department->name . ' to notify upon submission.');
@@ -210,159 +225,146 @@ class TaskController extends Controller
         }
     }
 
-    /**
-     * Update the specified task in storage.
-     * This method will handle status changes, assignment, rejection, etc., including related notifications.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Task  $task  The Task model instance (Route Model Binding).
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
-     */
+ /**
+     * Update the specified task in storage.
+     * 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Task  $task  The Task model instance (Route Model Binding).
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function update(Request $request, Task $task)
     {
         try {
-            $task->load('requester', 'assignedToDepartment', 'currentStatus', 'requestedByDepartment'); // Load 'requestedByDepartment' juga
-            $oldStatus = $task->currentStatus;
+
+            $task->load('requester', 'requestedByDepartment', 'assignedToDepartment', 'currentStatus', 'approver', 'assignee', 'lastActionBy');
+
+            $oldStatus = $task->currentStatus; 
 
             $validatedData = $request->validate([
                 'title' => 'sometimes|required|string|max:255',
                 'description' => 'sometimes|required|string',
                 'purpose' => 'nullable|string|max:255',
                 'task_category_id' => 'sometimes|required|integer|exists:task_categories,id',
-                'requester_id' => 'sometimes|required|integer|exists:users,id',
-                'requested_by_department_id' => 'sometimes|required|integer|exists:departments,id',
                 'assigned_to_department_id' => 'sometimes|required|integer|exists:departments,id',
+                'approver_id' => 'nullable|integer|exists:users,id',
+                'approved_at' => 'nullable|date',
+                'assignee_id' => 'nullable|integer|exists:users,id',
+                'assigned_at' => 'nullable|date',
+                'current_status_id' => 'sometimes|required|integer|exists:task_statuses,id',
                 'priority' => 'sometimes|required|string|in:Normal,Medium,High,Urgent',
                 'deadline' => 'nullable|date',
-                'notes' => 'nullable|string',
-                'approver_id' => 'nullable|integer|exists:users,id', // Tambahkan validasi untuk approver_id
-                'approved_at' => 'nullable|date',               // Tambahkan validasi untuk approved_at
-                'assignee_id' => 'nullable|integer|exists:users,id',   // Tambahkan validasi untuk assignee_id
-                'assigned_at' => 'nullable|date',               // Tambahkan validasi untuk assigned_at
-                'current_status_id' => 'sometimes|required|integer|exists:task_statuses,id',
                 'rejection_reason' => 'nullable|string',
                 'revision_notes' => 'nullable|string',
+                'last_action_by_id' => 'nullable|integer|exists:users,id',
             ]);
 
+            // Set last_action_by_id ke user yang sedang login
             $validatedData['last_action_by_id'] = $request->user()->id;
 
-            $task->update($validatedData);
+            $task->update($validatedData); 
 
+           
             $task->load([
                 'requester', 'requestedByDepartment', 'assignedToDepartment',
                 'approver', 'assignee', 'category', 'currentStatus',
                 'attachments', 'comments.user', 'lastActionBy'
             ]);
 
-
-
-            Log::info('Task updated successfully:', ['task_id' => $task->id, 'updated_by' => $request->user()->id, 'old_status_id' => $oldStatus->id, 'new_status_id' => $task->currentStatus->id]);
+            Log::info('Task updated successfully:', [
+                'task_id' => $task->id,
+                'updated_by' => $request->user()->id,
+                'old_status_id' => $oldStatus->id,
+                'new_status_id' => $task->currentStatus->id,
+                'new_status_name' => $task->currentStatus->name,
+            ]);
 
             // --- Logika Notifikasi WhatsApp Setelah Update Status Task ---
-            $requester = $task->requester;
+            $requester = $task->requester; 
             $requesterPhone = $requester ? $requester->phone : null;
-            $currentStatusName = $task->currentStatus->name;
+            $currentStatusName = $task->currentStatus->name; 
             $taskTitle = $task->title;
+            $taskDetailLink = $this->getFrontendTaskDetailUrl($task->id);
 
             $assignedToDeptSupervisorPhone = null;
-            if ($task->assigned_to_department_id) {
-                $assignedToDeptSupervisorPhone = $this->getSupervisorPhoneNumberByDepartmentId($task->assigned_to_department_id);
+            if ($task->assignedToDepartment) { 
+                $assignedToDeptSupervisorPhone = $this->getSupervisorPhoneNumberByDepartmentId($task->assignedToDepartment->id);
             }
 
-            // Dapatkan ID status dari database untuk perbandingan
-            $approvedStatus = TaskStatus::where('name', 'Approved')->first(); // Ini adalah status 'Approved' yang sudah ada
-            $pendingAcceptanceStatus = TaskStatus::where('name', 'Pending Acceptance (Receiver)')->first(); // KUNCI UTAMA
-            $rejectedSupervisorStatus = TaskStatus::where('name', 'Rejected (Supervisor)')->first();
-            $revisionRequestedStatus = TaskStatus::where('name', 'Revision Requested')->first();
-            $acceptedStatus = TaskStatus::where('name', 'Accepted')->first();
-            $inProgressStatus = TaskStatus::where('name', 'In Progress')->first();
-            $completedStatus = TaskStatus::where('name', 'Completed')->first();
-            $rejectedReceiverStatus = TaskStatus::where('name', 'Rejected (Receiver)')->first();
-
-            // Pastikan semua status yang diperlukan ditemukan
-            if (!$approvedStatus || !$pendingAcceptanceStatus || !$rejectedSupervisorStatus ||
-                !$revisionRequestedStatus || !$acceptedStatus || !$completedStatus || !$rejectedReceiverStatus) {
-                Log::critical('One or more required TaskStatus records are missing for notification logic in TaskController@update.');
-                // Pertimbangkan untuk melemparkan exception atau mengembalikan response error
-                return response()->json(['message' => 'Internal Server Error: Task statuses not fully configured for update notifications.'], 500);
-            }
-
-            if ($oldStatus->id !== $task->currentStatus->id) {
-                switch ($task->currentStatus->id) { // Menggunakan ID status untuk keakuratan
-                    // KASUS PENTING: SPV Pengaju MENYETUJUI
-                    case ($pendingAcceptanceStatus->id): // Jika statusnya berubah menjadi 'Pending Acceptance (Receiver)'
-                        // Ini berarti SPV Pengaju sudah menyetujui, dan sekarang tugas menunggu Dept Tujuan
+             if ($oldStatus->id !== $task->currentStatus->id) {
+                switch ($currentStatusName) {
+                    case 'Pending Acceptance (Receiver)':
                         if ($assignedToDeptSupervisorPhone) {
-                            $message = "Halo, Supervisor Departemen " . $task->assignedToDepartment->name . "! Tugas baru '" . $taskTitle . "' dari Departemen " . $task->requestedByDepartment->name . " telah disetujui oleh atasan pengaju dan menunggu untuk diterima departemen Anda. Cek di sistem.";
+                            $message = "Halo, Supervisor Departemen " . ($task->assignedToDepartment->name ?? 'N/A') . "! Tugas baru '" . $taskTitle . "' dari Departemen " . ($task->requestedByDepartment->name ?? 'N/A') . " telah disetujui oleh atasan pengaju dan menunggu untuk diterima departemen Anda. Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
                             $this->sendWhatsAppNotification($assignedToDeptSupervisorPhone, $message);
-                        } else {
-                            Log::warning('No Supervisor phone for assigned dept to notify when task is pending acceptance.');
-                        }
-                        // Notifikasi ke Requester bahwa tugasnya sudah disetujui atasan
+                        } else { Log::warning('No Supervisor phone for assigned dept to notify upon approval to Pending Acceptance.'); }
                         if ($requesterPhone) {
-                            $messageRequester = "Halo, " . $requester->name . "! Tugas Anda '" . $taskTitle . "' telah DISETEJUI oleh atasan departemen Anda dan sekarang menunggu proses di departemen tujuan (" . $task->assignedToDepartment->name . "). Cek di sistem.";
+                            $messageRequester = "Halo, " . ($requester->name ?? 'Pengaju') . "! Tugas Anda '" . $taskTitle . "' telah DISETEJUI oleh atasan departemen Anda dan sekarang menunggu proses di departemen tujuan (" . ($task->assignedToDepartment->name ?? 'N/A') . "). Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
                             $this->sendWhatsAppNotification($requesterPhone, $messageRequester);
                         }
                         break;
 
-                    case ($rejectedSupervisorStatus->id):
+                    case 'Rejected (Supervisor)':
                         if ($requesterPhone) {
-                            $message = "Halo, " . $requester->name . "! Tugas Anda '" . $taskTitle . "' telah DITOLAK oleh atasan. Alasan: " . ($task->rejection_reason ?: 'Tidak ada alasan spesifik.'). " Cek di sistem.";
+                            $message = "Halo, " . ($requester->name ?? 'Pengaju') . "! Tugas Anda '" . $taskTitle . "' telah DITOLAK oleh atasan. Alasan: " . ($task->rejection_reason ?: 'Tidak ada alasan spesifik.'). ". Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
                             $this->sendWhatsAppNotification($requesterPhone, $message);
                         }
                         break;
 
-                    case ($revisionRequestedStatus->id): // Ketika Officer Minta Revisi ke SPV Tujuan
-                        if ($assignedToDeptSupervisorPhone) {
-                            $messageSpv = "Halo, Supervisor Departemen " . $task->assignedToDepartment->name . "! Officer " . $task->assignee->name . " meminta REVISI untuk tugas '" . $taskTitle . "'. Catatan: " . ($task->revision_notes ?: 'Tidak ada catatan spesifik.'). " Mohon segera dicek di sistem.";
-                            $this->sendWhatsAppNotification($assignedToDeptSupervisorPhone, $messageSpv);
-                        }
-                        // Juga, bisa notifikasi ke Requester bahwa tugasnya memerlukan revisi (dari Officer)
+                    case 'Revision Requested':
                         if ($requesterPhone) {
-                            $messageRequester = "Halo, " . $requester->name . "! Tugas Anda '" . $taskTitle . "' dari Departemen " . $task->assignedToDepartment->name . " membutuhkan REVISI. Catatan: " . ($task->revision_notes ?: 'Tidak ada catatan spesifik.'). " Cek di sistem.";
-                            $this->sendWhatsAppNotification($requesterPhone, $messageRequester);
+                            $message = "Halo, " . ($requester->name ?? 'Pengaju') . "! Tugas Anda '" . $taskTitle . "' membutuhkan REVISI. Catatan: " . ($task->revision_notes ?: 'Tidak ada catatan spesifik.'). ". Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
+                            $this->sendWhatsAppNotification($requesterPhone, $message);
+                        }
+                        if ($task->assignee && $task->assignee->department_id == ($task->assignedToDepartment->id ?? null) && $assignedToDeptSupervisorPhone) {
+                             $messageSpv = "Halo, Supervisor Departemen " . ($task->assignedToDepartment->name ?? 'N/A') . "! Officer " . ($task->assignee->name ?? 'Pengaju Revisi') . " meminta REVISI untuk tugas '" . $taskTitle . "'. Catatan: " . ($task->revision_notes ?: 'Tidak ada catatan spesifik.'). " Mohon segera dicek di sistem. Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
+                             $this->sendWhatsAppNotification($assignedToDeptSupervisorPhone, $messageSpv);
                         }
                         break;
-                        
-                    case ($acceptedStatus->id): // Ketika SPV Dept Tujuan MENERIMA & MENUGASKAN
+
+                    case 'Accepted':
                         if ($task->assignee && $task->assignee->phone) {
-                            $message = "Halo, " . $task->assignee->name . "! Anda memiliki tugas baru '" . $taskTitle . "' dari Departemen " . $task->requestedByDepartment->name . ". Tugas ini telah ditugaskan kepada Anda oleh SPV Anda. Mohon segera dicek di sistem dan mulai dikerjakan. Cek di sistem.";
-                            $this->sendWhatsAppNotification($task->assignee->phone, $message);
+                            $messageAssignee = "Halo, " . ($task->assignee->name ?? 'Officer') . "! Anda memiliki tugas baru '" . $taskTitle . "' dari Departemen " . ($task->requestedByDepartment->name ?? 'N/A') . ". Tugas ini telah ditugaskan kepada Anda oleh Supervisor/Manager Anda. Mohon segera dicek di sistem dan mulai dikerjakan. Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
+                            $this->sendWhatsAppNotification($task->assignee->phone, $messageAssignee);
                         } else {
-                            Log::warning('No assignee phone or assignee not found for notification upon task acceptance and assignment.');
+                            Log::warning('No assignee phone or assignee not found for notification upon task acceptance and assignment.', ['task_id' => $task->id, 'assignee_id' => $task->assignee_id ?? 'N/A']);
                         }
-                        // Juga, mungkin notifikasi ke requester bahwa tugasnya sudah diterima dan ditugaskan.
                         if ($requesterPhone) {
-                            $messageRequester = "Halo, " . $requester->name . "! Tugas Anda '" . $taskTitle . "' telah DITERIMA dan DITUGASKAN kepada Officer (" . $task->assignee->name . ") di Departemen " . $task->assignedToDepartment->name . ". Cek di sistem.";
+                            $messageRequester = "Halo, " . ($requester->name ?? 'Pengaju') . "! Tugas Anda '" . $taskTitle . "' telah DITERIMA dan DITUGASKAN kepada Officer (" . ($task->assignee->name ?? 'Officer') . ") di Departemen " . ($task->assignedToDepartment->name ?? 'N/A') . ". Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
                             $this->sendWhatsAppNotification($requesterPhone, $messageRequester);
                         }
                         break;
 
-                    case ($inProgressStatus->id): // Ketika Officer memulai pengerjaan
-                        // Notifikasi ke Requester dan/atau SPV Departemen Tujuan bahwa tugas sudah mulai dikerjakan
+                    case 'In Progress':
                         if ($requesterPhone) {
-                            $messageRequester = "Halo, " . $requester->name . "! Tugas Anda '" . $taskTitle . "' sekarang SEDANG DIKERJAKAN oleh Officer di Departemen " . $task->assignedToDepartment->name . ". Cek di sistem.";
+                            $messageRequester = "Halo, " . ($requester->name ?? 'Pengaju') . "! Tugas Anda '" . $taskTitle . "' sekarang SEDANG DIKERJAKAN oleh Officer di Departemen " . ($task->assignedToDepartment->name ?? 'N/A') . ". Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
                             $this->sendWhatsAppNotification($requesterPhone, $messageRequester);
                         }
                         break;
 
-                    case ($completedStatus->id): // Ketika Officer menandai selesai
+                    case 'Completed':
                         if ($requesterPhone) {
-                            $message = "Halo, " . $requester->name . "! Tugas Anda '" . $taskTitle . "' telah SELESAI dikerjakan oleh Departemen " . $task->assignedToDepartment->name . ". Cek di sistem.";
-                            $this->sendWhatsAppNotification($requesterPhone, $message);
+                            $messageRequester = "Halo, " . ($requester->name ?? 'Pengaju') . "! Tugas Anda '" . $taskTitle . "' telah SELESAI dikerjakan oleh Departemen " . ($task->assignedToDepartment->name ?? 'N/A') . ". Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
+                            $this->sendWhatsAppNotification($requesterPhone, $messageRequester);
                         }
-                        // Notifikasi ke SPV Departemen Tujuan bahwa tugas sudah selesai
                         if ($assignedToDeptSupervisorPhone) {
-                            $messageSpv = "Halo, Supervisor Departemen " . $task->assignedToDepartment->name . "! Tugas '" . $taskTitle . "' telah diselesaikan oleh " . $task->assignee->name . ". Mohon segera dicek di sistem.";
+                            $messageSpv = "Halo, Supervisor Departemen " . ($task->assignedToDepartment->name ?? 'N/A') . "! Tugas '" . $taskTitle . "' telah diselesaikan oleh " . ($task->assignee->name ?? 'Officer') . ". Mohon segera dicek di sistem. Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
                             $this->sendWhatsAppNotification($assignedToDeptSupervisorPhone, $messageSpv);
                         }
                         break;
 
-                    case ($rejectedReceiverStatus->id):
+                    case 'Rejected (Receiver)':
                         if ($requesterPhone) {
-                            $message = "Halo, " . $requester->name . "! Tugas Anda '" . $taskTitle . "' telah DITOLAK oleh Departemen " . $task->assignedToDepartment->name . ". Alasan: " . ($task->rejection_reason ?: 'Tidak ada alasan spesifik.'). " Cek di sistem.";
-                            $this->sendWhatsAppNotification($requesterPhone, $message);
+                            $messageRequester = "Halo, " . ($requester->name ?? 'Pengaju') . "! Tugas Anda '" . $taskTitle . "' telah DITOLAK oleh Departemen " . ($task->assignedToDepartment->name ?? 'N/A') . ". Alasan: " . ($task->rejection_reason ?: 'Tidak ada alasan spesifik.'). ". Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
+                            $this->sendWhatsAppNotification($requesterPhone, $messageRequester);
+                        }
+                        break;
+
+                    case 'Cancelled':
+                        if ($requesterPhone) {
+                            $messageRequester = "Halo, " . ($requester->name ?? 'Pengaju') . "! Tugas Anda '" . $taskTitle . "' telah DIBATALKAN. Cek di sistem: {$taskDetailLink}"; // <<<--- Sisipkan link
+                            $this->sendWhatsAppNotification($requesterPhone, $messageRequester);
                         }
                         break;
                 }
@@ -371,11 +373,11 @@ class TaskController extends Controller
             return response()->json(['message' => 'Task updated successfully!', 'task' => $task]);
 
         } catch (ValidationException $e) {
-            Log::warning('Task update validation failed:', ['errors' => $e->errors(), 'request_data' => $request->all()]);
+            Log::warning('Task update validation failed:', ['id' => $task->id, 'errors' => $e->errors()]);
             return response()->json(['message' => 'Validation Error', 'errors' => $e->errors()], 422);
-        } catch (\Exception $e) {
-            Log::error('Task update failed unexpectedly:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString(), 'request_data' => $request->all()]);
-            return response()->json(['message' => 'Server Error: ' . $e->getMessage()], 500);
+        } catch (\Exception | \Throwable $e) {
+            Log::error('Failed to update task:', ['id' => $task->id ?? 'N/A', 'error' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()]);
+            return response()->json(['message' => 'Failed to update task. An unexpected server error occurred.', 'debug_error' => $e->getMessage()], 500);
         }
     }
 
@@ -391,7 +393,6 @@ class TaskController extends Controller
             $taskId = $task->id;
             $task->delete();
 
-            // Opsional: Hapus folder attachment dari storage jika ada
             Storage::disk('public')->deleteDirectory('task_attachments/' . $taskId);
 
             Log::info('Task deleted successfully:', ['task_id' => $taskId]);
@@ -453,7 +454,6 @@ class TaskController extends Controller
         $userRoleId = $user->role_id;
         $userDepartmentId = $user->department_id;
 
-        // Dapatkan ID status yang relevan dari database
         $pendingApprovalStatus = TaskStatus::where('name', 'Pending Approval (Requester Supervisor)')->first();
         $pendingAcceptanceStatus = TaskStatus::where('name', 'Pending Acceptance (Receiver)')->first();
         $revisionRequestedStatus = TaskStatus::where('name', 'Revision Requested')->first();
@@ -464,13 +464,11 @@ class TaskController extends Controller
         $rejectedReceiverStatus = TaskStatus::where('name', 'Rejected (Receiver)')->first();
         $cancelledStatus = TaskStatus::where('name', 'Cancelled')->first();
 
-        // Dapatkan ID role
         $managerRole = Role::where('name', 'Manager')->first();
         $supervisorRole = Role::where('name', 'Supervisor')->first();
         $adminRole = Role::where('name', 'Admin')->first();
         $officerRole = Role::where('name', 'Officer')->first();
 
-        // --- VERIFIKASI KEBERADAAN STATUS DAN ROLE ---
         if (
             !$pendingApprovalStatus || !$pendingAcceptanceStatus || !$revisionRequestedStatus ||
             !$acceptedStatus || !$inProgressStatus || !$completedStatus ||
@@ -485,17 +483,16 @@ class TaskController extends Controller
         }
         // ---------------------------------------------------------------------
 
-        // Inisialisasi semua count ke 0
         $counts = [
             'pendingApprovalByMe' => 0,
             'incomingToMyDept' => 0,
             'myTasksPendingProcessing' => 0,
             'myTasksPendingMySupervisorApproval' => 0,
-            'myAssignedTasks' => 0, // <-- TAMBAH COUNT BARU DI INISIALISASI
+            'myAssignedTasks' => 0, 
             'allTasksTotal' => 0,
         ];
 
-        // 1. Tugas Menunggu Persetujuan Saya (Hanya untuk Supervisor/Manager departemen pengaju)
+        
         if (($managerRole && $userRoleId == $managerRole->id) || ($supervisorRole && $userRoleId == $supervisorRole->id)) {
             if ($userDepartmentId) {
                 $counts['pendingApprovalByMe'] = Task::where('current_status_id', $pendingApprovalStatus->id)
@@ -505,17 +502,15 @@ class TaskController extends Controller
             }
         }
 
-        // 2. Tugas Baru Masuk ke Dept. Saya (Untuk Supervisor, Manager, Officer di dept. penerima)
-        // Catatan: Ini harusnya hanya untuk SPV/Manager yang Menerima. Officer akan melihat di 'myAssignedTasks'.
-        // Jadi, ubah role di frontend TaskExchangeDashboardPage.jsx untuk 'incomingToMyDept' menjadi ['Supervisor', 'Manager']
+      
         if ($userDepartmentId) {
             $counts['incomingToMyDept'] = Task::where('assigned_to_department_id', $userDepartmentId)
                                             ->where('current_status_id', $pendingAcceptanceStatus->id)
-                                            ->whereNull('assignee_id') // Memastikan belum ada yang ditugaskan di departemen penerima
+                                            ->whereNull('assignee_id') 
                                             ->count();
         }
 
-        // 3. Tugas Saya Menunggu Diproses (untuk pengaju: sudah disetujui/diterima, belum selesai, belum ditolak)
+       
         $counts['myTasksPendingProcessing'] = Task::where('requester_id', $userId)
                                                 ->whereIn('current_status_id', [
                                                     $pendingAcceptanceStatus->id,
@@ -531,22 +526,20 @@ class TaskController extends Controller
                                                 ])
                                                 ->count();
 
-        // 4. Tugas Saya Menunggu Persetujuan Atasan (Hanya untuk Officer)
         if ($officerRole && $userRoleId == $officerRole->id) {
             $counts['myTasksPendingMySupervisorApproval'] = Task::where('requester_id', $userId)
                                                                 ->where('current_status_id', $pendingApprovalStatus->id)
                                                                 ->count();
         }
 
-        // 5. Tugas Ditugaskan Kepada Saya (BARU untuk Officer yang ditugaskan)
         if ($officerRole && $userRoleId == $officerRole->id) {
             $counts['myAssignedTasks'] = Task::where('assignee_id', $userId)
                                             ->whereIn('current_status_id', [
-                                                $acceptedStatus->id, // Sudah diterima oleh SPV Dept Tujuan dan ditugaskan ke officer
-                                                $inProgressStatus->id, // Sedang dikerjakan officer
-                                                $revisionRequestedStatus->id, // Officer meminta revisi
+                                                $acceptedStatus->id, 
+                                                $inProgressStatus->id, 
+                                                $revisionRequestedStatus->id, 
                                             ])
-                                            ->whereNotIn('current_status_id', [ // Kecualikan yang sudah selesai atau ditolak
+                                            ->whereNotIn('current_status_id', [ 
                                                 $completedStatus->id,
                                                 $rejectedReceiverStatus->id,
                                                 $cancelledStatus->id,
@@ -554,7 +547,6 @@ class TaskController extends Controller
                                             ->count();
         }
 
-        // 6. Total Tugas Sistem (Hanya untuk Admin)
         if ($adminRole && $userRoleId == $adminRole->id) {
             $counts['allTasksTotal'] = Task::count();
         }
@@ -564,7 +556,7 @@ class TaskController extends Controller
 
      /**
      * Get tasks assigned to the authenticated user's department.
-     * These are tasks for the receiving department to accept/process.
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -572,18 +564,15 @@ class TaskController extends Controller
     public function getIncomingTasks(Request $request)
     {
         try {
-            $user = $request->user(); // User yang sedang login
+            $user = $request->user(); 
 
             if (!$user || is_null($user->department_id)) {
-                // Return 403 jika user tidak terautentikasi atau tidak memiliki departemen
                 Log::warning('Unauthorized or unassigned user trying to fetch incoming tasks.', ['user_id' => $user ? $user->id : 'null']);
                 return response()->json(['message' => 'Unauthorized or no department associated.'], 403);
             }
 
-            // Dapatkan ID departemen user yang sedang login
             $loggedInUserDepartmentId = $user->department_id;
 
-            // Dapatkan ID status yang relevan dari database
             $pendingAcceptanceStatus = TaskStatus::where('name', 'Pending Acceptance (Receiver)')->first();
             $acceptedStatus = TaskStatus::where('name', 'Accepted')->first();
             $inProgressStatus = TaskStatus::where('name', 'In Progress')->first();
@@ -600,14 +589,11 @@ class TaskController extends Controller
                 return response()->json(['message' => 'Internal Server Error: Task statuses not fully configured for incoming tasks.'], 500);
             }
 
-            // Mulai query
             $query = Task::query();
 
-            // Filter utama: tugas yang ditugaskan ke departemen user yang login
             $query->where('assigned_to_department_id', $loggedInUserDepartmentId);
 
-            // Filter berdasarkan status dari frontend
-            $filterStatusName = $request->input('status'); // Diterima sebagai nama status
+            $filterStatusName = $request->input('status');
 
             if ($filterStatusName && $filterStatusName !== 'All') {
                 $statusObject = TaskStatus::where('name', $filterStatusName)->first();
@@ -615,23 +601,19 @@ class TaskController extends Controller
                     $query->where('current_status_id', $statusObject->id);
                 } else {
                     Log::warning('Invalid task status filter received for incoming tasks.', ['status_name' => $filterStatusName]);
-                    // Jangan crash, abaikan filter status jika tidak valid
+                
                 }
             } else {
-                // Default: jika filterStatus 'All' atau tidak ada, tampilkan status yang aktif di departemen penerima
                 $query->whereIn('current_status_id', [
                     $pendingAcceptanceStatus->id,
                     $acceptedStatus->id,
                     $inProgressStatus->id,
                     $revisionRequestedStatus->id,
-                    // Opsional: tampilkan juga yang sudah ditolak/selesai jika 'All'
                     $rejectedReceiverStatus->id,
                     $completedStatus->id,
                 ]);
             }
 
-
-            // Filter berdasarkan pencarian
             if ($request->has('search')) {
                 $search = $request->input('search');
                 $query->where(function($q) use ($search) {
@@ -640,24 +622,21 @@ class TaskController extends Controller
                 });
             }
 
-            // Filter berdasarkan prioritas
             if ($request->has('priority') && $request->input('priority') !== 'All') {
                 $query->where('priority', $request->input('priority'));
             }
 
-            // Filter berdasarkan departemen pengaju (jika ditambahkan di frontend)
             if ($request->has('requester_department_id') && $request->input('requester_department_id') !== 'All') {
                 $query->where('requested_by_department_id', $request->input('requester_department_id'));
             }
 
-            // Load relasi yang dibutuhkan untuk tampilan tabel
             $tasks = $query->with([
                 'requester',
                 'requestedByDepartment',
                 'assignedToDepartment',
                 'category',
                 'currentStatus',
-                'assignee' // Untuk menampilkan siapa yang ditugaskan
+                'assignee' 
             ])->get();
 
             return response()->json($tasks);
@@ -670,7 +649,7 @@ class TaskController extends Controller
 
     /**
      * Get tasks submitted by the authenticated user.
-     * This is for the "My Submitted Tasks" page.
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -678,29 +657,25 @@ class TaskController extends Controller
     public function getMySubmittedTasks(Request $request)
     {
         try {
-            $user = $request->user(); // User yang sedang login
+            $user = $request->user(); 
 
             if (!$user) {
                 Log::error('Unauthorized access to getMySubmittedTasks: No authenticated user found.');
                 return response()->json(['message' => 'Authentication required or session invalid.'], 401);
             }
 
-            // Dapatkan ID user yang login
             $loggedInUserId = $user->id;
+            $allTaskStatuses = TaskStatus::all()->keyBy('name'); 
 
-            // Dapatkan ID status yang relevan dari database (untuk filtering dan logging)
-            $allTaskStatuses = TaskStatus::all()->keyBy('name'); // Ambil semua status dan index by name
-
-            // Pastikan semua status yang akan digunakan dalam query ada
             $requiredStatuses = [
-                'Pending Approval (Requester Supervisor)', // Sudah benar
-                'Pending Acceptance (Receiver)',       // <<<--- UBAH DARI 'Menunggu Proses di Penerima'
-                'Accepted',                             // <<<--- UBAH DARI 'Diterima & Sedang Dikerjakan'
-                'Revision Requested',                   // <<<--- UBAH DARI 'Pengajuan Revisi'
-                'Completed',                            // <<<--- UBAH DARI 'Selesai'
-                'Rejected (Receiver)',                  // <<<--- UBAH DARI 'Ditolak Penerima'
-                'Rejected (Supervisor)',                // <<<--- UBAH DARI 'Ditolak Atasan' (Karena di DB: Rejected (Supervisor))
-                'Cancelled'                             // <<<--- UBAH DARI 'Cancelled'
+                'Pending Approval (Requester Supervisor)',
+                'Pending Acceptance (Receiver)',
+                'Accepted',
+                'Revision Requested',                   
+                'Completed',
+                'Rejected (Receiver)', 
+                'Rejected (Supervisor)', 
+                'Cancelled' 
             ];
             foreach ($requiredStatuses as $statusName) {
                 if (!$allTaskStatuses->has($statusName)) {
@@ -710,28 +685,23 @@ class TaskController extends Controller
             }
 
 
-            // Mulai query: tugas yang diajukan oleh user yang login
             $query = Task::query();
             $query->where('requester_id', $loggedInUserId);
 
-            // Filter berdasarkan status dari frontend
-            $filterStatusName = $request->input('status_name'); // Diterima sebagai nama status
+            $filterStatusName = $request->input('status_name'); 
 
             if ($filterStatusName && $filterStatusName !== 'All') {
                 if ($allTaskStatuses->has($filterStatusName)) {
                     $query->where('current_status_id', $allTaskStatuses[$filterStatusName]->id);
                 } else {
                     Log::warning('Invalid task status filter received for my submitted tasks.', ['status_name' => $filterStatusName]);
-                    // Jangan crash, abaikan filter status jika tidak valid
                 }
             }
 
-            // Filter berdasarkan departemen tujuan
             if ($request->has('assigned_to_department_id') && $request->input('assigned_to_department_id') !== 'All') {
                 $query->where('assigned_to_department_id', $request->input('assigned_to_department_id'));
             }
 
-            // Filter berdasarkan pencarian
             if ($request->has('search')) {
                 $search = $request->input('search');
                 $query->where(function($q) use ($search) {
@@ -740,17 +710,16 @@ class TaskController extends Controller
                 });
             }
 
-            // Load relasi yang dibutuhkan untuk tampilan tabel
+
             $tasks = $query->with([
-                'assignedToDepartment', // Departemen tujuan
-                'currentStatus',        // Status saat ini
-                'requester',            // User pengaju (untuk memastikan data lengkap)
+                'assignedToDepartment', 
+                'currentStatus',        
+                'requester',            
             ])->get();
 
             return response()->json($tasks);
 
         } catch (\Exception $e) {
-            // Log detail exception untuk debugging lebih lanjut
             Log::error('Caught exception in getMySubmittedTasks:', ['error_message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine(), 'trace' => $e->getTraceAsString()]);
             return response()->json(['message' => 'Failed to fetch your submitted tasks. An unexpected error occurred.', 'debug_error' => $e->getMessage()], 500);
         }
@@ -758,7 +727,7 @@ class TaskController extends Controller
 
     /**
      * Get tasks pending approval for the authenticated user's department.
-     * This is typically for Managers/Supervisors.
+     *
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -825,7 +794,7 @@ class TaskController extends Controller
     public function getMyAssignedTasks(Request $request)
     {
         try {
-            $user = $request->user(); // User yang sedang login
+            $user = $request->user(); 
 
             if (!$user || is_null($user->id)) {
                 Log::warning('Unauthorized or invalid user trying to fetch assigned tasks.', ['user_id' => $user ? $user->id : 'null']);
@@ -834,12 +803,11 @@ class TaskController extends Controller
 
             $loggedInUserId = $user->id;
 
-            // Dapatkan ID status yang relevan dari database
             $acceptedStatus = TaskStatus::where('name', 'Accepted')->first();
             $inProgressStatus = TaskStatus::where('name', 'In Progress')->first();
             $completedStatus = TaskStatus::where('name', 'Completed')->first();
             $revisionRequestedStatus = TaskStatus::where('name', 'Revision Requested')->first();
-            // Tambahkan status lain yang relevan untuk officer, misal 'Rejected (Receiver)' jika perlu dilihat
+          
 
             if (!$acceptedStatus || !$inProgressStatus || !$completedStatus || !$revisionRequestedStatus) {
                 Log::critical('Missing one or more required TaskStatus records for getMyAssignedTasks logic.');
@@ -848,10 +816,9 @@ class TaskController extends Controller
 
             $query = Task::query();
 
-            // Filter utama: tugas yang ditugaskan kepada user yang login
+
             $query->where('assignee_id', $loggedInUserId);
 
-            // Filter berdasarkan status dari frontend
             $filterStatusName = $request->input('status');
 
             if ($filterStatusName && $filterStatusName !== 'All') {
@@ -862,17 +829,16 @@ class TaskController extends Controller
                     Log::warning('Invalid task status filter received for assigned tasks.', ['status_name' => $filterStatusName]);
                 }
             } else {
-                // Default: jika filter 'All' atau tidak ada, tampilkan status yang relevan untuk Officer
+              
                 $query->whereIn('current_status_id', [
                     $acceptedStatus->id,
                     $inProgressStatus->id,
                     $revisionRequestedStatus->id,
-                    // Opsional: $completedStatus->id, jika officer ingin melihat tugas yang sudah selesai
-                    // Opsional: $rejectedReceiverStatus->id, jika officer ingin melihat tugas yang ditolak oleh departemen penerima
+                    //$completedStatus->id, jika officer ingin melihat tugas yang sudah selesai
+                    //$rejectedReceiverStatus->id, jika officer ingin melihat tugas yang ditolak oleh departemen penerima
                 ]);
             }
 
-            // Filter berdasarkan pencarian
             if ($request->has('search')) {
                 $search = $request->input('search');
                 $query->where(function($q) use ($search) {
@@ -881,12 +847,10 @@ class TaskController extends Controller
                 });
             }
 
-            // Filter berdasarkan prioritas
             if ($request->has('priority') && $request->input('priority') !== 'All') {
                 $query->where('priority', $request->input('priority'));
             }
 
-            // Load relasi yang dibutuhkan untuk tampilan tabel
             $tasks = $query->with([
                 'requester', 'requestedByDepartment', 'assignedToDepartment',
                 'category', 'currentStatus', 'assignee'
@@ -899,4 +863,6 @@ class TaskController extends Controller
             return response()->json(['message' => 'Failed to fetch assigned tasks. An unexpected error occurred.', 'debug_error' => $e->getMessage()], 500);
         }
     }
+
+    
 }

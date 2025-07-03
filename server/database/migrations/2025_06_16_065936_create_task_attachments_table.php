@@ -9,6 +9,16 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // <<<--- TAMBAHKAN KONDISI INI DI SINI --->>>
+        if (Schema::hasTable('task_attachments')) {
+            // Jika tabel 'task_attachments' sudah ada, kita akan memeriksa dan menambah kolom yang mungkin hilang.
+            // Namun, dari definisi yang Anda berikan, tabel ini sudah cukup lengkap.
+            // Jika di masa depan ada kolom yang perlu ditambahkan, logikanya akan mirip dengan notifications.
+            // Untuk saat ini, jika sudah ada, kita hanya skip pembuatan tabel.
+            return;
+        }
+        // <<<--- AKHIR KONDISI --->>>
+
         Schema::create('task_attachments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-// use Symfony\Component\Process\Process; // Hapus jika tidak digunakan
-// use Symfony\Component\Process\Exception\ProcessFailedException; // Hapus jika tidak digunakan
-// use Illuminate\Support\Str; // Hapus jika tidak digunakan
+// use Symfony\Component\Process\Process; 
+// use Symfony\Component\Process\Exception\ProcessFailedException;
+// use Illuminate\Support\Str; 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -36,7 +36,7 @@ class WhatsAppController extends Controller
 
     /**
      * Send a WhatsApp notification via an external service (non-static API endpoint).
-     * This method is intended to be called via an API route (e.g., /api/whatsapp/send).
+     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
@@ -50,7 +50,6 @@ class WhatsAppController extends Controller
 
         Log::info("Incoming WhatsApp send request via API endpoint", ['number' => $validatedData['number'], 'message_preview' => substr($validatedData['message'], 0, 50) . '...']);
 
-        // Panggil method static untuk logika inti pengiriman
         $success = self::sendNotificationStatic($validatedData['number'], $validatedData['message']);
 
         if ($success) {
@@ -62,7 +61,7 @@ class WhatsAppController extends Controller
 
     /**
      * Send WhatsApp notification (static helper method).
-     * This method can be called internally by other controllers (e.g., TaskController).
+     * 
      *
      * @param string $number The recipient's phone number.
      * @param string $message The message to send.
@@ -70,8 +69,8 @@ class WhatsAppController extends Controller
      */
     public static function sendNotificationStatic(string $number, string $message): bool
     {
-        $whatsappServiceUrl = env('WHATSAPP_SERVICE_URL'); // URL service WhatsApp Anda
-        // $apiKey = env('WHATSAPP_API_KEY'); // API Key jika ada
+        $whatsappServiceUrl = env('WHATSAPP_SERVICE_URL'); 
+        // $apiKey = env('WHATSAPP_API_KEY'); 
 
         if (!$whatsappServiceUrl) {
             Log::error('WhatsApp service URL is not configured (WHATSAPP_SERVICE_URL missing). Static call failed.');

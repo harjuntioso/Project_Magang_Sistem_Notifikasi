@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\TaskStatus; // Import model TaskStatus Anda
+use App\Models\TaskStatus; 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log; // Untuk logging
-use Illuminate\Validation\ValidationException; // Untuk validasi error
+use Illuminate\Support\Facades\Log; 
+use Illuminate\Validation\ValidationException; 
 
 class TaskStatusController extends Controller
 {
@@ -18,7 +18,7 @@ class TaskStatusController extends Controller
     public function index()
     {
         try {
-            $taskStatuses = TaskStatus::all(); // Mengambil semua status tugas
+            $taskStatuses = TaskStatus::all(); 
             return response()->json($taskStatuses);
         } catch (\Exception $e) {
             Log::error('Failed to fetch task statuses:', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
@@ -32,7 +32,7 @@ class TaskStatusController extends Controller
      * @param  \App\Models\TaskStatus  $taskStatus
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(TaskStatus $taskStatus) // Menggunakan Route Model Binding
+    public function show(TaskStatus $taskStatus) 
     {
         try {
             return response()->json($taskStatus);
@@ -113,19 +113,17 @@ class TaskStatusController extends Controller
      * @param  \App\Models\TaskStatus  $taskStatus
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(TaskStatus $taskStatus) // Menggunakan Route Model Binding
+    public function destroy(TaskStatus $taskStatus) 
     {
         try {
             $taskStatusName = $taskStatus->name;
             $taskStatusId = $taskStatus->id;
 
-            // Periksa apakah ada tugas yang masih menggunakan status ini
-            // Jika ada, mungkin perlu kebijkan: tolak hapus atau ubah status tugas tsb
-            if ($taskStatus->tasks()->exists()) { // Asumsi ada relasi tasks() di model TaskStatus
+            if ($taskStatus->tasks()->exists()) { 
                 return response()->json([
                     'message' => 'Cannot delete task status. It is currently used by existing tasks.',
-                    'task_status' => $taskStatus // Kirim kembali status yang gagal dihapus
-                ], 409); // Conflict status
+                    'task_status' => $taskStatus 
+                ], 409); 
             }
 
             $taskStatus->delete();
